@@ -16,6 +16,6 @@
   },
   "homepage": "https://github.com/ArturM94/conference-bot#readme",
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "8.2.0"
   }
 }
