@@ -5,7 +5,7 @@ import Telegraf from 'telegraf';
 import config from './config';
 
 const {
-  TOKEN_DEV, WEBHOOK_PATH, WEBHOOK_URL_DEV, WEBHOOK_PORT, APP_PORT,
+  TOKEN_DEV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
 } = config;
 
 const app = express();
@@ -46,7 +46,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(telegraf.webhookCallback(WEBHOOK_PATH));
 
-attachBotWebhook(telegraf, WEBHOOK_URL_DEV, WEBHOOK_PATH, WEBHOOK_PORT);
+attachBotWebhook(telegraf, WEBHOOK_URL, WEBHOOK_PATH, WEBHOOK_PORT);
 attachBotHandlers(telegraf);
 telegraf.launch();
 
