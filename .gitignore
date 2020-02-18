@@ -7,3 +7,4 @@ jspm_packages
 
 # file with AWS keys
 .env
+.serverless
