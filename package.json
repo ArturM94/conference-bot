@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server": "node -r esm src/serverBot.js",
+    "server": "node -r esm src/bot.js",
     "webhook": "node -r esm src/webhook.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
