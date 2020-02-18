@@ -42,7 +42,7 @@ const attachBotHandlers = (bot) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(telegraf.webhookCallback('/bot'));
+app.use(telegraf.webhookCallback(WEBHOOK_PATH));
 
 attachBotWebhook(telegraf, WEBHOOK_URL_DEV, WEBHOOK_PATH);
 attachBotHandlers(telegraf);
