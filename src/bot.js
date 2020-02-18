@@ -4,12 +4,19 @@ import Telegraf from 'telegraf';
 
 import config from './config';
 
+let TOKEN;
 const {
-  TOKEN_DEV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
+  NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
 } = config;
 
+if (NODE_ENV === 'production') {
+  TOKEN = config.TOKEN_PROD;
+} else {
+  TOKEN = config.TOKEN_DEV;
+}
+
 const app = express();
-const telegraf = new Telegraf(TOKEN_DEV);
+const telegraf = new Telegraf(TOKEN);
 
 const attachBotWebhook = async (bot, url, path, port) => {
   try {
