@@ -5,18 +5,20 @@ import Telegraf from 'telegraf';
 import config from './config';
 
 const {
-  TOKEN_DEV, WEBHOOK_PATH, WEBHOOK_URL_DEV, APP_PORT,
+  TOKEN_DEV, WEBHOOK_PATH, WEBHOOK_URL_DEV, WEBHOOK_PORT, APP_PORT,
 } = config;
 
 const app = express();
 const telegraf = new Telegraf(TOKEN_DEV);
 
-const attachBotWebhook = async (bot, url, path) => {
+const attachBotWebhook = async (bot, url, path, port) => {
   try {
     await bot.telegram.setWebhook(`${url}${path}`);
 
     const webhookInfo = await bot.telegram.getWebhookInfo();
     console.log('Webhook successfully attached\n', webhookInfo);
+
+    bot.startWebhook(path, null, port);
   } catch (error) {
     console.log(error);
   }
@@ -44,8 +46,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(telegraf.webhookCallback(WEBHOOK_PATH));
 
-attachBotWebhook(telegraf, WEBHOOK_URL_DEV, WEBHOOK_PATH);
+attachBotWebhook(telegraf, WEBHOOK_URL_DEV, WEBHOOK_PATH, WEBHOOK_PORT);
 attachBotHandlers(telegraf);
+telegraf.launch();
 
 app.listen(APP_PORT, () => {
   console.log(`Bot listening on port ${APP_PORT}`);
