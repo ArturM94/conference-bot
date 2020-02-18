@@ -1,4 +1,5 @@
 export default {
+  NODE_ENV: process.env.NODE_ENV,
   APP_PORT: process.env.APP_PORT,
   TOKEN_DEV: process.env.TOKEN_DEV,
   TOKEN_PROD: process.env.TOKEN_PROD,
