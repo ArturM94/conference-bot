@@ -1,0 +1,26 @@
+{
+  "name": "conference-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "dependencies": {
+    "dotenv": "8.2.0",
+    "winston": "3.2.1",
+    "winston-aws-cloudwatch": "3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArturM94/conference-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArturM94/conference-bot/issues"
+  },
+  "homepage": "https://github.com/ArturM94/conference-bot#readme"
+}
