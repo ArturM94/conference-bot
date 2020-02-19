@@ -30,6 +30,9 @@ const cloudwatchConfig = {
 
 if (process.env.NODE_ENV === 'dev') { 
   logger.add(CloudWatchTransport, cloudwatchConfig);
-  } 
+  } else if (process.env.NODE_ENV === 'prod') {
+    logger.add(CloudWatchTransport, cloudwatchConfig);
+  }
 
 module.exports = logger;
+winston.configure({transports: [new winston.transports.File({ filename: 'logfile.log' }) ]});

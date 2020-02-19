@@ -9,5 +9,4 @@ jspm_packages
 .env
 .serverless
 
-#packages
 package-lock.json
