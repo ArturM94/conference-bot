@@ -20,7 +20,9 @@
     "dialogflow": "1.2.0",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "telegraf": "3.36.0"
+    "telegraf": "3.36.0",
+    "winston": "3.2.1",
+    "winston-aws-cloudwatch": "3.0.0"
   },
   "devDependencies": {
     "eslint": "6.8.0",
