@@ -3,7 +3,7 @@ import config from '../config';
 
 const {
   PROJECT_ID, SESSION_ID, PRIVATE_KEY, CLIENT_EMAIL,
-} = config;
+} = config.dialogflow;
 
 export default async (message) => {
   try {
