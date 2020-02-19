@@ -8,7 +8,12 @@
     "winston": "3.2.1",
     "winston-aws-cloudwatch": "3.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "esm": "^3.2.25"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

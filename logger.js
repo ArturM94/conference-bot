@@ -12,7 +12,7 @@ const logger = winston.createLogger({
 });
 
 
-var cloudwatchConfig = {
+const cloudwatchConfig = {
   logGroupName: 'conference-telegram-bot',
   logStreamName: process.env.NODE_ENV,
   createLogGroup: true,
@@ -25,10 +25,10 @@ var cloudwatchConfig = {
   formatLog: function (item) {
     return item.level + ': ' + item.message + ' ' + JSON.stringify(item.meta)
   }
-}
+};
 
 
-if (process.env.NODE_ENV === 'dev'){ 
+if (process.env.NODE_ENV === 'dev') { 
   logger.add(CloudWatchTransport, cloudwatchConfig);
   } 
 
