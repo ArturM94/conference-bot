@@ -6,4 +6,10 @@ export default {
   WEBHOOK_PATH: process.env.WEBHOOK_PATH,
   WEBHOOK_PORT: process.env.WEBHOOK_PORT,
   WEBHOOK_URL: process.env.WEBHOOK_URL,
+  dialogflow: {
+    PROJECT_ID: process.env.PROJECT_ID,
+    SESSION_ID: process.env.SESSION_ID,
+    PRIVATE_KEY: process.env.PRIVATE_KEY,
+    CLIENT_EMAIL: process.env.CLIENT_EMAIL,
+  },
 };
