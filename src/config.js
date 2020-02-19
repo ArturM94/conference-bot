@@ -9,3 +9,4 @@ export default {
   URL_DB: process.env.URL_DB,
   isDevelopment = process.env.NODE_ENV !== 'production'
 };
+
