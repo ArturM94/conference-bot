@@ -1,5 +1,6 @@
 import Notification from '../models/notification';
-import {isDevelopment} from '../../config';
+import config from '../config';
+const {isDevelopment} = config;
 
 export const getNotifications = async () => {
   try {

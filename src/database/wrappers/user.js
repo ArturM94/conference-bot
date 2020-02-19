@@ -1,5 +1,7 @@
 import User from '../models/user';
-import {isDevelopment} from '../../config';
+
+import config from '../config';
+const {isDevelopment} = config;
 
 export const getUsers = async () => {
   try {

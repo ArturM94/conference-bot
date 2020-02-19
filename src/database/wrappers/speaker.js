@@ -1,5 +1,7 @@
 import Speaker from '../models/speaker';
-import {isDevelopment} from '../../config';
+
+import config from '../config';
+const {isDevelopment} = config;
 
 export const getSpeakers = async () => {
   try {

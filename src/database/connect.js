@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import {isDevelopment, URL_DB} from '../config';
+import config from '../config';
+const {isDevelopment, URL_DB} = config;
 
 export default async () => {
   try {

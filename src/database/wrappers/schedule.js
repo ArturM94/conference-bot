@@ -1,5 +1,7 @@
-const Schedule = require('../models/schedule');
-const {isDevelopment} = require('../../config');
+import Schedule from '../models/schedule';
+
+import config from '../config';
+const {isDevelopment} = config;
 
 export const etSchedules = async () => {
   try {
