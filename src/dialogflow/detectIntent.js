@@ -1,15 +1,19 @@
 const dialogflow = require('dialogflow');
 
+const {
+  PROJECT_ID, SESSION_ID, PRIVATE_KEY, CLIENT_EMAIL,
+} = require('../config');
+
 module.exports.detectIntent = async (message) => {
   try {
     const sessionClient = new dialogflow.SessionsClient({
       credentials: {
-        client_email: process.env.client_email,
-        private_key: process.env.private_key,
+        client_email: CLIENT_EMAIL,
+        private_key: PRIVATE_KEY,
       },
     });
 
-    const sessionPath = sessionClient.sessionPath(process.env.projectId, process.env.sessionId);
+    const sessionPath = sessionClient.sessionPath(PROJECT_ID, SESSION_ID);
 
     const request = {
       session: sessionPath,
