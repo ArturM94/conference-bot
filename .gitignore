@@ -1,10 +1,8 @@
-# package directories
+.idea
+.vscode
+
 node_modules
-jspm_packages
-
-# Serverless directories
-.serverless
-
-# file with AWS keys
-.env
 package-lock.json
+.env
+
+.serverless
