@@ -1,6 +1,4 @@
-const User = require('./user');
-const Speaker = require('./speaker');
-const Schedule = require('./schedule');
-const Notification = require('./notification');
-
-module.exports = Object.assign({}, User, Speaker, Schedule, Notification);
+export {default as User} from './user';
+export {default as Speaker} from './user';
+export {default as Schedule} from './user';
+export {default as Notification} from './user';

@@ -1,7 +1,7 @@
-const Speaker = require('../models/speaker');
-const {isDevelopment} = require('../../config');
+import Speaker from '../models/speaker';
+import {isDevelopment} from '../../config';
 
-exports.getSpeakers = async () => {
+export const getSpeakers = async () => {
   try {
     return await Speaker.find();
   } catch (error) {
@@ -9,7 +9,7 @@ exports.getSpeakers = async () => {
   }
 };
 
-exports.getSpeaker = async id => {
+export const getSpeaker = async id => {
   try {
     return await Speaker.findById(id);
   } catch (error) {
@@ -17,7 +17,7 @@ exports.getSpeaker = async id => {
   }
 };
 
-exports.addSpeaker = async (
+export const addSpeaker = async (
   first_name,
   last_name,
   position,
@@ -40,7 +40,7 @@ exports.addSpeaker = async (
   }
 };
 
-exports.updateSpeaker = async (
+export const updateSpeaker = async (
   first_name,
   last_name,
   position,
@@ -64,7 +64,7 @@ exports.updateSpeaker = async (
   }
 };
 
-exports.deleteSpeaker = async id => {
+export const deleteSpeaker = async id => {
   try {
     return (await Speaker.deleteOne({_id: id})).ok;
   } catch (error) {

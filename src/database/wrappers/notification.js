@@ -1,7 +1,7 @@
-const Notification = require('../models/notification');
-const {isDevelopment} = require('../../config');
+import Notification from '../models/notification';
+import {isDevelopment} from '../../config';
 
-exports.getNotifications = async () => {
+export const getNotifications = async () => {
   try {
     return await Notification.find();
   } catch (error) {
@@ -9,7 +9,7 @@ exports.getNotifications = async () => {
   }
 };
 
-exports.getNotification = async id => {
+export const getNotification = async id => {
   try {
     return await Notification.findById(id);
   } catch (error) {
@@ -17,7 +17,7 @@ exports.getNotification = async id => {
   }
 };
 
-exports.addNotification = async (
+export const addNotification = async (
   date,
   time,
   text,
@@ -38,7 +38,7 @@ exports.addNotification = async (
   }
 };
 
-exports.updateNotification = async (id, date, time, text, attachments) => {
+export const updateNotification = async (id, date, time, text, attachments) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({
@@ -53,7 +53,7 @@ exports.updateNotification = async (id, date, time, text, attachments) => {
   }
 };
 
-exports.sentNotification = async id => {
+export const sentNotification = async id => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({sent: true});
@@ -63,7 +63,7 @@ exports.sentNotification = async id => {
   }
 };
 
-exports.deleteNotification = async id => {
+export const deleteNotification = async id => {
   try {
     return (await Notification.deleteOne({_id: id})).ok;
   } catch (error) {

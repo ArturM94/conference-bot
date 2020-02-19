@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-module.exports = mongoose.model(
+export default mongoose.model(
   'schedule',
   new mongoose.Schema({
     date: {

@@ -1,7 +1,7 @@
-const User = require('../models/user');
-const {isDevelopment} = require('../../config');
+import User from '../models/user';
+import {isDevelopment} from '../../config';
 
-exports.getUsers = async () => {
+export const getUsers = async () => {
   try {
     return await User.find();
   } catch (error) {
@@ -9,7 +9,7 @@ exports.getUsers = async () => {
   }
 };
 
-exports.getUser = async id => {
+export const getUser = async id => {
   try {
     return await User.findById(id);
   } catch (error) {
@@ -17,7 +17,7 @@ exports.getUser = async id => {
   }
 };
 
-exports.isAdmin = async id => {
+export const isAdmin = async id => {
   try {
     return (await User.findById(id)).isAdmin;
   } catch (error) {
@@ -25,7 +25,7 @@ exports.isAdmin = async id => {
   }
 };
 
-exports.addUser = async (first_name, last_name, phoneNumber, chatId) => {
+export const addUser = async (first_name, last_name, phoneNumber, chatId) => {
   try {
     const newUser = new User({
       first_name,
@@ -40,7 +40,7 @@ exports.addUser = async (first_name, last_name, phoneNumber, chatId) => {
   }
 };
 
-exports.addAdmin = async (first_name, last_name, phoneNumber, chatId) => {
+export const addAdmin = async (first_name, last_name, phoneNumber, chatId) => {
   try {
     const newAdmin = new User({
       first_name,
@@ -55,7 +55,13 @@ exports.addAdmin = async (first_name, last_name, phoneNumber, chatId) => {
   }
 };
 
-exports.updateUser = async (id, first_name, last_name, phoneNumber, chatId) => {
+export const updateUser = async (
+  id,
+  first_name,
+  last_name,
+  phoneNumber,
+  chatId
+) => {
   try {
     const user = await User.findById(id);
     await user.update({
@@ -70,7 +76,7 @@ exports.updateUser = async (id, first_name, last_name, phoneNumber, chatId) => {
   }
 };
 
-exports.deleteUser = async id => {
+export const deleteUser = async id => {
   try {
     return (await User.deleteOne({_id: id})).ok;
   } catch (error) {

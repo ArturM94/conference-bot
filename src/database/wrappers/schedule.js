@@ -1,7 +1,7 @@
 const Schedule = require('../models/schedule');
 const {isDevelopment} = require('../../config');
 
-exports.getSchedules = async () => {
+export const etSchedules = async () => {
   try {
     return await Schedule.find();
   } catch (error) {
@@ -9,7 +9,7 @@ exports.getSchedules = async () => {
   }
 };
 
-exports.getSchedule = async id => {
+export const getSchedule = async id => {
   try {
     return await Schedule.findById(id);
   } catch (error) {
@@ -17,7 +17,13 @@ exports.getSchedule = async id => {
   }
 };
 
-const addSchedule = async (date, time, flow, speakerId, details = '') => {
+export const addSchedule = async (
+  date,
+  time,
+  flow,
+  speakerId,
+  details = ''
+) => {
   try {
     const newSchedule = new Schedule({
       date,
@@ -31,9 +37,13 @@ const addSchedule = async (date, time, flow, speakerId, details = '') => {
     if (isDevelopment) console.log(error.message);
   }
 };
-exports.addSchedule = addSchedule;
 
-exports.addTechnicalSchedule = async (date, time, speakerId, details = '') => {
+export const addTechnicalSchedule = async (
+  date,
+  time,
+  speakerId,
+  details = ''
+) => {
   try {
     return await addSchedule(date, time, 'technical', speakerId, details);
   } catch (error) {
@@ -41,7 +51,7 @@ exports.addTechnicalSchedule = async (date, time, speakerId, details = '') => {
   }
 };
 
-exports.addNONTechnicalSchedule = async (
+export const addNONTechnicalSchedule = async (
   date,
   time,
   speakerId,
@@ -54,7 +64,7 @@ exports.addNONTechnicalSchedule = async (
   }
 };
 
-exports.updateSchedule = async (
+export const updateSchedule = async (
   id,
   date,
   time,
@@ -77,7 +87,7 @@ exports.updateSchedule = async (
   }
 };
 
-exports.deleteSchedule = async id => {
+export const deleteSchedule = async id => {
   try {
     return (await Schedule.deleteOne({_id: id})).ok;
   } catch (error) {

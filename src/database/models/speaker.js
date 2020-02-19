@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-module.exports = mongoose.model(
-  "speaker",
+export default mongoose.model(
+  'speaker',
   new mongoose.Schema({
     first_name: {
       type: String,

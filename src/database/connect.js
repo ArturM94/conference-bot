@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const {isDevelopment, URL_DB} = require('../config');
+import mongoose from 'mongoose';
+import {isDevelopment, URL_DB} from '../config';
 
-module.exports = async () => {
+export default async () => {
   try {
     await mongoose.connect(URL_DB, {
       useUnifiedTopology: true,
