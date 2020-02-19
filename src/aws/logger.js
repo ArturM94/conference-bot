@@ -1,5 +1,5 @@
 const winston = require('winston');
-const CloudWatchTransport = require('winston-aws-cloudwatch')
+const CloudWatchTransport = require('winston-aws-cloudwatch');
 require('dotenv').config();
 
 const logger = winston.createLogger({
@@ -7,8 +7,8 @@ const logger = winston.createLogger({
     new (winston.transports.Console)({
       timestamp: true,
       colorize: true,
-    })
-  ]
+    }),
+  ],
 });
 
 
@@ -20,19 +20,16 @@ const cloudwatchConfig = {
   awsConfig: {
     accessKeyId: process.env.AWS_ACCESS_KEY,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION
+    region: process.env.AWS_REGION,
   },
-  formatLog: function (item) {
-    return item.level + ': ' + item.message + ' ' + JSON.stringify(item.meta)
-  }
+  formatLog: (item) => `${item.level}: ${item.message} ${JSON.stringify(item.meta)}`,
 };
 
 
-if (process.env.NODE_ENV === 'dev') { 
+if (process.env.NODE_ENV === 'dev') {
   logger.add(CloudWatchTransport, cloudwatchConfig);
-  } else if (process.env.NODE_ENV === 'prod') {
-    logger.add(CloudWatchTransport, cloudwatchConfig);
-  }
+} else if (process.env.NODE_ENV === 'prod') {
+  logger.add(CloudWatchTransport, cloudwatchConfig);
+}
 
 module.exports = logger;
-winston.configure({transports: [new winston.transports.File({ filename: 'logfile.log' }) ]});
