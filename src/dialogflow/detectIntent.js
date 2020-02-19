@@ -1,10 +1,11 @@
-const dialogflow = require('dialogflow');
+import dialogflow from 'dialogflow';
+import config from '../config';
 
 const {
   PROJECT_ID, SESSION_ID, PRIVATE_KEY, CLIENT_EMAIL,
-} = require('../config');
+} = config;
 
-module.exports.detectIntent = async (message) => {
+export default async (message) => {
   try {
     const sessionClient = new dialogflow.SessionsClient({
       credentials: {
