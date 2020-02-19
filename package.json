@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ArturM94/conference-bot#readme",
   "dependencies": {
+    "dialogflow": "1.2.0",
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "telegraf": "3.36.0",
