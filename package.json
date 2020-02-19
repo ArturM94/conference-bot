@@ -15,6 +15,7 @@
     "esm": "3.2.25"
   },
   "scripts": {
+    "bot": "node -r esm src/bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
