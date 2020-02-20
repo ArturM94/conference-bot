@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../config';
-const {isDevelopment, URL_DB} = config;
+const {URL_DB} = config;
 
 export default async () => {
   try {
@@ -12,6 +12,6 @@ export default async () => {
     });
     console.log('Connected to mongodb!');
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error.message);
   }
 };

@@ -1,12 +1,10 @@
 import Notification from '../models/notification';
-import config from '../config';
-const {isDevelopment} = config;
 
 export const getNotifications = async () => {
   try {
     return await Notification.find();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error.message);
   }
 };
 
@@ -14,7 +12,7 @@ export const getNotification = async id => {
   try {
     return await Notification.findById(id);
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -35,7 +33,7 @@ export const addNotification = async (
     });
     return await newNotification.save();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -50,7 +48,7 @@ export const updateNotification = async (id, date, time, text, attachments) => {
     });
     return await newNotification.save();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -60,7 +58,7 @@ export const sentNotification = async id => {
     await notification.update({sent: true});
     return (await notification.save()).sent;
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -68,6 +66,6 @@ export const deleteNotification = async id => {
   try {
     return (await Notification.deleteOne({_id: id})).ok;
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };

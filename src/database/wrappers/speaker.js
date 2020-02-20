@@ -1,13 +1,10 @@
 import Speaker from '../models/speaker';
 
-import config from '../config';
-const {isDevelopment} = config;
-
 export const getSpeakers = async () => {
   try {
     return await Speaker.find();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -15,7 +12,7 @@ export const getSpeaker = async id => {
   try {
     return await Speaker.findById(id);
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -38,7 +35,7 @@ export const addSpeaker = async (
     });
     return await newSpeaker.save();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -62,7 +59,7 @@ export const updateSpeaker = async (
     });
     return await speaker.save();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -70,6 +67,6 @@ export const deleteSpeaker = async id => {
   try {
     return (await Speaker.deleteOne({_id: id})).ok;
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };

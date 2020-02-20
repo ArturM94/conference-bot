@@ -6,7 +6,5 @@ export default {
   WEBHOOK_PATH: process.env.WEBHOOK_PATH,
   WEBHOOK_PORT: process.env.WEBHOOK_PORT,
   WEBHOOK_URL: process.env.WEBHOOK_URL,
-  URL_DB: process.env.URL_DB,
-  isDevelopment = process.env.NODE_ENV !== 'production'
+  URL_DB: process.env.URL_DB
 };
-

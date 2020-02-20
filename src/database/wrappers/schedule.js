@@ -1,13 +1,10 @@
 import Schedule from '../models/schedule';
 
-import config from '../config';
-const {isDevelopment} = config;
-
 export const etSchedules = async () => {
   try {
     return await Schedule.find();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -15,7 +12,7 @@ export const getSchedule = async id => {
   try {
     return await Schedule.findById(id);
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -36,7 +33,7 @@ export const addSchedule = async (
     });
     return await newSchedule.save();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -49,7 +46,7 @@ export const addTechnicalSchedule = async (
   try {
     return await addSchedule(date, time, 'technical', speakerId, details);
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -62,7 +59,7 @@ export const addNONTechnicalSchedule = async (
   try {
     return await addSchedule(date, time, 'non-technical', speakerId, details);
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    if (isDevelopment) console.log(error);
   }
 };
 
@@ -85,7 +82,7 @@ export const updateSchedule = async (
     });
     return await schedule.save();
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -93,6 +90,6 @@ export const deleteSchedule = async id => {
   try {
     return (await Schedule.deleteOne({_id: id})).ok;
   } catch (error) {
-    if (isDevelopment) console.log(error.message);
+    console.log(error);
   }
 };
