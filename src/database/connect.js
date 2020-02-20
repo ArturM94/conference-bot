@@ -8,7 +8,7 @@ export default async () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
       useNewUrlParser: true,
-      useCreateIndex: true
+      useCreateIndex: true,
     });
     console.log('Connected to mongodb!');
   } catch (error) {

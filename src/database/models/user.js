@@ -5,31 +5,31 @@ export default mongoose.model(
   new mongoose.Schema({
     first_name: {
       type: String,
-      require: true
+      require: true,
     },
     last_name: {
       type: String,
-      require: true
+      require: true,
     },
     phoneNumber: {
       type: String,
       unique: true,
       require: true,
       maxlength: 13,
-      minlength: 9
+      minlength: 9,
     },
     chatId: {
       type: Number,
-      require: true
+      require: true,
     },
     isAdmin: {
       type: Boolean,
       require: true,
-      default: false
+      default: false,
     },
     createdAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   })
 );

@@ -31,7 +31,7 @@ export const addSpeaker = async (
       position,
       company,
       country,
-      topic
+      topic,
     });
     return await newSpeaker.save();
   } catch (error) {
@@ -55,7 +55,7 @@ export const updateSpeaker = async (
       position: position || user.position,
       company: company || speaker.company,
       country: country || speaker.country,
-      topic: topic || speaker.topic
+      topic: topic || speaker.topic,
     });
     return await speaker.save();
   } catch (error) {

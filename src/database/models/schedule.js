@@ -5,27 +5,27 @@ export default mongoose.model(
   new mongoose.Schema({
     date: {
       type: String,
-      require: true
+      require: true,
     },
     time: {
       type: String,
-      require: true
+      require: true,
     },
     flow: {
       type: String,
       enum: ['technical', 'non-technical'],
-      require: true
+      require: true,
     },
     speakerId: {
       type: mongoose.Types.ObjectId,
-      require: true
+      require: true,
     },
     details: {
-      type: String
+      type: String,
     },
     createdAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   })
 );

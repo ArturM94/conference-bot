@@ -5,28 +5,28 @@ export default mongoose.model(
   new mongoose.Schema({
     date: {
       type: String,
-      require: true
+      require: true,
     },
-    tome: {
+    time: {
       type: String,
-      require: true
+      require: true,
     },
     text: {
       type: String,
-      require: true
+      require: true,
     },
     attachments: {
       type: String,
-      require: false
+      require: false,
     },
     sent: {
       type: Boolean,
       default: false,
-      require: true
+      require: true,
     },
     createdAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   })
 );

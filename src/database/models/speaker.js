@@ -5,32 +5,32 @@ export default mongoose.model(
   new mongoose.Schema({
     first_name: {
       type: String,
-      require: true
+      require: true,
     },
     last_name: {
       type: String,
-      require: true
+      require: true,
     },
     position: {
       type: String,
-      require: true
+      require: true,
     },
     company: {
       type: String,
-      require: false
+      require: false,
     },
     country: {
       type: String,
-      require: false
+      require: false,
     },
     topic: {
       type: String,
       unique: true,
-      require: false
+      require: false,
     },
     createdAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   })
 );

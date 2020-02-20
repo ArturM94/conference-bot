@@ -25,7 +25,6 @@
     "mongoose": "5.9.1",
     "winston": "3.2.1",
     "winston-aws-cloudwatch": "3.0.0"
-
   },
   "devDependencies": {
     "eslint": "6.8.0",

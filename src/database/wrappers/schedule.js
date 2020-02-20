@@ -29,7 +29,7 @@ export const addSchedule = async (
       time,
       flow,
       speakerId,
-      details
+      details,
     });
     return await newSchedule.save();
   } catch (error) {
@@ -59,7 +59,7 @@ export const addNONTechnicalSchedule = async (
   try {
     return await addSchedule(date, time, 'non-technical', speakerId, details);
   } catch (error) {
-    if (isDevelopment) console.log(error);
+    console.log(error);
   }
 };
 
@@ -78,7 +78,7 @@ export const updateSchedule = async (
       time: time || schedule.time,
       flow: flow || schedule.flow,
       speakerId: speakerId || schedule.speakerId,
-      details: details || schedule.details
+      details: details || schedule.details,
     });
     return await schedule.save();
   } catch (error) {

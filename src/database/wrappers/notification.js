@@ -4,7 +4,7 @@ export const getNotifications = async () => {
   try {
     return await Notification.find();
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -29,7 +29,7 @@ export const addNotification = async (
       time,
       text,
       attachments,
-      sent
+      sent,
     });
     return await newNotification.save();
   } catch (error) {
@@ -44,7 +44,7 @@ export const updateNotification = async (id, date, time, text, attachments) => {
       date: date || notification.date,
       time: time || notification.time,
       text: text || notification.text,
-      attachments: attachments || notification.attachments
+      attachments: attachments || notification.attachments,
     });
     return await newNotification.save();
   } catch (error) {
