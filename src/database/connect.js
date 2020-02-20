@@ -12,6 +12,6 @@ export default async () => {
     });
     console.log('Connected to mongodb!');
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
