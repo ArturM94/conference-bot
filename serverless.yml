@@ -34,6 +34,9 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
+layers:
+  modules:
+    path: node_modules  
 package:
   include:
     - src/**
@@ -42,12 +45,12 @@ package:
     - package.json
     - node_modules/**
 
-# layers:
-#   Modules:
-#     path: node_modules  
+
 functions:
   logger:
-    handler: handler.logger
+    handler: src/aws/handler.logger
+    layers:
+      - { Ref: ModulesLambdaLayer }
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
