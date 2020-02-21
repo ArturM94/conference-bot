@@ -30,8 +30,8 @@ export const isAdmin = async (id) => {
 export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newUser = new User({
-      first_name: firstName,
-      last_name: lastName,
+      firstName,
+      lastName,
       phoneNumber,
       chatId,
       isAdmin: false,
@@ -46,8 +46,8 @@ export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
 export const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newAdmin = new User({
-      first_name: firstName,
-      last_name: lastName,
+      firstName,
+      lastName,
       phoneNumber,
       chatId,
       isAdmin: true,
@@ -69,8 +69,8 @@ export const updateUser = async (
   try {
     const user = await User.findById(id);
     await user.update({
-      first_name: firstName || user.first_name,
-      last_name: lastName || user.last_name,
+      firstName: firstName || user.firstName,
+      lastName: lastName || user.lastNames,
       phoneNumber: phoneNumber || user.phoneNumber,
       chatId: chatId || user.chatId,
     });

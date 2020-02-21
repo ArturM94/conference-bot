@@ -28,8 +28,8 @@ export const addSpeaker = async (
 ) => {
   try {
     const newSpeaker = new Speaker({
-      first_name: firstName,
-      last_name: lastName,
+      firstName,
+      lastName,
       position,
       company,
       country,
@@ -43,6 +43,7 @@ export const addSpeaker = async (
 };
 
 export const updateSpeaker = async (
+  id,
   firstName,
   lastName,
   position,
@@ -53,8 +54,8 @@ export const updateSpeaker = async (
   try {
     const speaker = await Speaker.findById(id);
     await speaker.update({
-      first_name: firstName || speaker.first_name,
-      last_name: lastName || speaker.last_name,
+      firstName: firstName || speaker.firstName,
+      lastName: lastName || speaker.lastName,
       position: position || speaker.position,
       company: company || speaker.company,
       country: country || speaker.country,

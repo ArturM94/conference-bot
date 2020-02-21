@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 export default mongoose.model(
   'user',
   new mongoose.Schema({
-    first_name: {
+    firstName: {
       type: String,
       require: true,
     },
-    last_name: {
+    lastName: {
       type: String,
       require: true,
     },
