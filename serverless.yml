@@ -34,23 +34,24 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
-layers:
-  modules:
-    path: node_modules  
+# layers:
+#   modules:
+#     path: node_modules  
 package:
   include:
     - src/**
+    - package.json
   exclude:
     - serverless.yml
-    - package.json
+    - package-lock.json
     - node_modules/**
 
 
 functions:
   logger:
     handler: src/aws/handler.logger
-    layers:
-      - { Ref: ModulesLambdaLayer }
+    # layers:
+    #   - { Ref: ModulesLambdaLayer }
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
