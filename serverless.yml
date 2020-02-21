@@ -49,7 +49,7 @@ package:
 
 functions:
   logger:
-    handler: src/aws/handler.logger
+    handler: src/handler.logger
     # layers:
     #   - { Ref: ModulesLambdaLayer }
 #    The following are a few example events you can configure
