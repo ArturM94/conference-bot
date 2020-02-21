@@ -5,14 +5,16 @@ export const getNotifications = async () => {
     return await Notification.find();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const getNotification = async id => {
+export const getNotification = async (id) => {
   try {
     return await Notification.findById(id);
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -34,6 +36,7 @@ export const addNotification = async (
     return await newNotification.save();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -46,26 +49,29 @@ export const updateNotification = async (id, date, time, text, attachments) => {
       text: text || notification.text,
       attachments: attachments || notification.attachments,
     });
-    return await newNotification.save();
+    return await notification.save();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const sentNotification = async id => {
+export const sentNotification = async (id) => {
   try {
     const notification = await Notification.findById(id);
-    await notification.update({sent: true});
+    await notification.update({ sent: true });
     return (await notification.save()).sent;
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const deleteNotification = async id => {
+export const deleteNotification = async (id) => {
   try {
-    return (await Notification.deleteOne({_id: id})).ok;
+    return (await Notification.deleteOne({ _id: id })).ok;
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };

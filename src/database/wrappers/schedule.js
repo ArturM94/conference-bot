@@ -5,14 +5,16 @@ export const etSchedules = async () => {
     return await Schedule.find();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const getSchedule = async id => {
+export const getSchedule = async (id) => {
   try {
     return await Schedule.findById(id);
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -34,6 +36,7 @@ export const addSchedule = async (
     return await newSchedule.save();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -47,6 +50,7 @@ export const addTechnicalSchedule = async (
     return await addSchedule(date, time, 'technical', speakerId, details);
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -60,6 +64,7 @@ export const addNONTechnicalSchedule = async (
     return await addSchedule(date, time, 'non-technical', speakerId, details);
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
@@ -83,13 +88,15 @@ export const updateSchedule = async (
     return await schedule.save();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const deleteSchedule = async id => {
+export const deleteSchedule = async (id) => {
   try {
-    return (await Schedule.deleteOne({_id: id})).ok;
+    return (await Schedule.deleteOne({ _id: id })).ok;
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };

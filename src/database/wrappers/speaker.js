@@ -5,20 +5,22 @@ export const getSpeakers = async () => {
     return await Speaker.find();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const getSpeaker = async id => {
+export const getSpeaker = async (id) => {
   try {
     return await Speaker.findById(id);
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
 export const addSpeaker = async (
-  first_name,
-  last_name,
+  firstName,
+  lastName,
   position,
   company,
   country,
@@ -26,8 +28,8 @@ export const addSpeaker = async (
 ) => {
   try {
     const newSpeaker = new Speaker({
-      first_name,
-      last_name,
+      first_name: firstName,
+      last_name: lastName,
       position,
       company,
       country,
@@ -36,12 +38,13 @@ export const addSpeaker = async (
     return await newSpeaker.save();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
 export const updateSpeaker = async (
-  first_name,
-  last_name,
+  firstName,
+  lastName,
   position,
   company,
   country,
@@ -50,9 +53,9 @@ export const updateSpeaker = async (
   try {
     const speaker = await Speaker.findById(id);
     await speaker.update({
-      first_name: first_name || user.first_name,
-      last_name: last_name || user.last_name,
-      position: position || user.position,
+      first_name: firstName || speaker.first_name,
+      last_name: lastName || speaker.last_name,
+      position: position || speaker.position,
       company: company || speaker.company,
       country: country || speaker.country,
       topic: topic || speaker.topic,
@@ -60,13 +63,15 @@ export const updateSpeaker = async (
     return await speaker.save();
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
 
-export const deleteSpeaker = async id => {
+export const deleteSpeaker = async (id) => {
   try {
-    return (await Speaker.deleteOne({_id: id})).ok;
+    return (await Speaker.deleteOne({ _id: id })).ok;
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
