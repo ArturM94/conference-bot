@@ -4,7 +4,7 @@ export default mongoose.model(
   'image',
   new mongoose.Schema({
     owner: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       require: true,
     },
     imageUrl: {
