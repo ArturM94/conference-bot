@@ -11,6 +11,10 @@ export default mongoose.model(
       type: String,
       require: true,
     },
+    image: {
+      type: String,
+      require: true,
+    },
     position: {
       type: String,
       require: true,
