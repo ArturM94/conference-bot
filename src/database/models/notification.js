@@ -7,10 +7,6 @@ export default mongoose.model(
       type: String,
       require: true,
     },
-    time: {
-      type: String,
-      require: true,
-    },
     text: {
       type: String,
       require: true,

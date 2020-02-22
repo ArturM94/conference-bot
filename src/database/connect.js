@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+
 import config from '../config';
-const {URL_DB} = config;
+
+const { URL_DB } = config;
 
 export default async () => {
   try {
