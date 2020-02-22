@@ -17,6 +17,3 @@ export default {
   PRIVATE_KEY: ENV.PRIVATE_KEY,
   CLIENT_EMAIL: ENV.CLIENT_EMAIL,
 };
-
-
-
