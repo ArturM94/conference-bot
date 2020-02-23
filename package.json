@@ -5,7 +5,16 @@
   "main": "s_logger.js",
   "scripts": {
     "bot": "node -r esm src/bot.js",
+    "eslint": "eslint --color src",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "npm run eslint"
   },
   "repository": {
     "type": "git",
@@ -22,6 +31,8 @@
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "telegraf": "3.36.0",
+    "mongodb": "3.5.3",
+    "mongoose": "5.9.1",
     "winston": "3.2.1",
     "winston-aws-cloudwatch": "3.0.0"
   },
@@ -29,6 +40,8 @@
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "2.20.1",
-    "esm": "3.2.25"
+    "esm": "3.2.25",
+    "husky": "4.2.3",
+    "lint-staged": "10.0.7"
   }
 }
