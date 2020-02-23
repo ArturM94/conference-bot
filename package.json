@@ -4,7 +4,16 @@
   "description": "",
   "scripts": {
     "bot": "node -r esm src/bot.js",
+    "eslint": "eslint --color src",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "npm run eslint"
   },
   "repository": {
     "type": "git",
@@ -28,6 +37,8 @@
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "2.20.1",
-    "esm": "3.2.25"
+    "esm": "3.2.25",
+    "husky": "4.2.3",
+    "lint-staged": "10.0.7"
   }
 }
