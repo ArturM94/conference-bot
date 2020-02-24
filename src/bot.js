@@ -2,6 +2,10 @@ import 'dotenv/config';
 import express from 'express';
 import Telegraf from 'telegraf';
 
+import logger from './helpers/logger';
+import handlers from './bot/commandHandlers/index';
+import actions from './bot/actionHandlers/index';
+import dbConnect from './database/connect';
 import config from './config';
 
 let TOKEN;
@@ -15,6 +19,7 @@ if (NODE_ENV === 'production') {
   TOKEN = config.TOKEN_DEV;
 }
 
+dbConnect();
 const app = express();
 const telegraf = new Telegraf(TOKEN);
 
@@ -23,16 +28,31 @@ const attachBotWebhook = async (bot, url, path, port) => {
     await bot.telegram.setWebhook(`${url}${path}`);
 
     const webhookInfo = await bot.telegram.getWebhookInfo();
-    console.log('Webhook successfully attached\n', webhookInfo);
+    logger.info('Webhook successfully attached\n', webhookInfo);
 
     bot.startWebhook(path, null, port);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 
 const attachBotHandlers = (bot) => {
   bot.start((ctx) => ctx.reply('welcome!'));
+
+  // Bot Commands Start
+  bot.command('speakers', handlers.speakers);
+  bot.command('getmemories', handlers.getmemories);
+  bot.command('getmemories', handlers.getmemories);
+  // Bot Commands End
+
+  // Admin Commands Start
+  bot.command('scheduled_messages', handlers.sheduledMessages);
+  // Admin Commands End
+
+  // Bot Actions Start
+  bot.action(/speakerId/, actions.speakers);
+  bot.action(/notificationId/, actions.sheduledMessages);
+  // Bot Actions End
 
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
@@ -45,7 +65,7 @@ const attachBotHandlers = (bot) => {
   bot.on('message', (ctx) => ctx.reply('message echo'));
 
   bot.catch((error, ctx) => {
-    console.log(`Ooops, encountered an error for ${ctx.updateType}`, error);
+    logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);
   });
 };
 
@@ -58,5 +78,5 @@ attachBotHandlers(telegraf);
 telegraf.launch();
 
 app.listen(APP_PORT, () => {
-  console.log(`Bot listening on port ${APP_PORT}`);
+  logger.info(`Bot listening on port ${APP_PORT}`);
 });
