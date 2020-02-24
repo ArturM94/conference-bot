@@ -51,6 +51,7 @@ const attachBotHandlers = (bot) => {
 
   // Bot Actions Start
   bot.action(/speakerId/, actions.speakers);
+  bot.action(/notificationId/, actions.sheduledMessages);
   // Bot Actions End
 
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));
