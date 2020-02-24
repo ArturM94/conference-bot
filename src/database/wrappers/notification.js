@@ -1,11 +1,16 @@
 import Notification from '../models/notification';
+import logger from '../../helpers/logger';
+
+const errorMessage = {
+  error: 'Server error',
+};
 
 export const getNotifications = async () => {
   try {
     return await Notification.find();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -13,8 +18,8 @@ export const getNotification = async (id) => {
   try {
     return await Notification.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -22,7 +27,7 @@ export const addNotification = async (
   date,
   text,
   attachments = '',
-  sent = false,
+  sent = false
 ) => {
   try {
     const newNotification = new Notification({
@@ -33,8 +38,8 @@ export const addNotification = async (
     });
     return await newNotification.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -48,8 +53,8 @@ export const updateNotification = async (id, date, text, attachments) => {
     });
     return await notification.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -59,8 +64,8 @@ export const sentNotification = async (id) => {
     await notification.update({ sent: true });
     return (await notification.save()).sent;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -68,7 +73,7 @@ export const deleteNotification = async (id) => {
   try {
     return (await Notification.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };

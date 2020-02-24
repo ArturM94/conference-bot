@@ -1,11 +1,16 @@
 import Speaker from '../models/speaker';
+import logger from '../../helpers/logger';
+
+const errorMessage = {
+  error: 'Server error',
+};
 
 export const getSpeakers = async () => {
   try {
     return await Speaker.find();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -13,8 +18,8 @@ export const getSpeaker = async (id) => {
   try {
     return await Speaker.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -25,7 +30,7 @@ export const addSpeaker = async (
   position,
   company,
   country,
-  topic,
+  topic
 ) => {
   try {
     const newSpeaker = new Speaker({
@@ -39,8 +44,8 @@ export const addSpeaker = async (
     });
     return await newSpeaker.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -52,7 +57,7 @@ export const updateSpeaker = async (
   position,
   company,
   country,
-  topic,
+  topic
 ) => {
   try {
     const speaker = await Speaker.findById(id);
@@ -67,8 +72,8 @@ export const updateSpeaker = async (
     });
     return await speaker.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -76,7 +81,7 @@ export const deleteSpeaker = async (id) => {
   try {
     return (await Speaker.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };

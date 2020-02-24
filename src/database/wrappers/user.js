@@ -1,11 +1,16 @@
 import User from '../models/user';
+import logger from '../../helpers/logger';
+
+const errorMessage = {
+  error: 'Server error',
+};
 
 export const getUsers = async () => {
   try {
     return await User.find();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -13,8 +18,8 @@ export const getUser = async (id) => {
   try {
     return await User.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -22,8 +27,8 @@ export const getUserByChatId = async (chatId) => {
   try {
     return await User.findOne({ chatId });
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -31,8 +36,8 @@ export const isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -47,8 +52,8 @@ export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
     });
     return await newUser.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -63,8 +68,8 @@ export const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
     });
     return await newAdmin.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -73,7 +78,7 @@ export const updateUser = async (
   firstName,
   lastName,
   phoneNumber,
-  chatId,
+  chatId
 ) => {
   try {
     const user = await User.findById(id);
@@ -85,8 +90,8 @@ export const updateUser = async (
     });
     return await user.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
@@ -94,7 +99,7 @@ export const deleteUser = async (id) => {
   try {
     return (await User.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
