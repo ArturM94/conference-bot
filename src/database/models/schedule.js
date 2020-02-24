@@ -7,10 +7,6 @@ export default mongoose.model(
       type: String,
       require: true,
     },
-    time: {
-      type: String,
-      require: true,
-    },
     flow: {
       type: String,
       enum: ['technical', 'non-technical'],
@@ -27,5 +23,5 @@ export default mongoose.model(
       type: Date,
       default: Date.now,
     },
-  })
+  }),
 );

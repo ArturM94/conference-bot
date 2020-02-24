@@ -20,15 +20,13 @@ export const getNotification = async (id) => {
 
 export const addNotification = async (
   date,
-  time,
   text,
   attachments = '',
-  sent = false
+  sent = false,
 ) => {
   try {
     const newNotification = new Notification({
       date,
-      time,
       text,
       attachments,
       sent,
@@ -40,12 +38,11 @@ export const addNotification = async (
   }
 };
 
-export const updateNotification = async (id, date, time, text, attachments) => {
+export const updateNotification = async (id, date, text, attachments) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({
       date: date || notification.date,
-      time: time || notification.time,
       text: text || notification.text,
       attachments: attachments || notification.attachments,
     });

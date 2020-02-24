@@ -1,9 +1,10 @@
 import dialogflow from 'dialogflow';
 import config from '../config';
+import logger from '../helpers/logger';
 
 const {
   PROJECT_ID, SESSION_ID, PRIVATE_KEY, CLIENT_EMAIL,
-} = config.dialogflow;
+} = config;
 
 export default async (message) => {
   try {
@@ -28,13 +29,13 @@ export default async (message) => {
 
     // Send request
     const responses = await sessionClient.detectIntent(request);
+    const { displayName } = responses[0].queryResult.intent;
 
     return {
-      status: 'Success',
-      data: responses,
+      displayName,
     };
   } catch (e) {
-    console.log(e);
+    logger.error(e);
     return {
       status: 'Error! Request to Dialogflow failed',
     };

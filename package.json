@@ -2,6 +2,7 @@
   "name": "conference-bot",
   "version": "1.0.0",
   "description": "",
+  "main": "s_logger.js",
   "scripts": {
     "bot": "node -r esm src/bot.js",
     "eslint": "eslint --color src",

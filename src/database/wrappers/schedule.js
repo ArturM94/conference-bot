@@ -18,17 +18,10 @@ export const getSchedule = async (id) => {
   }
 };
 
-export const addSchedule = async (
-  date,
-  time,
-  flow,
-  speakerId,
-  details = ''
-) => {
+export const addSchedule = async (date, flow, speakerId, details = '') => {
   try {
     const newSchedule = new Schedule({
       date,
-      time,
       flow,
       speakerId,
       details,
@@ -40,14 +33,9 @@ export const addSchedule = async (
   }
 };
 
-export const addTechnicalSchedule = async (
-  date,
-  time,
-  speakerId,
-  details = ''
-) => {
+export const addTechnicalSchedule = async (date, speakerId, details = '') => {
   try {
-    return await addSchedule(date, time, 'technical', speakerId, details);
+    return await addSchedule(date, 'technical', speakerId, details);
   } catch (error) {
     console.log(error);
     return undefined;
@@ -56,12 +44,11 @@ export const addTechnicalSchedule = async (
 
 export const addNONTechnicalSchedule = async (
   date,
-  time,
   speakerId,
-  details = ''
+  details = '',
 ) => {
   try {
-    return await addSchedule(date, time, 'non-technical', speakerId, details);
+    return await addSchedule(date, 'non-technical', speakerId, details);
   } catch (error) {
     console.log(error);
     return undefined;
@@ -71,16 +58,14 @@ export const addNONTechnicalSchedule = async (
 export const updateSchedule = async (
   id,
   date,
-  time,
   flow,
   speakerId,
-  details = ''
+  details = '',
 ) => {
   try {
     const schedule = await Schedule.findById(id);
     await schedule.update({
       date: date || schedule.date,
-      time: time || schedule.time,
       flow: flow || schedule.flow,
       speakerId: speakerId || schedule.speakerId,
       details: details || schedule.details,

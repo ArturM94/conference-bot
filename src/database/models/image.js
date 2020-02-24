@@ -1,23 +1,14 @@
 import mongoose from 'mongoose';
 
 export default mongoose.model(
-  'notification',
+  'image',
   new mongoose.Schema({
-    date: {
+    owner: {
       type: String,
       require: true,
     },
-    text: {
+    imageUrl: {
       type: String,
-      require: true,
-    },
-    attachments: {
-      type: String,
-      require: false,
-    },
-    sent: {
-      type: Boolean,
-      default: false,
       require: true,
     },
     createdAt: {
