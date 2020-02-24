@@ -42,7 +42,12 @@ const attachBotHandlers = (bot) => {
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
   bot.command('getmemories', handlers.getmemories);
+  bot.command('getmemories', handlers.getmemories);
   // Bot Commands End
+
+  // Admin Commands Start
+  bot.command('scheduled_messages', handlers.sheduledMessages);
+  // Admin Commands End
 
   // Bot Actions Start
   bot.action(/speakerId/, actions.speakers);
