@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import Telegraf from 'telegraf';
+import Stage from 'telegraf/stage';
 
 import logger from './helpers/logger';
 import handlers from './bot/commandHandlers/index';
@@ -9,9 +10,7 @@ import dbConnect from './database/connect';
 import config from './config';
 
 let TOKEN;
-const {
-  NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
-} = config;
+const { NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT } = config;
 
 if (NODE_ENV === 'production') {
   TOKEN = config.TOKEN_PROD;
@@ -39,6 +38,10 @@ const attachBotWebhook = async (bot, url, path, port) => {
 const attachBotHandlers = (bot) => {
   bot.start((ctx) => ctx.reply('welcome!'));
 
+  const stage = new Stage();
+  stage.register(handlers.savememory);
+  bot.use(stage.middleware());
+
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
   // Bot Commands End
@@ -47,6 +50,7 @@ const attachBotHandlers = (bot) => {
   bot.action(/speakerId/, actions.speakers);
   // Bot Actions End
 
+  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
   bot.command('lunch', (ctx) => ctx.reply('lunch command'));
