@@ -1,6 +1,6 @@
 const winston = require('winston');
 const CloudWatchTransport = require('winston-aws-cloudwatch');
-const config = require('./config');
+const config = require('../config');
 
 const {
   NODE_ENV, AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, AWS_REGION,
