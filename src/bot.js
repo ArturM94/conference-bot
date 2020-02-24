@@ -41,6 +41,7 @@ const attachBotHandlers = (bot) => {
 
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
+  bot.command('getmemories', handlers.getmemories);
   // Bot Commands End
 
   // Bot Actions Start
