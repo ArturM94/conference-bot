@@ -52,6 +52,7 @@ const attachBotHandlers = (bot) => {
 
   bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
   bot.command('agenda', handlers.agenda);
+  bot.command('afterparty', handlers.afterparty);
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
   bot.command('lunch', (ctx) => ctx.reply('lunch command'));
   bot.command('add', (ctx) => ctx.reply('add notification command'));
