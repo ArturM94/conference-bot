@@ -2,6 +2,9 @@ import 'dotenv/config';
 import express from 'express';
 import Telegraf from 'telegraf';
 
+import handlers from './bot/commandHandlers/index';
+import actions from './bot/actionHandlers/index';
+import dbConnect from './database/connect';
 import config from './config';
 
 let TOKEN;
@@ -15,6 +18,7 @@ if (NODE_ENV === 'production') {
   TOKEN = config.TOKEN_DEV;
 }
 
+dbConnect();
 const app = express();
 const telegraf = new Telegraf(TOKEN);
 
@@ -33,6 +37,14 @@ const attachBotWebhook = async (bot, url, path, port) => {
 
 const attachBotHandlers = (bot) => {
   bot.start((ctx) => ctx.reply('welcome!'));
+
+  // Bot Commands Start
+  bot.command('speakers', handlers.speakers);
+  // Bot Commands End
+
+  // Bot Actions Start
+  bot.actions('/speakerId/', actions.speakers);
+  // Bot Actions End
 
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));

@@ -5,8 +5,7 @@
   "main": "s_logger.js",
   "scripts": {
     "bot": "node -r esm src/bot.js",
-    "eslint": "eslint --color --fix src",
-    "lint": "eslint --fix src",
+    "eslint": "eslint --color src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "husky": {
