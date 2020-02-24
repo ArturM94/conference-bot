@@ -1,6 +1,6 @@
-import dialogflow from 'dialogflow';
-import config from '../config';
-import logger from '../helpers/logger';
+const dialogflow = require('dialogflow');
+const logger = require('../helpers/logger');
+const config = require('../config');
 
 const {
   PROJECT_ID, SESSION_ID, PRIVATE_KEY, CLIENT_EMAIL,

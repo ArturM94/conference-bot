@@ -23,7 +23,7 @@ export const addSchedule = async (
   time,
   flow,
   speakerId,
-  details = ''
+  details = '',
 ) => {
   try {
     const newSchedule = new Schedule({
@@ -44,7 +44,7 @@ export const addTechnicalSchedule = async (
   date,
   time,
   speakerId,
-  details = ''
+  details = '',
 ) => {
   try {
     return await addSchedule(date, time, 'technical', speakerId, details);
@@ -58,7 +58,7 @@ export const addNONTechnicalSchedule = async (
   date,
   time,
   speakerId,
-  details = ''
+  details = '',
 ) => {
   try {
     return await addSchedule(date, time, 'non-technical', speakerId, details);
@@ -74,7 +74,7 @@ export const updateSchedule = async (
   time,
   flow,
   speakerId,
-  details = ''
+  details = '',
 ) => {
   try {
     const schedule = await Schedule.findById(id);

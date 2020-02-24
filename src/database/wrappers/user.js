@@ -64,7 +64,7 @@ export const updateUser = async (
   firstName,
   lastName,
   phoneNumber,
-  chatId
+  chatId,
 ) => {
   try {
     const user = await User.findById(id);

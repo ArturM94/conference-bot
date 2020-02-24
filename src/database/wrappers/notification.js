@@ -23,7 +23,7 @@ export const addNotification = async (
   time,
   text,
   attachments = '',
-  sent = false
+  sent = false,
 ) => {
   try {
     const newNotification = new Notification({

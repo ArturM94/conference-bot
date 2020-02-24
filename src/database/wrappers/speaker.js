@@ -24,7 +24,7 @@ export const addSpeaker = async (
   position,
   company,
   country,
-  topic
+  topic,
 ) => {
   try {
     const newSpeaker = new Speaker({
@@ -49,7 +49,7 @@ export const updateSpeaker = async (
   position,
   company,
   country,
-  topic
+  topic,
 ) => {
   try {
     const speaker = await Speaker.findById(id);

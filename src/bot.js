@@ -1,8 +1,9 @@
-import 'dotenv/config';
-import express from 'express';
-import Telegraf from 'telegraf';
+require('dotenv').config();
+const express = require('express');
+const Telegraf = require('telegraf');
 
-import config from './config';
+const logger = require('./helpers/logger');
+const config = require('./config');
 
 let TOKEN;
 const {
@@ -23,11 +24,11 @@ const attachBotWebhook = async (bot, url, path, port) => {
     await bot.telegram.setWebhook(`${url}${path}`);
 
     const webhookInfo = await bot.telegram.getWebhookInfo();
-    console.log('Webhook successfully attached\n', webhookInfo);
+    logger.info('Webhook successfully attached\n', webhookInfo);
 
     bot.startWebhook(path, null, port);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 
@@ -45,7 +46,7 @@ const attachBotHandlers = (bot) => {
   bot.on('message', (ctx) => ctx.reply('message echo'));
 
   bot.catch((error, ctx) => {
-    console.log(`Ooops, encountered an error for ${ctx.updateType}`, error);
+    logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);
   });
 };
 
@@ -58,5 +59,5 @@ attachBotHandlers(telegraf);
 telegraf.launch();
 
 app.listen(APP_PORT, () => {
-  console.log(`Bot listening on port ${APP_PORT}`);
+  logger.info(`Bot listening on port ${APP_PORT}`);
 });

@@ -28,5 +28,5 @@ export default mongoose.model(
       type: Date,
       default: Date.now,
     },
-  })
+  }),
 );
