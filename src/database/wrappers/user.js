@@ -18,9 +18,18 @@ export const getUser = async (id) => {
   }
 };
 
-export const isAdmin = async (id) => {
+export const getUserByChatId = async (chatId) => {
   try {
-    return (await User.findById(id)).isAdmin;
+    return await User.findOne({ chatId });
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
+
+export const isAdmin = async (chatId) => {
+  try {
+    return (await User.findOne({ chatId })).isAdmin;
   } catch (error) {
     console.log(error);
     return undefined;

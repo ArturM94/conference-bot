@@ -21,6 +21,7 @@ export const getSpeaker = async (id) => {
 export const addSpeaker = async (
   firstName,
   lastName,
+  image,
   position,
   company,
   country,
@@ -30,6 +31,7 @@ export const addSpeaker = async (
     const newSpeaker = new Speaker({
       firstName,
       lastName,
+      image,
       position,
       company,
       country,
@@ -46,6 +48,7 @@ export const updateSpeaker = async (
   id,
   firstName,
   lastName,
+  image,
   position,
   company,
   country,
@@ -56,6 +59,7 @@ export const updateSpeaker = async (
     await speaker.update({
       firstName: firstName || speaker.firstName,
       lastName: lastName || speaker.lastName,
+      image: image || speaker.image,
       position: position || speaker.position,
       company: company || speaker.company,
       country: country || speaker.country,
