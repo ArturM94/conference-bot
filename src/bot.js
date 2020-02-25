@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import Telegraf from 'telegraf';
 import Stage from 'telegraf/stage';
+import session from 'telegraf/session';
 
 import logger from './helpers/logger';
 import handlers from './bot/commandHandlers/index';
@@ -39,7 +40,8 @@ const attachBotHandlers = (bot) => {
   bot.start((ctx) => ctx.reply('welcome!'));
 
   const stage = new Stage();
-  stage.register(handlers.savememory);
+  stage.register(handlers.savememory, handlers.post);
+  bot.use(session());
   bot.use(stage.middleware());
 
   // Bot Commands Start
@@ -51,6 +53,7 @@ const attachBotHandlers = (bot) => {
   // Bot Actions End
 
   bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
+  bot.command('post', (ctx) => ctx.scene.enter('post'));
   bot.command('agenda', handlers.agenda);
   bot.command('afterparty', handlers.afterparty);
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));

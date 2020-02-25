@@ -12,7 +12,10 @@ saveMemory.enter((ctx) => {
 
 saveMemory.on('photo', async (ctx) => {
   try {
-    const imgUrl = await upload(ctx.update.message.photo.reverse()[0].file_id);
+    const imgUrl = await upload(
+      ctx.update.message.photo.reverse()[0].file_id,
+      ctx
+    );
     await addImage(ctx.update.message.from.id, imgUrl);
     ctx.reply('image saved', {
       reply_markup: {
