@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import Telegraf from 'telegraf';
+import Stage from 'telegraf/stage';
+import session from 'telegraf/session';
 
 import logger from './helpers/logger';
 import handlers from './bot/commandHandlers/index';
@@ -37,21 +39,32 @@ const attachBotWebhook = async (bot, url, path, port) => {
 };
 
 const attachBotHandlers = (bot) => {
-  bot.start((ctx) => ctx.reply('welcome!'));
+  bot.command(['start', 'help'], (ctx) => ctx.reply(`
+  /speakers - get all speakers
+  /getmemories - get all images
+
+  admin:
+  /scheduled_messages - get list notification for edit/del
+  `));
+
+  const stage = new Stage();
+  stage.register(
+    handlers.sheduledMessages,
+  );
+  bot.use(session());
+  bot.use(stage.middleware());
 
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
   bot.command('getmemories', handlers.getmemories);
-  bot.command('getmemories', handlers.getmemories);
   // Bot Commands End
 
   // Admin Commands Start
-  bot.command('scheduled_messages', handlers.sheduledMessages);
+  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('sheduledMessages'));
   // Admin Commands End
 
   // Bot Actions Start
   bot.action(/speakerId/, actions.speakers);
-  bot.action(/notificationId/, actions.sheduledMessages);
   // Bot Actions End
 
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));

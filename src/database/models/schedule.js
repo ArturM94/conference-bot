@@ -14,6 +14,7 @@ export default mongoose.model(
     },
     speakerId: {
       type: mongoose.Types.ObjectId,
+      ref: 'speaker',
       require: true,
     },
     details: {

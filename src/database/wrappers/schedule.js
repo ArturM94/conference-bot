@@ -1,8 +1,8 @@
 import Schedule from '../models/schedule';
 
-export const etSchedules = async () => {
+export const getSchedules = async () => {
   try {
-    return await Schedule.find();
+    return await Schedule.find().populate('speakerId');
   } catch (error) {
     console.log(error);
     return undefined;
@@ -12,6 +12,15 @@ export const etSchedules = async () => {
 export const getSchedule = async (id) => {
   try {
     return await Schedule.findById(id);
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
+
+export const getScheduleBySpeaker = async (id) => {
+  try {
+    return await Schedule.find({ speakerId: id }).populate('speakerId');
   } catch (error) {
     console.log(error);
     return undefined;

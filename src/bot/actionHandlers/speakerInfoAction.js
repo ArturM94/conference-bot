@@ -1,18 +1,24 @@
 import { Extra } from 'telegraf';
-import { getSpeaker } from '../../database/wrappers/speaker';
+
+import { getScheduleBySpeaker } from '../../database/wrappers/schedule';
 
 export default async (ctx) => {
   const messageId = ctx.update.callback_query.message.message_id;
   const { speakerId } = JSON.parse(ctx.match.input);
-  const currentSpeaker = await getSpeaker(speakerId);
+
+  const schedule = await getScheduleBySpeaker(speakerId);
+  const currentSpeaker = schedule[0].speakerId;
 
   await ctx.deleteMessage(messageId);
 
   if (currentSpeaker) {
     const fullName = `${currentSpeaker.firstName} ${currentSpeaker.lastName}`;
     const speakerInfo = `Name: ${fullName}
+    Position: ${currentSpeaker.position}
     Company: ${currentSpeaker.company}
-    Country:${currentSpeaker.country}`;
+    Country: ${currentSpeaker.country}
+    Scene: ${schedule.flow}
+    `;
 
     await ctx.replyWithPhoto(
       currentSpeaker.image,
