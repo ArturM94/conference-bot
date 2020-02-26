@@ -25,9 +25,9 @@ export default async (ctx) => {
     );
 
     ctx.replyWithHTML(
-      `<b>Conference schedule</b> \n     <b><i>Technical</i></b>\n${await showSchedule(
+      `<b>Conference schedule</b> \n     <pre>Technical</pre>\n${await showSchedule(
         technical
-      )} \n     <b><i>Not Technical</i></b>\n${await showSchedule(
+      )} \n     <pre><i>Not Technical</i></pre>\n${await showSchedule(
         nonTechnical
       )}`
     );
