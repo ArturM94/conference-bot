@@ -1,11 +1,11 @@
-import Notification from '../models/notification';
-import logger from '../../helpers/logger';
+const Notification = require('../models/notification');
+const logger = require('../../helpers/logger');
 
 const errorMessage = {
   error: 'Server error',
 };
 
-export const getNotifications = async () => {
+exports.getNotifications = async () => {
   try {
     return await Notification.find();
   } catch (error) {
@@ -14,7 +14,7 @@ export const getNotifications = async () => {
   }
 };
 
-export const getNotification = async (id) => {
+exports.getNotification = async (id) => {
   try {
     return await Notification.findById(id);
   } catch (error) {
@@ -23,7 +23,7 @@ export const getNotification = async (id) => {
   }
 };
 
-export const addNotification = async (
+exports.addNotification = async (
   date,
   text,
   attachments = '',
@@ -43,7 +43,7 @@ export const addNotification = async (
   }
 };
 
-export const updateNotification = async (id, date, text, attachments) => {
+exports.updateNotification = async (id, date, text, attachments) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({
@@ -58,7 +58,7 @@ export const updateNotification = async (id, date, text, attachments) => {
   }
 };
 
-export const sentNotification = async (id) => {
+exports.sentNotification = async (id) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({ sent: true });

@@ -1,10 +1,10 @@
-import Scene from 'telegraf/scenes/base';
-import Markup from 'telegraf/markup';
-import Extra from 'telegraf/extra';
+const Scene = require('telegraf/scenes/base');
+const Markup = require('telegraf/markup');
+const Extra = require('telegraf/extra');
 
-import { isAdmin, getUsers } from '../../database/wrappers/user';
-import upload from '../../helpers/uploadFile';
-import logger from '../../helpers/logger';
+const { isAdmin, getUsers } = require('../../database/wrappers/user');
+const upload = require('../../helpers/uploadFile');
+const logger = require('../../helpers/logger');
 
 const post = new Scene('post');
 const sendMessage = {};
@@ -83,4 +83,4 @@ post.on('callback_query', async (ctx) => {
   }
 });
 
-export default post;
+module.exports = post;

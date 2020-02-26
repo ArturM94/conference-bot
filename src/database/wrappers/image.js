@@ -1,11 +1,11 @@
-import Image from '../models/image';
-import logger from '../../helpers/logger';
+const Image = require('../models/image');
+const logger = require('../../helpers/logger');
 
 const errorMessage = {
   error: 'Server error',
 };
 
-export const getImages = async () => {
+exports.getImages = async () => {
   try {
     return await Image.find();
   } catch (error) {
@@ -14,7 +14,7 @@ export const getImages = async () => {
   }
 };
 
-export const getImagesByUserId = async (id) => {
+exports.getImagesByUserId = async (id) => {
   try {
     return await Image.find({ owner: id });
   } catch (error) {
@@ -23,7 +23,7 @@ export const getImagesByUserId = async (id) => {
   }
 };
 
-export const getImage = async (id) => {
+exports.getImage = async (id) => {
   try {
     return await Image.findById(id);
   } catch (error) {
@@ -32,7 +32,7 @@ export const getImage = async (id) => {
   }
 };
 
-export const addImage = async (owner, imageUrl) => {
+exports.addImage = async (owner, imageUrl) => {
   try {
     const newImage = new Image({
       owner,
@@ -45,7 +45,7 @@ export const addImage = async (owner, imageUrl) => {
   }
 };
 
-export const deleteImage = async (id) => {
+exports.deleteImage = async (id) => {
   try {
     return (await Image.deleteOne({ _id: id })).ok;
   } catch (error) {

@@ -1,10 +1,10 @@
-import speakersHandler from './speakersHandler';
-import saveMemoryHandler from './saveMemoryHandler';
-import agendaCommand from './agendaCommand';
-import afterpartyCommand from './afterpatyCommand';
-import postHandler from './postHandler';
+const speakersHandler = require('./speakersHandler');
+const saveMemoryHandler = require('./saveMemoryHandler');
+const agendaCommand = require('./agendaCommand');
+const afterpartyCommand = require('./afterpatyCommand');
+const postHandler = require('./postHandler');
 
-export default {
+module.exports = {
   speakers: speakersHandler,
   savememory: saveMemoryHandler,
   agenda: agendaCommand,

@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-export default mongoose.model(
+module.exports = mongoose.model(
   'image',
   new mongoose.Schema(
     {

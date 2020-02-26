@@ -1,11 +1,11 @@
-import Speaker from '../models/speaker';
-import logger from '../../helpers/logger';
+const Speaker = require('../models/speaker');
+const logger = require('../../helpers/logger');
 
 const errorMessage = {
   error: 'Server error',
 };
 
-export const getSpeakers = async () => {
+exports.getSpeakers = async () => {
   try {
     return await Speaker.find();
   } catch (error) {
@@ -14,7 +14,7 @@ export const getSpeakers = async () => {
   }
 };
 
-export const getSpeaker = async (id) => {
+exports.getSpeaker = async (id) => {
   try {
     return await Speaker.findById(id);
   } catch (error) {
@@ -23,7 +23,7 @@ export const getSpeaker = async (id) => {
   }
 };
 
-export const addSpeaker = async (
+exports.addSpeaker = async (
   firstName,
   lastName,
   image,
@@ -49,7 +49,7 @@ export const addSpeaker = async (
   }
 };
 
-export const updateSpeaker = async (
+exports.updateSpeaker = async (
   id,
   firstName,
   lastName,
@@ -77,7 +77,7 @@ export const updateSpeaker = async (
   }
 };
 
-export const deleteSpeaker = async (id) => {
+exports.deleteSpeaker = async (id) => {
   try {
     return (await Speaker.deleteOne({ _id: id })).ok;
   } catch (error) {

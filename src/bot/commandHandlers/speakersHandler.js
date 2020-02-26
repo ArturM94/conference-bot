@@ -1,5 +1,5 @@
-import Telegraf from 'telegraf';
-import { getSpeakers } from '../../database/wrappers/speaker';
+const Telegraf = require('telegraf');
+const { getSpeakers } = require('../../database/wrappers/speaker');
 
 // Function creates an inline keyboard from an object from the database
 const createButtons = (dataArray) => {
@@ -8,7 +8,9 @@ const createButtons = (dataArray) => {
     dataArray.forEach((el) => {
       const fullName = `${el.firstName} ${el.lastName}`;
       // eslint-disable-next-line no-underscore-dangle
-      list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: el._id }))]);
+      list.push([
+        m.callbackButton(fullName, JSON.stringify({ speakerId: el._id })),
+      ]);
     });
     return m.inlineKeyboard(list);
   });
@@ -16,10 +18,7 @@ const createButtons = (dataArray) => {
 };
 
 // "/speakers" command handler
-export default async (ctx) => {
+module.exports = async (ctx) => {
   const speakers = await getSpeakers();
-  await ctx.reply(
-    'Our all speackers:',
-    createButtons(speakers),
-  );
+  await ctx.reply('Our all speackers:', createButtons(speakers));
 };

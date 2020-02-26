@@ -1,6 +1,6 @@
-import { getSchedules } from '../../database/wrappers/schedule';
-import { getSpeaker } from '../../database/wrappers/speaker';
-import logger from '../../helpers/logger';
+const { getSchedules } = require('../../database/wrappers/schedule');
+const { getSpeaker } = require('../../database/wrappers/speaker');
+const logger = require('../../helpers/logger');
 
 const showSchedule = async (agenda) => {
   try {
@@ -16,7 +16,7 @@ const showSchedule = async (agenda) => {
   }
 };
 
-export default async (ctx) => {
+module.exports = async (ctx) => {
   try {
     const schedule = await getSchedules();
     const technical = schedule.filter((item) => item.flow === 'technical');

@@ -1,11 +1,11 @@
-import User from '../models/user';
-import logger from '../../helpers/logger';
+const User = require('../models/user');
+const logger = require('../../helpers/logger');
 
 const errorMessage = {
   error: 'Server error',
 };
 
-export const getUsers = async () => {
+exports.getUsers = async () => {
   try {
     return await User.find();
   } catch (error) {
@@ -14,7 +14,7 @@ export const getUsers = async () => {
   }
 };
 
-export const getUser = async (id) => {
+exports.getUser = async (id) => {
   try {
     return await User.findById(id);
   } catch (error) {
@@ -23,7 +23,7 @@ export const getUser = async (id) => {
   }
 };
 
-export const getUserByChatId = async (chatId) => {
+exports.getUserByChatId = async (chatId) => {
   try {
     return await User.findOne({ chatId });
   } catch (error) {
@@ -32,7 +32,7 @@ export const getUserByChatId = async (chatId) => {
   }
 };
 
-export const isAdmin = async (chatId) => {
+exports.isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
   } catch (error) {
@@ -41,7 +41,7 @@ export const isAdmin = async (chatId) => {
   }
 };
 
-export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
+exports.addUser = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newUser = new User({
       firstName,
@@ -57,7 +57,7 @@ export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
   }
 };
 
-export const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
+exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newAdmin = new User({
       firstName,
@@ -73,13 +73,7 @@ export const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   }
 };
 
-export const updateUser = async (
-  id,
-  firstName,
-  lastName,
-  phoneNumber,
-  chatId
-) => {
+exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
   try {
     const user = await User.findById(id);
     await user.update({
@@ -95,7 +89,7 @@ export const updateUser = async (
   }
 };
 
-export const deleteUser = async (id) => {
+exports.deleteUser = async (id) => {
   try {
     return (await User.deleteOne({ _id: id })).ok;
   } catch (error) {

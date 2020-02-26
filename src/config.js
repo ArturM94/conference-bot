@@ -1,6 +1,6 @@
 const ENV = process.env;
 
-export default {
+module.exports = {
   NODE_ENV: ENV.NODE_ENV,
   APP_PORT: ENV.APP_PORT,
   TOKEN_DEV: ENV.TOKEN_DEV,

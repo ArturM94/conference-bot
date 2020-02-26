@@ -1,13 +1,13 @@
-import logger from '../../helpers/logger';
+const logger = require('../../helpers/logger');
 
-export default (ctx) => {
+module.exports = (ctx) => {
   try {
     ctx.telegram.sendVenue(
       ctx.update.message.from.id,
-      '-75.980191',
-      '21.921727',
+      '49.848084',
+      '24.0208729',
       'Conference venue and time',
-      '09:00  10.03.2020 \n end so on...'
+      '10:00  10.03.2020'
     );
   } catch (error) {
     logger.error(error);

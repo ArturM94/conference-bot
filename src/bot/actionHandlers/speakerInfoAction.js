@@ -1,7 +1,7 @@
-import { Extra } from 'telegraf';
-import { getSpeaker } from '../../database/wrappers/speaker';
+const { Extra } = require('telegraf');
+const { getSpeaker } = require('../../database/wrappers/speaker');
 
-export default async (ctx) => {
+module.exports = async (ctx) => {
   const messageId = ctx.update.callback_query.message.message_id;
   const { speakerId } = JSON.parse(ctx.match.input);
   const currentSpeaker = await getSpeaker(speakerId);
@@ -16,7 +16,7 @@ export default async (ctx) => {
 
     await ctx.replyWithPhoto(
       currentSpeaker.image,
-      Extra.caption(speakerInfo).markdown(),
+      Extra.caption(speakerInfo).markdown()
     );
   } else {
     ctx.reply('Sorry, something went wrong 🤷‍♂️');

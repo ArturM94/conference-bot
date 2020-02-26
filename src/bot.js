@@ -1,14 +1,14 @@
-import 'dotenv/config';
-import express from 'express';
-import Telegraf from 'telegraf';
-import Stage from 'telegraf/stage';
-import session from 'telegraf/session';
+require('dotenv').config();
+const express = require('express');
+const Telegraf = require('telegraf');
+const Stage = require('telegraf/stage');
+const session = require('telegraf/session');
 
-import logger from './helpers/logger';
-import handlers from './bot/commandHandlers/index';
-import actions from './bot/actionHandlers/index';
-import dbConnect from './database/connect';
-import config from './config';
+const logger = require('./helpers/logger');
+const handlers = require('./bot/commandHandlers/index');
+const actions = require('./bot/actionHandlers/index');
+const dbConnect = require('./database/connect');
+const config = require('./config');
 
 let TOKEN;
 const { NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT } = config;
@@ -46,16 +46,19 @@ const attachBotHandlers = (bot) => {
 
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
+  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
+  bot.command('agenda', handlers.agenda);
+  bot.command('afterparty', handlers.afterparty);
   // Bot Commands End
+
+  // Admin Commands Start
+  bot.command('post', (ctx) => ctx.scene.enter('post'));
+  // Admin Commands End
 
   // Bot Actions Start
   bot.action(/speakerId/, actions.speakers);
   // Bot Actions End
 
-  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
-  bot.command('post', (ctx) => ctx.scene.enter('post'));
-  bot.command('agenda', handlers.agenda);
-  bot.command('afterparty', handlers.afterparty);
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
   bot.command('lunch', (ctx) => ctx.reply('lunch command'));
   bot.command('add', (ctx) => ctx.reply('add notification command'));

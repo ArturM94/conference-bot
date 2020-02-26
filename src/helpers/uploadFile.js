@@ -1,10 +1,10 @@
-import AWS from 'aws-sdk';
-import axios from 'axios';
+const AWS = require('aws-sdk');
+const axios = require('axios');
 
-import logger from './logger';
-import config from '../config';
+const logger = require('./logger');
+const config = require('../config');
 
-export const downloadFile = async (imgId, ctx) => {
+const downloadFile = async (imgId, ctx) => {
   try {
     const file = await ctx.telegram.getFile(imgId);
     const img = await axios.get(
@@ -16,8 +16,9 @@ export const downloadFile = async (imgId, ctx) => {
     logger.error(error);
   }
 };
+module.downloadFile = downloadFile;
 
-export default async (imgId, ctx) => {
+module.exports = async (imgId, ctx) => {
   try {
     const s3 = new AWS.S3({
       accessKeyId: config.AWS_ACCESS_KEY,

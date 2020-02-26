@@ -1,8 +1,8 @@
-import Scene from 'telegraf/scenes/base';
+const Scene = require('telegraf/scenes/base');
 
-import { addImage } from '../../database/wrappers/image';
-import upload from '../../helpers/uploadFile';
-import logger from '../../helpers/logger';
+const { addImage } = require('../../database/wrappers/image');
+const upload = require('../../helpers/uploadFile');
+const logger = require('../../helpers/logger');
 
 const saveMemory = new Scene('savememory');
 
@@ -38,4 +38,4 @@ saveMemory.on('callback_query', (ctx) => {
   if (ctx.update.callback_query.data === '@exit') ctx.scene.leave();
 });
 
-export default saveMemory;
+module.exports = saveMemory;

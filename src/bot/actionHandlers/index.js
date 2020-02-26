@@ -1,5 +1,5 @@
-import speakersInfoAction from './speakerInfoAction';
+const speakersInfoAction = require('./speakerInfoAction');
 
-export default {
+module.exports = {
   speakers: speakersInfoAction,
 };
