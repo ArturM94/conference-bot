@@ -1,5 +1,6 @@
 import Scene from 'telegraf/scenes/base';
 import Markup from 'telegraf/markup';
+import Extra from 'telegraf/extra';
 
 import { isAdmin, getUsers } from '../../database/wrappers/user';
 import upload from '../../helpers/uploadFile';
@@ -31,16 +32,22 @@ post.on('message', async (ctx) => {
     const buttons = Markup.inlineKeyboard([
       Markup.callbackButton('✅ Send', '@send'),
       Markup.callbackButton('❌ Delete', '@delete'),
-    ]).extra();
+    ]);
     if (message.caption) {
       sendMessage.text = message.caption;
       const photo = message.photo.reverse()[0].file_id;
       const imgUrl = await upload(photo, ctx);
       sendMessage.photo = imgUrl;
-      ctx.replyWithPhoto(sendMessage.photo, sendMessage.text, buttons);
+      const extra = Extra.markup(buttons);
+      extra.caption = sendMessage.text;
+      ctx.telegram.sendPhoto(
+        ctx.chat.id,
+        'http://qnimate.com/wp-content/uploads/2014/03/images2.jpg',
+        extra
+      );
     } else {
       sendMessage.text = message.text;
-      ctx.reply(sendMessage.text, buttons);
+      ctx.reply(sendMessage.text, buttons.extra());
     }
   } catch (error) {
     logger.error(error);
