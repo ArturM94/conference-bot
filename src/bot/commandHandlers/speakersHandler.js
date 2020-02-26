@@ -1,5 +1,9 @@
-import Telegraf from 'telegraf';
-import { getSpeakers } from '../../database/wrappers/speaker';
+const Telegraf = require('telegraf');
+const Scene = require('telegraf/scenes/base');
+const { Extra } = require('telegraf');
+
+const { getScheduleBySpeaker } = require('../../database/wrappers/schedule');
+const { getSpeakers } = require('../../database/wrappers/speaker');
 
 // Function creates an inline keyboard from an object from the database
 const createButtons = (dataArray) => {
@@ -15,11 +19,41 @@ const createButtons = (dataArray) => {
   return markupKeyboard;
 };
 
+const speakersScene = new Scene('speakers');
+
 // "/speakers" command handler
-export default async (ctx) => {
-  const speakers = await getSpeakers();
+speakersScene.enter(async (ctx) => {
+  const allSpeakers = await getSpeakers();
   await ctx.reply(
-    'Our all speackers:',
-    createButtons(speakers),
+    'All Our Speakers:',
+    createButtons(allSpeakers),
   );
-};
+});
+
+speakersScene.action(/speakerId/, async (ctx) => {
+  const messageId = ctx.update.callback_query.message.message_id;
+  const { speakerId } = JSON.parse(ctx.match.input);
+
+  const schedule = await getScheduleBySpeaker(speakerId);
+  const currentSpeaker = schedule[0].speakerId;
+  await ctx.deleteMessage(messageId);
+
+  if (currentSpeaker) {
+    const fullName = `${currentSpeaker.firstName} ${currentSpeaker.lastName}`;
+    const speakerInfo = `Name: ${fullName}
+    Position: ${currentSpeaker.position}
+    Company: ${currentSpeaker.company}
+    Country: ${currentSpeaker.country}
+    Scene: ${schedule[0].flow}
+    `;
+
+    await ctx.replyWithPhoto(
+      currentSpeaker.image,
+      Extra.caption(speakerInfo).markdown(),
+    );
+  } else {
+    ctx.reply('Sorry, something went wrong 🤷‍♂️');
+  }
+});
+
+module.exports = speakersScene;

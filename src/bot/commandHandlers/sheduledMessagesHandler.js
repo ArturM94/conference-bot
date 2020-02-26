@@ -1,13 +1,13 @@
-import { Markup, Extra } from 'telegraf';
-import WizardScene from 'telegraf/scenes/wizard';
-import validator from 'validator';
+const { Markup, Extra } = require('telegraf');
+const WizardScene = require('telegraf/scenes/wizard');
+const validator = require('validator');
 
-import { isAdmin } from '../../database/wrappers/user';
-import {
+const { isAdmin } = require('../../database/wrappers/user');
+const {
   updateNotification,
   getNotifications,
   deleteNotification,
-} from '../../database/wrappers/notification';
+} = require('../../database/wrappers/notification');
 
 const validLength = (str, num) => {
   if (str.length < num) {
@@ -32,13 +32,12 @@ const sheduledMessages = new WizardScene(
     await ctx.reply('Select an action on the keyboard or exit.',
       Extra.markdown().markup((m) => m.keyboard(['⬅️ Exit']).resize()));
     await ctx.reply('All Notifications: ');
-
     for (let i = 0; i < allNotifications.length; i += 1) {
       // eslint-disable-next-line no-underscore-dangle
       const id = allNotifications[i]._id;
       const { text, date, attachments } = allNotifications[i];
 
-      ctx.reply(
+      ctx.replyWithMarkdown(
         `Text: ${text}
         Date: ${date}
         Attachments: ${attachments}`,
@@ -57,7 +56,7 @@ const sheduledMessages = new WizardScene(
     return ctx.wizard.next();
   },
   async (ctx) => {
-    ctx.reply('Chose what do you want to change.');
+    ctx.reply('Chose what do you want to change.', Markup.removeKeyboard());
     const callbackQuery = ctx.update.callback_query;
     const { notificationId, action } = JSON.parse(callbackQuery.data);
     const messageId = callbackQuery.message.message_id;
@@ -146,4 +145,4 @@ sheduledMessages.hears('⬅️ Exit', (ctx) => {
   return ctx.scene.leave();
 });
 
-export default sheduledMessages;
+module.exports = sheduledMessages;

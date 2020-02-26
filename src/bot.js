@@ -1,14 +1,13 @@
-import 'dotenv/config';
-import express from 'express';
-import Telegraf from 'telegraf';
-import Stage from 'telegraf/stage';
-import session from 'telegraf/session';
+require('dotenv').config();
+const express = require('express');
+const Telegraf = require('telegraf');
+const Stage = require('telegraf/stage');
+const session = require('telegraf/session');
 
-import logger from './helpers/logger';
-import handlers from './bot/commandHandlers/index';
-import actions from './bot/actionHandlers/index';
-import dbConnect from './database/connect';
-import config from './config';
+const logger = require('./helpers/logger');
+const handlers = require('./bot/commandHandlers/index');
+const dbConnect = require('./database/connect');
+const config = require('./config');
 
 let TOKEN;
 const {
@@ -50,12 +49,13 @@ const attachBotHandlers = (bot) => {
   const stage = new Stage();
   stage.register(
     handlers.sheduledMessages,
+    handlers.speakers,
   );
   bot.use(session());
   bot.use(stage.middleware());
 
   // Bot Commands Start
-  bot.command('speakers', handlers.speakers);
+  bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
   bot.command('getmemories', handlers.getmemories);
   // Bot Commands End
 
@@ -64,7 +64,7 @@ const attachBotHandlers = (bot) => {
   // Admin Commands End
 
   // Bot Actions Start
-  bot.action(/speakerId/, actions.speakers);
+  // bot.action(/speakerId/, actions.speakers);
   // Bot Actions End
 
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));

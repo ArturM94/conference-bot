@@ -1,8 +1,8 @@
-import speakersHandler from './speakersHandler';
-import getmemoriesHandler from './getmemoriesHandler';
-import sheduledMessagesHandler from './sheduledMessagesHandler';
+const speakersHandler = require('./speakersHandler');
+const getmemoriesHandler = require('./getmemoriesHandler');
+const sheduledMessagesHandler = require('./sheduledMessagesHandler');
 
-export default {
+module.exports = {
   speakers: speakersHandler,
   getmemories: getmemoriesHandler,
   sheduledMessages: sheduledMessagesHandler,
