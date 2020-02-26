@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-import config from '../config';
+const config = require('../config');
+const logger = require('../helpers/logger');
 
 const { URL_DB } = config;
 
-export default async () => {
+module.exports = async () => {
   try {
     await mongoose.connect(URL_DB, {
       useUnifiedTopology: true,
@@ -12,8 +13,8 @@ export default async () => {
       useNewUrlParser: true,
       useCreateIndex: true,
     });
-    console.log('Connected to mongodb!');
+    logger.info('Connected to mongodb!');
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };

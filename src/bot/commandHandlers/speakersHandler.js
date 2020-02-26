@@ -4,6 +4,7 @@ const { Extra } = require('telegraf');
 
 const { getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 const { getSpeakers } = require('../../database/wrappers/speaker');
+const logger = require('../../helpers/logger');
 
 // Function creates an inline keyboard from an object from the database
 const createButtons = (dataArray) => {
@@ -11,8 +12,10 @@ const createButtons = (dataArray) => {
     const list = [];
     dataArray.forEach((el) => {
       const fullName = `${el.firstName} ${el.lastName}`;
-      // eslint-disable-next-line no-underscore-dangle
-      list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: el._id }))]);
+      list.push([
+        // eslint-disable-next-line no-underscore-dangle
+        m.callbackButton(fullName, JSON.stringify({ speakerId: el._id })),
+      ]);
     });
     return m.inlineKeyboard(list);
   });
@@ -53,6 +56,7 @@ speakersScene.action(/speakerId/, async (ctx) => {
     );
   } else {
     ctx.reply('Sorry, something went wrong 🤷‍♂️');
+    logger.error('Speaker Object is Empty! SpeakersHandler.js');
   }
 });
 

@@ -47,9 +47,12 @@ const attachBotHandlers = (bot) => {
   `));
 
   const stage = new Stage();
+
   stage.register(
     handlers.sheduledMessages,
     handlers.speakers,
+    handlers.savememory,
+    handlers.post,
   );
   bot.use(session());
   bot.use(stage.middleware());
@@ -57,17 +60,16 @@ const attachBotHandlers = (bot) => {
   // Bot Commands Start
   bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
   bot.command('getmemories', handlers.getmemories);
+  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
+  bot.command('agenda', handlers.agenda);
+  bot.command('afterparty', handlers.afterparty);
   // Bot Commands End
 
   // Admin Commands Start
   bot.command('scheduled_messages', (ctx) => ctx.scene.enter('sheduledMessages'));
+  bot.command('post', (ctx) => ctx.scene.enter('post'));
   // Admin Commands End
 
-  // Bot Actions Start
-  // bot.action(/speakerId/, actions.speakers);
-  // Bot Actions End
-
-  bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
   bot.command('lunch', (ctx) => ctx.reply('lunch command'));
   bot.command('add', (ctx) => ctx.reply('add notification command'));

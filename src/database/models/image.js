@@ -1,19 +1,20 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-export default mongoose.model(
+module.exports = mongoose.model(
   'image',
-  new mongoose.Schema({
-    owner: {
-      type: String,
-      require: true,
+  new mongoose.Schema(
+    {
+      owner: {
+        type: String,
+        require: true,
+      },
+      imageUrl: {
+        type: String,
+        require: true,
+      },
     },
-    imageUrl: {
-      type: String,
-      require: true,
+    {
+      timestamps: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-  }),
+  ),
 );

@@ -1,42 +1,47 @@
-import User from '../models/user';
+const User = require('../models/user');
+const logger = require('../../helpers/logger');
 
-export const getUsers = async () => {
+const errorMessage = {
+  error: 'Server error',
+};
+
+exports.getUsers = async () => {
   try {
     return await User.find();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const getUser = async (id) => {
+exports.getUser = async (id) => {
   try {
     return await User.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const getUserByChatId = async (chatId) => {
+exports.getUserByChatId = async (chatId) => {
   try {
     return await User.findOne({ chatId });
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const isAdmin = async (chatId) => {
+exports.isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
+exports.addUser = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newUser = new User({
       firstName,
@@ -47,12 +52,12 @@ export const addUser = async (firstName, lastName, phoneNumber, chatId) => {
     });
     return await newUser.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
+exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newAdmin = new User({
       firstName,
@@ -63,18 +68,12 @@ export const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
     });
     return await newAdmin.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const updateUser = async (
-  id,
-  firstName,
-  lastName,
-  phoneNumber,
-  chatId,
-) => {
+exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
   try {
     const user = await User.findById(id);
     await user.update({
@@ -85,16 +84,16 @@ export const updateUser = async (
     });
     return await user.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const deleteUser = async (id) => {
+exports.deleteUser = async (id) => {
   try {
     return (await User.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };

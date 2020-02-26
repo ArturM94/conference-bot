@@ -1,24 +1,29 @@
-import Notification from '../models/notification';
+const Notification = require('../models/notification');
+const logger = require('../../helpers/logger');
 
-export const getNotifications = async () => {
+const errorMessage = {
+  error: 'Server error',
+};
+
+exports.getNotifications = async () => {
   try {
     return await Notification.find();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const getNotification = async (id) => {
+exports.getNotification = async (id) => {
   try {
     return await Notification.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addNotification = async (
+exports.addNotification = async (
   date,
   text,
   attachments = '',
@@ -33,12 +38,12 @@ export const addNotification = async (
     });
     return await newNotification.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const updateNotification = async (id, date, text, attachments) => {
+exports.updateNotification = async (id, date, text, attachments) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({
@@ -48,27 +53,27 @@ export const updateNotification = async (id, date, text, attachments) => {
     });
     return await notification.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const sentNotification = async (id) => {
+exports.sentNotification = async (id) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({ sent: true });
     return (await notification.save()).sent;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const deleteNotification = async (id) => {
+exports.deleteNotification = async (id) => {
   try {
     return (await Notification.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };

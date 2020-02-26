@@ -1,12 +1,12 @@
-import dialogflow from 'dialogflow';
-import config from '../config';
-import logger from '../helpers/logger';
+const dialogflow = require('dialogflow');
+const config = require('../config');
+const logger = require('../helpers/logger');
 
 const {
   PROJECT_ID, SESSION_ID, PRIVATE_KEY, CLIENT_EMAIL,
 } = config;
 
-export default async (message) => {
+module.exports = async (message) => {
   try {
     const sessionClient = new dialogflow.SessionsClient({
       credentials: {

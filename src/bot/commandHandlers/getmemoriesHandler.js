@@ -1,4 +1,5 @@
 const { getImages } = require('../../database/wrappers/image');
+const logger = require('../../helpers/logger');
 
 // Function for creating albom with images
 function createAlbum(arrImg) {
@@ -19,6 +20,10 @@ function createAlbum(arrImg) {
 }
 
 module.exports = async (ctx) => {
-  const allImages = await getImages();
-  await ctx.replyWithMediaGroup(createAlbum(allImages));
+  try {
+    const allImages = await getImages();
+    await ctx.replyWithMediaGroup(createAlbum(allImages));
+  } catch (e) {
+    logger.error(e);
+  }
 };
