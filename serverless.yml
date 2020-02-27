@@ -13,43 +13,20 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-central-1
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-# layers:
-#   modules:
-#     path: node_modules  
-package:
-  include:
-    - src/**
-    - package.json
-  exclude:
-    - serverless.yml
-    - package-lock.json
-    - node_modules/**
+# package:
+#   include:
+#     - src/**
+#     - package.json
+#   exclude:
+#     - serverless.yml
+#     - package-lock.json
+#     - node_modules/**
 
 
 functions:
   logger:
-    handler: src/aws/handler.logger
+    handler: src/handler.logger
     # layers:
     #   - { Ref: ModulesLambdaLayer }
 #    The following are a few example events you can configure
