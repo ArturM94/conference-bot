@@ -35,7 +35,7 @@
     "mongodb": "3.5.3",
     "mongoose": "5.9.1",
     "telegraf": "3.36.0",
-    "validator": "^12.2.0",
+    "validator": "12.2.0",
     "winston": "3.2.1",
     "winston-aws-cloudwatch": "3.0.0"
   },
