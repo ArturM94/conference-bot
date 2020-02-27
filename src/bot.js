@@ -1,8 +1,8 @@
-
 require('dotenv').config();
 const express = require('express');
 const Telegraf = require('telegraf');
-
+const Stage = require('telegraf/stage');
+const session = require('telegraf/session');
 
 const logger = require('./helpers/logger');
 const handlers = require('./bot/commandHandlers/index');
@@ -38,24 +38,33 @@ const attachBotWebhook = async (bot, url, path, port) => {
 };
 
 const attachBotHandlers = (bot) => {
-  bot.start((ctx) => ctx.reply('welcome!'));
+  const stage = new Stage();
+
+  stage.register(
+    handlers.scheduledMessages,
+    handlers.speakers,
+    handlers.savememory,
+    handlers.post,
+  );
+  bot.use(session());
+  bot.use(stage.middleware());
 
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
   bot.command('getmemories', handlers.getmemories);
   // Bot Commands End
 
-  // My commands
+  // MiteKlisch commands
   bot.command('now', handlers.nowSpeaker);
   bot.command('lunch', handlers.lunch);
 
   // Admin Commands Start
-  bot.command('scheduled_messages', handlers.sheduledMessages);
+  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
+  bot.command('post', (ctx) => ctx.scene.enter('post'));
   // Admin Commands End
 
-  bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
-  bot.command('lunch', (ctx) => ctx.reply('lunch command'));
+  // bot.command('lunch', (ctx) => ctx.reply('lunch command'));
   bot.command('add', (ctx) => ctx.reply('add notification command'));
   bot.command('delete', (ctx) => ctx.reply('delete notification command'));
 

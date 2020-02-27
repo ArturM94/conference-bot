@@ -1,7 +1,6 @@
 const Notification = require('../models/notification');
 const logger = require('../../helpers/logger');
 
-
 const errorMessage = {
   error: 'Server error',
 };

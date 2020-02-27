@@ -23,8 +23,6 @@ exports.getImagesByOwnerId = async (id) => {
   }
 };
 
-// module.exports = getImagesByUserId;
-
 exports.getImage = async (id) => {
   try {
     return await Image.findById(id);
