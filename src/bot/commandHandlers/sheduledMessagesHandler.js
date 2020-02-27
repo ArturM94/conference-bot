@@ -9,13 +9,6 @@ const {
   deleteNotification,
 } = require('../../database/wrappers/notification');
 
-const validLength = (str, num) => {
-  if (str.length < num) {
-    return false;
-  }
-  return true;
-};
-
 const sheduledMessages = new WizardScene(
   'sheduledMessages',
   async (ctx) => {
@@ -109,13 +102,10 @@ const sheduledMessages = new WizardScene(
     const wizardState = ctx.wizard.state;
     const { message } = ctx;
 
-    if (!validLength(message.text, 16)) {
-      ctx.reply('Your message length must be >= 16');
-      return;
-    }
     switch (wizardState.editAction) {
       case 'time':
-        if (!validator.isISO8601(message.text, { strict: true })) {
+        if (!validator.isISO8601(message.text, { strict: true }
+          && !validator.isLength(message.text, { min: 16 }))) {
           ctx.reply('Incorrect dateTime: expected YYYY-MM-DDThh:mm');
           return;
         }
@@ -125,6 +115,10 @@ const sheduledMessages = new WizardScene(
         );
         break;
       case 'text':
+        if (!validator.isLength(message.text, { min: 10 })) {
+          ctx.reply('Your message length must be >= 10');
+          return;
+        }
         updateNotification(
           wizardState.editNotificationId,
           false,
