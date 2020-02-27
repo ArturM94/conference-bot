@@ -1,12 +1,13 @@
-import 'dotenv/config';
-import express from 'express';
-import Telegraf from 'telegraf';
+require('dotenv').config();
+const express = require('express');
+const Telegraf = require('telegraf');
+const Stage = require('telegraf/stage');
+const session = require('telegraf/session');
 
-import logger from './helpers/logger';
-import handlers from './bot/commandHandlers/index';
-import actions from './bot/actionHandlers/index';
-import dbConnect from './database/connect';
-import config from './config';
+const logger = require('./helpers/logger');
+const handlers = require('./bot/commandHandlers/index');
+const dbConnect = require('./database/connect');
+const config = require('./config');
 
 let TOKEN;
 const {
@@ -37,24 +38,31 @@ const attachBotWebhook = async (bot, url, path, port) => {
 };
 
 const attachBotHandlers = (bot) => {
-  bot.start((ctx) => ctx.reply('welcome!'));
+  const stage = new Stage();
+
+  stage.register(
+    handlers.scheduledMessages,
+    handlers.speakers,
+    handlers.savememory,
+    handlers.post,
+  );
+  bot.use(session());
+  bot.use(stage.middleware());
 
   // Bot Commands Start
-  bot.command('speakers', handlers.speakers);
+  bot.command(['start', 'help'], handlers.startHelp);
+  bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
   bot.command('getmemories', handlers.getmemories);
-  bot.command('getmemories', handlers.getmemories);
+  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
+  bot.command('agenda', handlers.agenda);
+  bot.command('afterparty', handlers.afterparty);
   // Bot Commands End
 
   // Admin Commands Start
-  bot.command('scheduled_messages', handlers.sheduledMessages);
+  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
+  bot.command('post', (ctx) => ctx.scene.enter('post'));
   // Admin Commands End
 
-  // Bot Actions Start
-  bot.action(/speakerId/, actions.speakers);
-  bot.action(/notificationId/, actions.sheduledMessages);
-  // Bot Actions End
-
-  bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
   bot.command('lunch', (ctx) => ctx.reply('lunch command'));
   bot.command('add', (ctx) => ctx.reply('add notification command'));
