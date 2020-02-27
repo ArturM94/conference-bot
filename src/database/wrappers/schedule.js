@@ -1,66 +1,115 @@
-import Schedule from '../models/schedule';
+const Schedule = require('../models/schedule');
+const logger = require('../../helpers/logger');
 
-export const etSchedules = async () => {
+const errorMessage = {
+  error: 'Server error',
+};
+
+exports.getSchedules = async () => {
   try {
-    return await Schedule.find();
+    return await Schedule.find().populate('speakerId');
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const getSchedule = async (id) => {
+exports.getSchedule = async (id) => {
   try {
     return await Schedule.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addSchedule = async (date, flow, speakerId, details = '') => {
+exports.getScheduleByDetails = async (some) => {
+  try {
+    return await Schedule.find({ details: some });
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+exports.getScheduleBySpeaker = async (id) => {
+  try {
+    return await Schedule.find({ speakerId: id }).populate('speakerId');
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+exports.getScheduleByStartTime = async (time) => {
+  try {
+    return await Schedule.find({ startTime: time });
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+exports.getScheduleByEndTime = async (time) => {
+  try {
+    return await Schedule.find({ endTime: time });
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+const addSchedule = async (date, flow, speakerId, details = '', startTime, endTime) => {
   try {
     const newSchedule = new Schedule({
       date,
       flow,
       speakerId,
       details,
+      startTime,
+      endTime,
     });
     return await newSchedule.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addTechnicalSchedule = async (date, speakerId, details = '') => {
+exports.addSchedule = addSchedule;
+
+exports.addTechnicalSchedule = async (date, speakerId, details = '', startTime, endTime) => {
   try {
-    return await addSchedule(date, 'technical', speakerId, details);
+    return await addSchedule(date, 'technical', speakerId, details, startTime, endTime);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addNONTechnicalSchedule = async (
+exports.addNONTechnicalSchedule = async (
   date,
   speakerId,
   details = '',
+  startTime,
+  endTime,
 ) => {
   try {
-    return await addSchedule(date, 'non-technical', speakerId, details);
+    return await addSchedule(date, 'non-technical', speakerId, details, startTime, endTime);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const updateSchedule = async (
+exports.updateSchedule = async (
   id,
   date,
   flow,
   speakerId,
   details = '',
+  startTime,
+  endTime,
 ) => {
   try {
     const schedule = await Schedule.findById(id);
@@ -69,19 +118,21 @@ export const updateSchedule = async (
       flow: flow || schedule.flow,
       speakerId: speakerId || schedule.speakerId,
       details: details || schedule.details,
+      startTime: startTime || schedule.startTime,
+      endTime: endTime || schedule.endTime,
     });
     return await schedule.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const deleteSchedule = async (id) => {
+exports.deleteSchedule = async (id) => {
   try {
     return (await Schedule.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };

@@ -1,24 +1,29 @@
-import Speaker from '../models/speaker';
+const Speaker = require('../models/speaker');
+const logger = require('../../helpers/logger');
 
-export const getSpeakers = async () => {
+const errorMessage = {
+  error: 'Server error',
+};
+
+exports.getSpeakers = async () => {
   try {
     return await Speaker.find();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const getSpeaker = async (id) => {
+exports.getSpeaker = async (id) => {
   try {
     return await Speaker.findById(id);
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const addSpeaker = async (
+exports.addSpeaker = async (
   firstName,
   lastName,
   image,
@@ -39,12 +44,12 @@ export const addSpeaker = async (
     });
     return await newSpeaker.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const updateSpeaker = async (
+exports.updateSpeaker = async (
   id,
   firstName,
   lastName,
@@ -67,16 +72,16 @@ export const updateSpeaker = async (
     });
     return await speaker.save();
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };
 
-export const deleteSpeaker = async (id) => {
+exports.deleteSpeaker = async (id) => {
   try {
     return (await Speaker.deleteOne({ _id: id })).ok;
   } catch (error) {
-    console.log(error);
-    return undefined;
+    logger.error(error);
+    return errorMessage;
   }
 };

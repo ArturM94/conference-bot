@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-export default mongoose.model(
+module.exports = mongoose.model(
   'schedule',
   new mongoose.Schema({
     date: {
@@ -14,14 +14,22 @@ export default mongoose.model(
     },
     speakerId: {
       type: mongoose.Types.ObjectId,
+      ref: 'speaker',
       require: true,
     },
     details: {
       type: String,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+    startTime: {
+      type: String,
+      require: true,
     },
+    endTime: {
+      type: String,
+      require: true,
+    },
+  },
+  {
+    timestamps: true,
   }),
 );
