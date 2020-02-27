@@ -1,12 +1,13 @@
-import 'dotenv/config';
-import express from 'express';
-import Telegraf from 'telegraf';
 
-import logger from './helpers/logger';
-import handlers from './bot/commandHandlers/index';
-import actions from './bot/actionHandlers/index';
-import dbConnect from './database/connect';
-import config from './config';
+require('dotenv').config();
+const express = require('express');
+const Telegraf = require('telegraf');
+
+
+const logger = require('./helpers/logger');
+const handlers = require('./bot/commandHandlers/index');
+const dbConnect = require('./database/connect');
+const config = require('./config');
 
 let TOKEN;
 const {
@@ -42,17 +43,15 @@ const attachBotHandlers = (bot) => {
   // Bot Commands Start
   bot.command('speakers', handlers.speakers);
   bot.command('getmemories', handlers.getmemories);
-  bot.command('getmemories', handlers.getmemories);
   // Bot Commands End
+
+  // My commands
+  bot.command('now', handlers.nowSpeaker);
+  bot.command('lunch', handlers.lunch);
 
   // Admin Commands Start
   bot.command('scheduled_messages', handlers.sheduledMessages);
   // Admin Commands End
-
-  // Bot Actions Start
-  bot.action(/speakerId/, actions.speakers);
-  bot.action(/notificationId/, actions.sheduledMessages);
-  // Bot Actions End
 
   bot.command('schedule', (ctx) => ctx.reply('schedule command'));
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
