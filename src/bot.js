@@ -38,14 +38,6 @@ const attachBotWebhook = async (bot, url, path, port) => {
 };
 
 const attachBotHandlers = (bot) => {
-  bot.command(['start', 'help'], (ctx) => ctx.reply(`
-  /speakers - get all speakers
-  /getmemories - get all images
-
-  admin:
-  /scheduled_messages - get list notification for edit/del
-  `));
-
   const stage = new Stage();
 
   stage.register(
@@ -58,6 +50,7 @@ const attachBotHandlers = (bot) => {
   bot.use(stage.middleware());
 
   // Bot Commands Start
+  bot.command(['start', 'help'], handlers.startHelp);
   bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
   bot.command('getmemories', handlers.getmemories);
   bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
