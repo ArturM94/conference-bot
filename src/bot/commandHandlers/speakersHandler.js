@@ -1,6 +1,5 @@
 const Telegraf = require('telegraf');
 const Scene = require('telegraf/scenes/base');
-const { Extra } = require('telegraf');
 
 const { getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 const { getSpeakers } = require('../../database/wrappers/speaker');
@@ -43,16 +42,20 @@ speakersScene.action(/speakerId/, async (ctx) => {
 
   if (currentSpeaker) {
     const fullName = `${currentSpeaker.firstName} ${currentSpeaker.lastName}`;
-    const speakerInfo = `Name: ${fullName}
-    Position: ${currentSpeaker.position}
-    Company: ${currentSpeaker.company}
-    Country: ${currentSpeaker.country}
-    Scene: ${schedule[0].flow}
+    const speakerInfo = `
+<b><u>Name</u>:   <i>${fullName}</i></b>
+<b><u>Position</u>:  <i>${currentSpeaker.position}</i></b>
+<b><u>Company</u>:  <i>${currentSpeaker.company}</i></b>
+<b><u>Country</u>:  <i>${currentSpeaker.country}</i></b>
+<b><u>Scene</u>:  <i>${schedule[0].flow}</i></b>
     `;
 
     await ctx.replyWithPhoto(
       currentSpeaker.image,
-      Extra.caption(speakerInfo).markdown(),
+      {
+        caption: speakerInfo,
+        parse_mode: 'HTML',
+      },
     );
   } else {
     ctx.reply('Sorry, something went wrong 🤷‍♂️');
