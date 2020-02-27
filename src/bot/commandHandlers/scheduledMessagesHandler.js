@@ -9,8 +9,8 @@ const {
   deleteNotification,
 } = require('../../database/wrappers/notification');
 
-const sheduledMessages = new WizardScene(
-  'sheduledMessages',
+const scheduledMessages = new WizardScene(
+  'scheduledMessages',
   async (ctx) => {
     const userChatId = ctx.chat.id;
     // Will return true if user is Admin
@@ -134,9 +134,9 @@ const sheduledMessages = new WizardScene(
   },
 );
 
-sheduledMessages.hears('⬅️ Exit', (ctx) => {
+scheduledMessages.hears('⬅️ Exit', (ctx) => {
   ctx.reply('You exit from editing mode!', Extra.markup(Markup.removeKeyboard()));
   return ctx.scene.leave();
 });
 
-module.exports = sheduledMessages;
+module.exports = scheduledMessages;

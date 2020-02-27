@@ -1,6 +1,6 @@
 const speakersHandler = require('./speakersHandler');
 const getmemoriesHandler = require('./getmemoriesHandler');
-const sheduledMessagesHandler = require('./sheduledMessagesHandler');
+const scheduledMessagesHandler = require('./scheduledMessagesHandler');
 const saveMemoryHandler = require('./saveMemoryHandler');
 const agendaCommand = require('./agendaCommand');
 const afterpartyCommand = require('./afterpatyCommand');
@@ -11,7 +11,7 @@ const startHelpHandler = require('./startHelpHandler');
 module.exports = {
   speakers: speakersHandler,
   getmemories: getmemoriesHandler,
-  sheduledMessages: sheduledMessagesHandler,
+  scheduledMessages: scheduledMessagesHandler,
   savememory: saveMemoryHandler,
   agenda: agendaCommand,
   afterparty: afterpartyCommand,

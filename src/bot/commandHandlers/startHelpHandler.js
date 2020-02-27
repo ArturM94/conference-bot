@@ -1,13 +1,13 @@
 const logger = require('../../helpers/logger');
 const { isAdmin } = require('../../database/wrappers/user');
-const config = require('../../config');
+const { WELCOME_MSG } = require('../../helpers/constants');
 
 module.exports = async (ctx) => {
   try {
-    await ctx.replyWithHTML(config.WELCOME_MSG.user);
+    await ctx.replyWithHTML(WELCOME_MSG.user);
 
     if (isAdmin) {
-      await ctx.replyWithHTML(config.WELCOME_MSG.admin);
+      await ctx.replyWithHTML(WELCOME_MSG.admin);
     }
   } catch (e) {
     logger.error(e);

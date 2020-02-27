@@ -41,7 +41,7 @@ const attachBotHandlers = (bot) => {
   const stage = new Stage();
 
   stage.register(
-    handlers.sheduledMessages,
+    handlers.scheduledMessages,
     handlers.speakers,
     handlers.savememory,
     handlers.post,
@@ -59,7 +59,7 @@ const attachBotHandlers = (bot) => {
   // Bot Commands End
 
   // Admin Commands Start
-  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('sheduledMessages'));
+  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
   bot.command('post', (ctx) => ctx.scene.enter('post'));
   // Admin Commands End
 
