@@ -45,18 +45,23 @@ const attachBotHandlers = (bot) => {
     handlers.speakers,
     handlers.savememory,
     handlers.post,
+    handlers.now,
+    handlers.next,
   );
   bot.use(session());
   bot.use(stage.middleware());
 
   // Bot Commands Start
-  bot.command('speakers', handlers.speakers);
+  bot.command(['start', 'help'], handlers.startHelp);
+  bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
   bot.command('getmemories', handlers.getmemories);
-  // Bot Commands End
-
-  // MiteKlisch commands
-  bot.command('now', handlers.nowSpeaker);
+  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
+  bot.command('agenda', handlers.agenda);
+  bot.command('afterparty', handlers.afterparty);
   bot.command('lunch', handlers.lunch);
+  bot.command('now', (ctx) => ctx.scene.enter('now'));
+  bot.command('next', (ctx) => ctx.scene.enter('next'));
+  // Bot Commands End
 
   // Admin Commands Start
   bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
@@ -64,7 +69,6 @@ const attachBotHandlers = (bot) => {
   // Admin Commands End
 
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
-  // bot.command('lunch', (ctx) => ctx.reply('lunch command'));
   bot.command('add', (ctx) => ctx.reply('add notification command'));
   bot.command('delete', (ctx) => ctx.reply('delete notification command'));
 
