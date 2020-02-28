@@ -1,6 +1,7 @@
 
 const Telegraf = require('telegraf');
 const Scene = require('telegraf/scenes/base');
+// const validator = require('validator');
 
 const { getScheduleByStartTime, getScheduleByEndTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 const { getSpeakers } = require('../../database/wrappers/speaker');
@@ -23,14 +24,12 @@ const createButtons = (dataArray) => {
 
 const getTime = () => {
   const time = new Date();
-  return `${time.getHours()}:${time.getMinutes()}`;
+  return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDay()}T${time.getHours()}:${time.getMinutes()}`;
 };
 
 const timeToNumber = (timeString) => {
   const hm = timeString.split(':');
-
   const hours = Number(hm[0]);
-
   return hours * 100 + Number(hm[1]);
 };
 
@@ -39,14 +38,17 @@ const timeCompare = (ref, min, max) => {
   return (timeToNumber(min) <= timeToNumber(ref)) && (timeToNumber(ref) <= timeToNumber(max));
 };
 
-const speakersScene = new Scene('speakers');
+const nowSpeakersScene = new Scene('now');
 
 // "/now" command handler
-speakersScene.enter(async (ctx) => {
+nowSpeakersScene.enter(async (ctx) => {
   const speackers = await getSpeakers();
   const currentTime = getTime();
-  const startTime = await getScheduleByStartTime(currentTime);
-  const endTime = await getScheduleByEndTime(currentTime);
+  // format 'startTime' and 'endTime' is '14:00'
+  let startTime = await getScheduleByStartTime(currentTime);
+  startTime = startTime.join('');
+  let endTime = await getScheduleByEndTime(currentTime);
+  endTime = endTime.join('');
 
   if (timeCompare(currentTime, startTime, endTime) === true) {
     await ctx.reply(
@@ -54,14 +56,14 @@ speakersScene.enter(async (ctx) => {
       createButtons(speackers),
     );
   } else {
-    await ctx.reply(
+    ctx.reply(
       'Something went wrong, maybe there are not speakers at the moment',
       logger.error('Maybe is problem with database'),
     );
   }
 });
 
-speakersScene.action(/speakerId/, async (ctx) => {
+nowSpeakersScene.action(/speakerId/, async (ctx) => {
   const messageId = ctx.update.callback_query.message.message_id;
   const { speakerId } = JSON.parse(ctx.match.input);
 
@@ -92,4 +94,4 @@ speakersScene.action(/speakerId/, async (ctx) => {
   }
 });
 
-module.exports = speakersScene;
+module.exports = nowSpeakersScene;
