@@ -3,7 +3,7 @@ const Telegraf = require('telegraf');
 const Scene = require('telegraf/scenes/base');
 // const validator = require('validator');
 
-const { getScheduleByStartTime, getScheduleByEndTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
+const { getScheduleByTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 const { getSpeakers } = require('../../database/wrappers/speaker');
 const logger = require('../../helpers/logger');
 
@@ -27,16 +27,16 @@ const getTime = () => {
   return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDay()}T${time.getHours()}:${time.getMinutes()}`;
 };
 
-const timeToNumber = (timeString) => {
-  const hm = timeString.split(':');
-  const hours = Number(hm[0]);
-  return hours * 100 + Number(hm[1]);
-};
+// const timeToNumber = (timeString) => {
+//   const hm = timeString.split(':');
+//   const hours = Number(hm[0]);
+//   return hours * 100 + Number(hm[1]);
+// };
 
 // eslint-disable-next-line arrow-body-style
-const timeCompare = (ref, min, max) => {
-  return (timeToNumber(min) <= timeToNumber(ref)) && (timeToNumber(ref) <= timeToNumber(max));
-};
+// const timeCompare = (ref, min, max) => {
+//   return (timeToNumber(min) <= timeToNumber(ref)) && (timeToNumber(ref) <= timeToNumber(max));
+// };
 
 const nowSpeakersScene = new Scene('now');
 
@@ -44,13 +44,14 @@ const nowSpeakersScene = new Scene('now');
 nowSpeakersScene.enter(async (ctx) => {
   const speackers = await getSpeakers();
   const currentTime = getTime();
+  const time = getScheduleByTime(currentTime);
   // format 'startTime' and 'endTime' is '14:00'
-  let startTime = await getScheduleByStartTime(currentTime);
-  startTime = startTime.join('');
-  let endTime = await getScheduleByEndTime(currentTime);
-  endTime = endTime.join('');
+  // let startTime = await getScheduleByStartTime(currentTime);
+  // startTime = startTime.join('');
+  // let endTime = await getScheduleByEndTime(currentTime);
+  // endTime = endTime.join('');
 
-  if (timeCompare(currentTime, startTime, endTime) === true) {
+  if (time) {
     await ctx.reply(
       'Our all speackers:',
       createButtons(speackers),

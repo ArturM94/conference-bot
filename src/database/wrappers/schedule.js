@@ -41,23 +41,32 @@ exports.getScheduleBySpeaker = async (id) => {
   }
 };
 
-exports.getScheduleByStartTime = async (time) => {
+exports.getScheduleByTime = async (time) => {
   try {
-    return await Schedule.find({ startTime: time });
+    return await Schedule.find({ startTime: { $lt: time } }, { endTime: { $gt: time } });
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.getScheduleByEndTime = async (time) => {
-  try {
-    return await Schedule.find({ endTime: time });
-  } catch (error) {
-    logger.error(error);
-    return errorMessage;
-  }
-};
+// exports.getScheduleByStartTime = async (time) => {
+//   try {
+//     return await Schedule.find({ startTime: time });
+//   } catch (error) {
+//     logger.error(error);
+//     return errorMessage;
+//   }
+// };
+
+// exports.getScheduleByEndTime = async (time) => {
+//   try {
+//     return await Schedule.find({ endTime: time });
+//   } catch (error) {
+//     logger.error(error);
+//     return errorMessage;
+//   }
+// };
 
 const addSchedule = async (date, flow, speakerId, details = '', startTime, endTime) => {
   try {
