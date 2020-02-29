@@ -41,13 +41,13 @@ exports.isAdmin = async (chatId) => {
   }
 };
 
-exports.addUser = async (firstName, lastName, phoneNumber, chatId) => {
+exports.addUser = async (firstName, lastName, chatId, phoneNumber) => {
   try {
     const newUser = new User({
       firstName,
       lastName,
-      phoneNumber,
       chatId,
+      phoneNumber,
       isAdmin: false,
     });
     return await newUser.save();
