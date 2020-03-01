@@ -43,7 +43,7 @@ exports.getScheduleBySpeaker = async (id) => {
 
 exports.getScheduleByTime = async (time) => {
   try {
-    return await Schedule.find({ startTime: { $lt: time } }, { endTime: { $gt: time } });
+    return Schedule.find({ startTime: { $lt: time } }, { endTime: { $gt: time } });
   } catch (error) {
     logger.error(error);
     return errorMessage;
