@@ -46,10 +46,6 @@ nowSpeakersScene.enter(async (ctx) => {
   const currentTime = getTime();
   const time = getScheduleByTime(currentTime);
   // format 'startTime' and 'endTime' is '14:00'
-  // let startTime = await getScheduleByStartTime(currentTime);
-  // startTime = startTime.join('');
-  // let endTime = await getScheduleByEndTime(currentTime);
-  // endTime = endTime.join('');
 
   if (time) {
     await ctx.reply(
