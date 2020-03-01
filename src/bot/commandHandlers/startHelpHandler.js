@@ -11,7 +11,7 @@ module.exports = async (ctx) => {
     // check if user is registered
     const currentUser = await getUserByChatId(ctx.chat.id);
     // if user is not registered, register new user
-    if (!currentUser && !currentUser.error) {
+    if (!currentUser) {
       const newUser = await addUser(
         ctx.from.first_name,
         ctx.from.last_name,
@@ -28,10 +28,6 @@ module.exports = async (ctx) => {
     if (admin && !admin.error) {
       // reply available commands for Admin
       await ctx.replyWithHTML(WELCOME_MSG.admin);
-    }
-
-    if (currentUser.error || admin.error) {
-      ctx.reply('Sorry, something went wrong 🤷‍♂️');
     }
   } catch (e) {
     logger.error(e);
