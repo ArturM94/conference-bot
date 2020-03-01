@@ -5,7 +5,7 @@ const validator = require('validator');
 const { isAdmin } = require('../../database/wrappers/user');
 const {
   updateNotification,
-  getNotifications,
+  getActiveNotifications,
   deleteNotification,
 } = require('../../database/wrappers/notification');
 
@@ -20,7 +20,7 @@ const scheduledMessages = new WizardScene(
       return ctx.scene.leave();
     }
 
-    const allNotifications = await getNotifications();
+    const allNotifications = await getActiveNotifications();
     // reply with Exit button
     await ctx.reply('Select an action on the keyboard or exit.',
       Extra.markdown().markup((m) => m.keyboard(['⬅️ Exit']).resize()));
@@ -107,6 +107,10 @@ const scheduledMessages = new WizardScene(
         if (!validator.isISO8601(message.text, { strict: true }
           && !validator.isLength(message.text, { min: 16 }))) {
           ctx.reply('Incorrect dateTime: expected YYYY-MM-DDThh:mm');
+          return;
+        }
+        if (new Date(message.text) < new Date()) {
+          ctx.reply('The date entered is less than today\'s date.\nTry again!');
           return;
         }
         updateNotification(

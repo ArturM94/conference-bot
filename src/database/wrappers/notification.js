@@ -14,6 +14,15 @@ exports.getNotifications = async () => {
   }
 };
 
+exports.getActiveNotifications = async () => {
+  try {
+    return await Notification.find({ sent: false });
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 exports.getNotification = async (id) => {
   try {
     return await Notification.findById(id);
