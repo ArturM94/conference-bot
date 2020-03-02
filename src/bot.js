@@ -47,6 +47,7 @@ const attachBotHandlers = (bot) => {
     handlers.post,
     handlers.now,
     handlers.next,
+    handlers.delayMessage,
   );
   bot.use(session());
   bot.use(stage.middleware());
@@ -66,6 +67,7 @@ const attachBotHandlers = (bot) => {
   // Admin Commands Start
   bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
   bot.command('post', (ctx) => ctx.scene.enter('post'));
+  bot.command('delay_message', (ctx) => ctx.scene.enter('delay_message'));
   // Admin Commands End
 
   bot.command('organizers', (ctx) => ctx.reply('organizers command'));
@@ -75,7 +77,6 @@ const attachBotHandlers = (bot) => {
   bot.on('text', (ctx) => ctx.reply(`hello, ${ctx.message.from.first_name}!`));
   bot.on('sticker', (ctx) => ctx.reply('sticker echo'));
   bot.on('message', (ctx) => ctx.reply('message echo'));
-
   bot.catch((error, ctx) => {
     logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);
   });
