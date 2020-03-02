@@ -3,16 +3,16 @@ const Telegraf = require('telegraf');
 const Scene = require('telegraf/scenes/base');
 // const validator = require('validator');
 
-const { getScheduleByStartTime, getScheduleByEndTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
-const { getSpeakers } = require('../../database/wrappers/speaker');
-const logger = require('../../helpers/logger');
+const { getScheduleByNextTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 
+const { getTime } = require('../../helpers/time');
+const logger = require('../../helpers/logger');
 // Function creates an inline keyboard from an object from the database
 const createButtons = (dataArray) => {
   const markupKeyboard = Telegraf.Extra.markdown().markup((m) => {
     const list = [];
     for (let i = 0; i <= 1; i += 1) {
-      const el = dataArray[i];
+      const el = dataArray[i].speakerId;
       const fullName = `${el.firstName} ${el.lastName} `;
       // eslint-disable-next-line no-underscore-dangle
       list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: dataArray._id }))]);
@@ -22,35 +22,15 @@ const createButtons = (dataArray) => {
   return markupKeyboard;
 };
 
-const getTime = () => {
-  const time = new Date();
-  return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDay()}T${time.getHours()}:${time.getMinutes()}`;
-};
-
-const timeToNumber = (timeString) => {
-  const hm = timeString.split(':');
-  const hours = Number(hm[0]);
-  return hours * 100 + Number(hm[1]);
-};
-
-// eslint-disable-next-line arrow-body-style
-const timeCompareNext = (ref, min, max) => {
-  return (timeToNumber(min) >= timeToNumber(ref)) && (timeToNumber(ref) <= timeToNumber(max));
-};
 
 const nextSpeakerScene = new Scene('next');
 
 // "/now" command handler
 nextSpeakerScene.enter(async (ctx) => {
-  const speackers = await getSpeakers();
-  const currentTime = getTime();
-  // format 'startTime' and 'endTime' is '14:00'
-  let startTime = await getScheduleByStartTime(currentTime);
-  startTime = startTime.join('');
-  let endTime = await getScheduleByEndTime(currentTime);
-  endTime = endTime.join('');
+  const currentTime = await getTime();
+  const speackers = await getScheduleByNextTime(currentTime);
 
-  if (timeCompareNext(currentTime, startTime, endTime) === true) {
+  if (speackers) {
     await ctx.reply(
       'Our all speackers:',
       createButtons(speackers),
@@ -62,6 +42,7 @@ nextSpeakerScene.enter(async (ctx) => {
     );
   }
 });
+
 
 nextSpeakerScene.action(/speakerId/, async (ctx) => {
   const messageId = ctx.update.callback_query.message.message_id;
