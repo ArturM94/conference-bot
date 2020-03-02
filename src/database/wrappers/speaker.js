@@ -23,6 +23,15 @@ exports.getSpeaker = async (id) => {
   }
 };
 
+exports.getSpeakersBySchedule = async (id) => {
+  try {
+    return Speaker.find({ _id: id });
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 exports.addSpeaker = async (
   firstName,
   lastName,
