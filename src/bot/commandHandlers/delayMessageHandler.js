@@ -1,4 +1,5 @@
-const { Scene, Markup } = require('telegraf');
+const { Markup } = require('telegraf');
+const Scene = require('telegraf/scenes/base');
 
 const { isAdmin, getUsers } = require('../../database/wrappers/user');
 const { addZero } = require('../../helpers/time');
