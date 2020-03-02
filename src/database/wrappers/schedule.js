@@ -43,7 +43,7 @@ exports.getScheduleBySpeaker = async (id) => {
 
 exports.getScheduleByTime = async (time) => {
   try {
-    return Schedule.find({ startTime: { $lte: time } }, { endTime: { $gte: time } });
+    return Schedule.find({ startTime: { $lte: new Date(time) }, endTime: { $gt: new Date(time) } }).populate('speakerId');
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -52,7 +52,7 @@ exports.getScheduleByTime = async (time) => {
 
 exports.getScheduleByNextTime = async (time) => {
   try {
-    return Schedule.find({ startTime: { $gte: time } }, { endTime: { $gte: time } });
+    return Schedule.find({ startTime: { $gte: time }, endTime: { $gte: time } });
   } catch (error) {
     logger.error(error);
     return errorMessage;

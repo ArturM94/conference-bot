@@ -4,7 +4,7 @@ const Scene = require('telegraf/scenes/base');
 // const validator = require('validator');
 
 const { getScheduleByTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
-const { getSpeakers } = require('../../database/wrappers/speaker');
+// const { getSpeaker } = require('../../database/wrappers/speaker');
 const { getTime } = require('../../helpers/time');
 const logger = require('../../helpers/logger');
 
@@ -27,16 +27,16 @@ const nowSpeakersScene = new Scene('now');
 
 // "/now" command handler
 nowSpeakersScene.enter(async (ctx) => {
-  const speackers = await getSpeakers();
   const currentTime = await getTime();
-  console.log(currentTime);
-  const time = await getScheduleByTime(currentTime);
+  const speackers = await getScheduleByTime(currentTime);
+  // const speacker2 = await getSpeaker(schedule[1].speakerId);
+  // const speackers = [speacker1, speacker2];
   // format 'startTime' and 'endTime' is '1400' (it is '14:00')
 
-  if (time) {
+  if (speackers) {
     await ctx.reply(
       'Our all speackers:',
-      createButtons(speackers),
+      createButtons(speackers.speakerId),
     );
   } else {
     ctx.reply(
