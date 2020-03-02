@@ -9,6 +9,7 @@ const startHelpHandler = require('./startHelpHandler');
 const nowHandler = require('./nowHandler');
 const lunchHandler = require('./lunchHandler');
 const nextHandler = require('./nextHandler');
+const delayMessageHandler = require('./delayMessageHandler');
 
 
 module.exports = {
@@ -23,4 +24,5 @@ module.exports = {
   lunch: lunchHandler,
   now: nowHandler,
   next: nextHandler,
+  delayMessage: delayMessageHandler,
 };
