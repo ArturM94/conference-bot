@@ -13,7 +13,7 @@ const createButtons = (dataArray) => {
   const markupKeyboard = Telegraf.Extra.markdown().markup((m) => {
     const list = [];
     for (let i = 0; i <= 1; i += 1) {
-      const el = dataArray[i];
+      const el = dataArray[i].speakerId;
       const fullName = `${el.firstName} ${el.lastName} `;
       // eslint-disable-next-line no-underscore-dangle
       list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: dataArray._id }))]);
@@ -29,6 +29,7 @@ const nowSpeakersScene = new Scene('now');
 nowSpeakersScene.enter(async (ctx) => {
   const currentTime = await getTime();
   const speackers = await getScheduleByTime(currentTime);
+  // console.log(speackers[0].speakerId);
   // const speacker2 = await getSpeaker(schedule[1].speakerId);
   // const speackers = [speacker1, speacker2];
   // format 'startTime' and 'endTime' is '1400' (it is '14:00')
@@ -36,7 +37,7 @@ nowSpeakersScene.enter(async (ctx) => {
   if (speackers) {
     await ctx.reply(
       'Our all speackers:',
-      createButtons(speackers.speakerId),
+      createButtons(speackers),
     );
   } else {
     ctx.reply(
