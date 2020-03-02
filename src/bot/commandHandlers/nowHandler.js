@@ -5,6 +5,7 @@ const Scene = require('telegraf/scenes/base');
 
 const { getScheduleByTime, getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 const { getSpeakers } = require('../../database/wrappers/speaker');
+const { getTime } = require('../../helpers/time');
 const logger = require('../../helpers/logger');
 
 // Function creates an inline keyboard from an object from the database
@@ -22,30 +23,15 @@ const createButtons = (dataArray) => {
   return markupKeyboard;
 };
 
-const getTime = () => {
-  const time = new Date();
-  return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDay()}T${time.getHours()}:${time.getMinutes()}`;
-};
-
-// const timeToNumber = (timeString) => {
-//   const hm = timeString.split(':');
-//   const hours = Number(hm[0]);
-//   return hours * 100 + Number(hm[1]);
-// };
-
-// eslint-disable-next-line arrow-body-style
-// const timeCompare = (ref, min, max) => {
-//   return (timeToNumber(min) <= timeToNumber(ref)) && (timeToNumber(ref) <= timeToNumber(max));
-// };
-
 const nowSpeakersScene = new Scene('now');
 
 // "/now" command handler
 nowSpeakersScene.enter(async (ctx) => {
   const speackers = await getSpeakers();
-  const currentTime = getTime();
-  const time = getScheduleByTime(currentTime);
-  // format 'startTime' and 'endTime' is '14:00'
+  const currentTime = await getTime();
+  console.log(currentTime);
+  const time = await getScheduleByTime(currentTime);
+  // format 'startTime' and 'endTime' is '1400' (it is '14:00')
 
   if (time) {
     await ctx.reply(
