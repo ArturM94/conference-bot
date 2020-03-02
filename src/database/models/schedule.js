@@ -22,11 +22,11 @@ module.exports = mongoose.model(
         type: String,
       },
       startTime: {
-        type: String,
+        type: Number,
         require: true,
       },
       endTime: {
-        type: String,
+        type: Number,
         require: true,
       },
     },
