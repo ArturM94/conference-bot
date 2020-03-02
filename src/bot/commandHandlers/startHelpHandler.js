@@ -4,7 +4,7 @@ const {
   getUserByChatId,
   addUser,
 } = require('../../database/wrappers/user');
-const { WELCOME_MSG } = require('../../helpers/constants');
+const { WELCOME_MSG } = require('../../constants');
 
 module.exports = async (ctx) => {
   try {
