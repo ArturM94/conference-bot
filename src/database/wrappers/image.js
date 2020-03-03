@@ -6,7 +6,7 @@ const errorMessage = {
   error: DATABASE_ERROR,
 };
 
-exports.getImages = async () => {
+const getImages = async () => {
   try {
     return Image.find();
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getImages = async () => {
   }
 };
 
-exports.getImagesByUserId = async (id) => {
+const getImagesByUserId = async (id) => {
   try {
     return Image.find({ owner: id });
   } catch (error) {
@@ -24,7 +24,7 @@ exports.getImagesByUserId = async (id) => {
   }
 };
 
-exports.getImage = async (id) => {
+const getImage = async (id) => {
   try {
     return Image.findById(id);
   } catch (error) {
@@ -33,7 +33,7 @@ exports.getImage = async (id) => {
   }
 };
 
-exports.addImage = async (owner, imageUrl) => {
+const addImage = async (owner, imageUrl) => {
   try {
     const newImage = new Image({
       owner,
@@ -46,11 +46,19 @@ exports.addImage = async (owner, imageUrl) => {
   }
 };
 
-exports.deleteImage = async (id) => {
+const deleteImage = async (id) => {
   try {
     return (await Image.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getImages,
+  getImagesByUserId,
+  getImage,
+  addImage,
+  deleteImage,
 };

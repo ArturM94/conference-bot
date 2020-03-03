@@ -6,7 +6,7 @@ const errorMessage = {
   error: DATABASE_ERROR,
 };
 
-exports.getSpeakers = async () => {
+const getSpeakers = async () => {
   try {
     return Speaker.find();
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getSpeakers = async () => {
   }
 };
 
-exports.getSpeaker = async (id) => {
+const getSpeaker = async (id) => {
   try {
     return Speaker.findById(id);
   } catch (error) {
@@ -24,7 +24,7 @@ exports.getSpeaker = async (id) => {
   }
 };
 
-exports.addSpeaker = async (
+const addSpeaker = async (
   firstName,
   lastName,
   image,
@@ -50,7 +50,7 @@ exports.addSpeaker = async (
   }
 };
 
-exports.updateSpeaker = async (
+const updateSpeaker = async (
   id,
   firstName,
   lastName,
@@ -78,11 +78,19 @@ exports.updateSpeaker = async (
   }
 };
 
-exports.deleteSpeaker = async (id) => {
+const deleteSpeaker = async (id) => {
   try {
     return (await Speaker.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getSpeakers,
+  getSpeaker,
+  addSpeaker,
+  updateSpeaker,
+  deleteSpeaker,
 };
