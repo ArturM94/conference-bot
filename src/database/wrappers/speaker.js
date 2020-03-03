@@ -1,13 +1,14 @@
 const Speaker = require('../models/speaker');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
 exports.getSpeakers = async () => {
   try {
-    return await Speaker.find();
+    return Speaker.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -16,7 +17,7 @@ exports.getSpeakers = async () => {
 
 exports.getSpeaker = async (id) => {
   try {
-    return await Speaker.findById(id);
+    return Speaker.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -42,7 +43,7 @@ exports.addSpeaker = async (
       country,
       topic,
     });
-    return await newSpeaker.save();
+    return newSpeaker.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -70,7 +71,7 @@ exports.updateSpeaker = async (
       country: country || speaker.country,
       topic: topic || speaker.topic,
     });
-    return await speaker.save();
+    return speaker.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;

@@ -1,13 +1,14 @@
 const Image = require('../models/image');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
 exports.getImages = async () => {
   try {
-    return await Image.find();
+    return Image.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -16,7 +17,7 @@ exports.getImages = async () => {
 
 exports.getImagesByUserId = async (id) => {
   try {
-    return await Image.find({ owner: id });
+    return Image.find({ owner: id });
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -25,7 +26,7 @@ exports.getImagesByUserId = async (id) => {
 
 exports.getImage = async (id) => {
   try {
-    return await Image.findById(id);
+    return Image.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -38,7 +39,7 @@ exports.addImage = async (owner, imageUrl) => {
       owner,
       imageUrl,
     });
-    return await newImage.save();
+    return newImage.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;

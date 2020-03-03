@@ -1,13 +1,14 @@
 const Notification = require('../models/notification');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
 exports.getNotifications = async () => {
   try {
-    return await Notification.find();
+    return Notification.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -16,7 +17,7 @@ exports.getNotifications = async () => {
 
 exports.getActiveNotifications = async () => {
   try {
-    return await Notification.find({ sent: false });
+    return Notification.find({ sent: false });
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -25,7 +26,7 @@ exports.getActiveNotifications = async () => {
 
 exports.getNotification = async (id) => {
   try {
-    return await Notification.findById(id);
+    return Notification.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -45,7 +46,7 @@ exports.addNotification = async (
       attachments,
       sent,
     });
-    return await newNotification.save();
+    return newNotification.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -60,7 +61,7 @@ exports.updateNotification = async (id, date, text, attachments) => {
       text: text || notification.text,
       attachments: attachments || notification.attachments,
     });
-    return await notification.save();
+    return notification.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
