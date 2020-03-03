@@ -6,7 +6,7 @@ const errorMessage = {
   error: DATABASE_ERROR,
 };
 
-exports.getUsers = async () => {
+const getUsers = async () => {
   try {
     return User.find();
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getUsers = async () => {
   }
 };
 
-exports.getUser = async (id) => {
+const getUser = async (id) => {
   try {
     return User.findById(id);
   } catch (error) {
@@ -24,7 +24,7 @@ exports.getUser = async (id) => {
   }
 };
 
-exports.getUserByChatId = async (chatId) => {
+const getUserByChatId = async (chatId) => {
   try {
     return User.findOne({ chatId });
   } catch (error) {
@@ -33,7 +33,7 @@ exports.getUserByChatId = async (chatId) => {
   }
 };
 
-exports.isAdmin = async (chatId) => {
+const isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
   } catch (error) {
@@ -42,7 +42,7 @@ exports.isAdmin = async (chatId) => {
   }
 };
 
-exports.addUser = async (firstName, lastName, chatId, phoneNumber) => {
+const addUser = async (firstName, lastName, chatId, phoneNumber) => {
   try {
     const newUser = new User({
       firstName,
@@ -58,7 +58,7 @@ exports.addUser = async (firstName, lastName, chatId, phoneNumber) => {
   }
 };
 
-exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
+const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   try {
     const newAdmin = new User({
       firstName,
@@ -74,7 +74,7 @@ exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   }
 };
 
-exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
+const updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
   try {
     const user = await User.findById(id);
     await user.update({
@@ -90,11 +90,22 @@ exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
   }
 };
 
-exports.deleteUser = async (id) => {
+const deleteUser = async (id) => {
   try {
     return (await User.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getUsers,
+  getUser,
+  getUserByChatId,
+  isAdmin,
+  addUser,
+  addAdmin,
+  updateUser,
+  deleteUser,
 };

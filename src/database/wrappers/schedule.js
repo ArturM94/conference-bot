@@ -6,7 +6,7 @@ const errorMessage = {
   error: DATABASE_ERROR,
 };
 
-exports.getSchedules = async () => {
+const getSchedules = async () => {
   try {
     return Schedule.find().populate('speakerId');
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getSchedules = async () => {
   }
 };
 
-exports.getSchedule = async (id) => {
+const getSchedule = async (id) => {
   try {
     return Schedule.findById(id);
   } catch (error) {
@@ -25,7 +25,7 @@ exports.getSchedule = async (id) => {
 };
 
 
-exports.getScheduleBySpeaker = async (id) => {
+const getScheduleBySpeaker = async (id) => {
   try {
     return Schedule.find({ speakerId: id }).populate('speakerId');
   } catch (error) {
@@ -49,9 +49,7 @@ const addSchedule = async (date, flow, speakerId, details = '') => {
   }
 };
 
-exports.addSchedule = addSchedule;
-
-exports.addTechnicalSchedule = async (date, speakerId, details = '') => {
+const addTechnicalSchedule = async (date, speakerId, details = '') => {
   try {
     return addSchedule(date, TECHNICAL, speakerId, details);
   } catch (error) {
@@ -60,7 +58,7 @@ exports.addTechnicalSchedule = async (date, speakerId, details = '') => {
   }
 };
 
-exports.addNONTechnicalSchedule = async (date, speakerId, details = '') => {
+const addNONTechnicalSchedule = async (date, speakerId, details = '') => {
   try {
     return await addSchedule(date, NON_TECHNICAL, speakerId, details);
   } catch (error) {
@@ -69,7 +67,7 @@ exports.addNONTechnicalSchedule = async (date, speakerId, details = '') => {
   }
 };
 
-exports.updateSchedule = async (id, date, flow, speakerId, details = '') => {
+const updateSchedule = async (id, date, flow, speakerId, details = '') => {
   try {
     const schedule = await Schedule.findById(id);
     await schedule.update({
@@ -85,11 +83,22 @@ exports.updateSchedule = async (id, date, flow, speakerId, details = '') => {
   }
 };
 
-exports.deleteSchedule = async (id) => {
+const deleteSchedule = async (id) => {
   try {
     return (await Schedule.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getSchedules,
+  getSchedule,
+  getScheduleBySpeaker,
+  addSchedule,
+  addTechnicalSchedule,
+  addNONTechnicalSchedule,
+  updateSchedule,
+  deleteSchedule,
 };

@@ -6,7 +6,7 @@ const errorMessage = {
   error: DATABASE_ERROR,
 };
 
-exports.getNotifications = async () => {
+const getNotifications = async () => {
   try {
     return Notification.find();
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getNotifications = async () => {
   }
 };
 
-exports.getActiveNotifications = async () => {
+const getActiveNotifications = async () => {
   try {
     return Notification.find({ sent: false });
   } catch (error) {
@@ -24,7 +24,7 @@ exports.getActiveNotifications = async () => {
   }
 };
 
-exports.getNotification = async (id) => {
+const getNotification = async (id) => {
   try {
     return Notification.findById(id);
   } catch (error) {
@@ -33,7 +33,7 @@ exports.getNotification = async (id) => {
   }
 };
 
-exports.addNotification = async (
+const addNotification = async (
   date,
   text,
   attachments = '',
@@ -53,7 +53,7 @@ exports.addNotification = async (
   }
 };
 
-exports.updateNotification = async (id, date, text, attachments) => {
+const updateNotification = async (id, date, text, attachments) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({
@@ -68,7 +68,7 @@ exports.updateNotification = async (id, date, text, attachments) => {
   }
 };
 
-exports.sentNotification = async (id) => {
+const sentNotification = async (id) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({ sent: true });
@@ -79,11 +79,21 @@ exports.sentNotification = async (id) => {
   }
 };
 
-exports.deleteNotification = async (id) => {
+const deleteNotification = async (id) => {
   try {
     return (await Notification.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getNotifications,
+  getActiveNotifications,
+  getNotification,
+  addNotification,
+  updateNotification,
+  sentNotification,
+  deleteNotification,
 };
