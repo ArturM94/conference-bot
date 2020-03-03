@@ -1,13 +1,14 @@
 const User = require('../models/user');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
 exports.getUsers = async () => {
   try {
-    return await User.find();
+    return User.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -16,7 +17,7 @@ exports.getUsers = async () => {
 
 exports.getUser = async (id) => {
   try {
-    return await User.findById(id);
+    return User.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -25,7 +26,7 @@ exports.getUser = async (id) => {
 
 exports.getUserByChatId = async (chatId) => {
   try {
-    return await User.findOne({ chatId });
+    return User.findOne({ chatId });
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -50,7 +51,7 @@ exports.addUser = async (firstName, lastName, chatId, phoneNumber) => {
       phoneNumber,
       isAdmin: false,
     });
-    return await newUser.save();
+    return newUser.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -66,7 +67,7 @@ exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
       chatId,
       isAdmin: true,
     });
-    return await newAdmin.save();
+    return newAdmin.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -82,7 +83,7 @@ exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
       phoneNumber: phoneNumber || user.phoneNumber,
       chatId: chatId || user.chatId,
     });
-    return await user.save();
+    return user.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;

@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const { DATABASE: { IMAGE } } = require('../../constants');
+
 module.exports = mongoose.model(
-  'image',
+  IMAGE,
   new mongoose.Schema(
     {
       owner: {

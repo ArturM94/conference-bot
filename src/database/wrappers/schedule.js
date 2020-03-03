@@ -1,13 +1,14 @@
 const Schedule = require('../models/schedule');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR }, DATABASE: { NON_TECHNICAL, TECHNICAL } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
 exports.getSchedules = async () => {
   try {
-    return await Schedule.find().populate('speakerId');
+    return Schedule.find().populate('speakerId');
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -16,7 +17,7 @@ exports.getSchedules = async () => {
 
 exports.getSchedule = async (id) => {
   try {
-    return await Schedule.findById(id);
+    return Schedule.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -26,7 +27,7 @@ exports.getSchedule = async (id) => {
 
 exports.getScheduleBySpeaker = async (id) => {
   try {
-    return await Schedule.find({ speakerId: id }).populate('speakerId');
+    return Schedule.find({ speakerId: id }).populate('speakerId');
   } catch (error) {
     logger.error(error);
     return undefined;
@@ -41,7 +42,7 @@ const addSchedule = async (date, flow, speakerId, details = '') => {
       speakerId,
       details,
     });
-    return await newSchedule.save();
+    return newSchedule.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -52,7 +53,7 @@ exports.addSchedule = addSchedule;
 
 exports.addTechnicalSchedule = async (date, speakerId, details = '') => {
   try {
-    return await addSchedule(date, 'technical', speakerId, details);
+    return addSchedule(date, TECHNICAL, speakerId, details);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -61,7 +62,7 @@ exports.addTechnicalSchedule = async (date, speakerId, details = '') => {
 
 exports.addNONTechnicalSchedule = async (date, speakerId, details = '') => {
   try {
-    return await addSchedule(date, 'non-technical', speakerId, details);
+    return await addSchedule(date, NON_TECHNICAL, speakerId, details);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -77,7 +78,7 @@ exports.updateSchedule = async (id, date, flow, speakerId, details = '') => {
       speakerId: speakerId || schedule.speakerId,
       details: details || schedule.details,
     });
-    return await schedule.save();
+    return schedule.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;

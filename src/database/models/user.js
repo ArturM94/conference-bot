@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const { DATABASE: { USER } } = require('../../constants');
+
 module.exports = mongoose.model(
-  'user',
+  USER,
   new mongoose.Schema(
     {
       firstName: {
