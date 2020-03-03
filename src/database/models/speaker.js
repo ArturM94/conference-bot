@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const { DATABASE: { SPEAKER } } = require('../../constants');
+
 module.exports = mongoose.model(
-  'speaker',
+  SPEAKER,
   new mongoose.Schema(
     {
       firstName: {
