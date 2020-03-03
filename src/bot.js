@@ -10,16 +10,9 @@ const textHandlers = require('./bot/textHandlers');
 const dbConnect = require('./database/connect');
 const config = require('./config');
 
-let TOKEN;
 const {
-  NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
+  TOKEN, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
 } = config;
-
-if (NODE_ENV === 'production') {
-  TOKEN = config.TOKEN_PROD;
-} else {
-  TOKEN = config.TOKEN_DEV;
-}
 
 dbConnect();
 const app = express();
