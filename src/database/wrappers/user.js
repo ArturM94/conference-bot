@@ -42,7 +42,12 @@ const isAdmin = async (chatId) => {
   }
 };
 
-const addUser = async (firstName, lastName, chatId, phoneNumber) => {
+const addUser = async ({
+  firstName,
+  lastName,
+  chatId,
+  phoneNumber,
+}) => {
   try {
     const newUser = new User({
       firstName,
@@ -58,7 +63,12 @@ const addUser = async (firstName, lastName, chatId, phoneNumber) => {
   }
 };
 
-const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
+const addAdmin = async ({
+  firstName,
+  lastName,
+  phoneNumber,
+  chatId,
+}) => {
   try {
     const newAdmin = new User({
       firstName,
@@ -74,7 +84,13 @@ const addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
   }
 };
 
-const updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
+const updateUser = async ({
+  id,
+  firstName,
+  lastName,
+  phoneNumber,
+  chatId,
+}) => {
   try {
     const user = await User.findById(id);
     await user.update({

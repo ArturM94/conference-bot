@@ -111,21 +111,20 @@ const scheduledMessages = new WizardScene(
           ctx.reply('The date entered is less than today\'s date.\nTry again!');
           return;
         }
-        updateNotification(
-          wizardState.editNotificationId,
-          message.text,
-        );
+        updateNotification({
+          id: wizardState.editNotificationId,
+          date: message.text,
+        });
         break;
       case 'text':
         if (!validator.isLength(message.text, { min: 10 })) {
           ctx.reply('Your message length must be >= 10');
           return;
         }
-        updateNotification(
-          wizardState.editNotificationId,
-          false,
-          message.text,
-        );
+        updateNotification({
+          id: wizardState.editNotificationId,
+          text: message.text,
+        });
         break;
       default:
         break;

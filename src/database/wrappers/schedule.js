@@ -34,7 +34,12 @@ const getScheduleBySpeaker = async (id) => {
   }
 };
 
-const addSchedule = async (date, flow, speakerId, details = '') => {
+const addSchedule = async ({
+  date,
+  flow,
+  speakerId,
+  details = '',
+}) => {
   try {
     const newSchedule = new Schedule({
       date,
@@ -49,7 +54,11 @@ const addSchedule = async (date, flow, speakerId, details = '') => {
   }
 };
 
-const addTechnicalSchedule = async (date, speakerId, details = '') => {
+const addTechnicalSchedule = async ({
+  date,
+  speakerId,
+  details = '',
+}) => {
   try {
     return addSchedule(date, TECHNICAL, speakerId, details);
   } catch (error) {
@@ -58,7 +67,11 @@ const addTechnicalSchedule = async (date, speakerId, details = '') => {
   }
 };
 
-const addNONTechnicalSchedule = async (date, speakerId, details = '') => {
+const addNONTechnicalSchedule = async ({
+  date,
+  speakerId,
+  details = '',
+}) => {
   try {
     return await addSchedule(date, NON_TECHNICAL, speakerId, details);
   } catch (error) {
@@ -67,7 +80,13 @@ const addNONTechnicalSchedule = async (date, speakerId, details = '') => {
   }
 };
 
-const updateSchedule = async (id, date, flow, speakerId, details = '') => {
+const updateSchedule = async ({
+  id,
+  date,
+  flow,
+  speakerId,
+  details = '',
+}) => {
   try {
     const schedule = await Schedule.findById(id);
     await schedule.update({

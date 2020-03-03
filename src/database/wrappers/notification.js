@@ -33,12 +33,12 @@ const getNotification = async (id) => {
   }
 };
 
-const addNotification = async (
+const addNotification = async ({
   date,
   text,
   attachments = '',
   sent = false,
-) => {
+}) => {
   try {
     const newNotification = new Notification({
       date,
@@ -53,10 +53,15 @@ const addNotification = async (
   }
 };
 
-const updateNotification = async (id, date, text, attachments) => {
+const updateNotification = async ({
+  id,
+  date,
+  text,
+  attachments,
+}) => {
   try {
     const notification = await Notification.findById(id);
-    await notification.update({
+    await notification.updateOne({
       date: date || notification.date,
       text: text || notification.text,
       attachments: attachments || notification.attachments,
