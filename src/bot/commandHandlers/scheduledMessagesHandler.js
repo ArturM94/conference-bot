@@ -49,7 +49,6 @@ const scheduledMessages = new WizardScene(
     return ctx.wizard.next();
   },
   async (ctx) => {
-    ctx.reply('Chose what do you want to change.', Markup.removeKeyboard());
     const callbackQuery = ctx.update.callback_query;
     const { notificationId, action } = JSON.parse(callbackQuery.data);
     const messageId = callbackQuery.message.message_id;
@@ -59,7 +58,7 @@ const scheduledMessages = new WizardScene(
     switch (action) {
       case 'edit':
         await ctx.reply(
-          'You selected Edit Action!',
+          'You selected Edit Action!\nChose what do you want to change.',
           Markup.inlineKeyboard([
             Markup.callbackButton('⌚ Time', JSON.stringify({
               notificationId,
@@ -74,8 +73,7 @@ const scheduledMessages = new WizardScene(
         return ctx.wizard.next();
       case 'delete':
         await deleteNotification(notificationId);
-        await ctx.answerCbQuery('Done! You deleted notification!');
-        await ctx.answerCbQuery(`Done! You deleted notification! id: ${notificationId}`);
+        await ctx.reply('Done! You deleted notification!', Extra.markup(Markup.removeKeyboard()));
         ctx.deleteMessage(messageId);
         return ctx.scene.leave();
 
