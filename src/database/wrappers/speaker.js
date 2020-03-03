@@ -24,7 +24,7 @@ const getSpeaker = async (id) => {
   }
 };
 
-const addSpeaker = async (
+const addSpeaker = async ({
   firstName,
   lastName,
   image,
@@ -32,7 +32,7 @@ const addSpeaker = async (
   company,
   country,
   topic,
-) => {
+}) => {
   try {
     const newSpeaker = new Speaker({
       firstName,
@@ -50,7 +50,7 @@ const addSpeaker = async (
   }
 };
 
-const updateSpeaker = async (
+const updateSpeaker = async ({
   id,
   firstName,
   lastName,
@@ -59,7 +59,7 @@ const updateSpeaker = async (
   company,
   country,
   topic,
-) => {
+}) => {
   try {
     const speaker = await Speaker.findById(id);
     await speaker.update({

@@ -12,11 +12,11 @@ module.exports = async (ctx) => {
     const currentUser = await getUserByChatId(ctx.chat.id);
     // if user is not registered, register new user
     if (!currentUser) {
-      const newUser = await addUser(
-        ctx.from.first_name,
-        ctx.from.last_name,
-        ctx.chat.id,
-      );
+      const newUser = await addUser({
+        firstName: ctx.from.first_name,
+        lastName: ctx.from.last_name,
+        chatId: ctx.chat.id,
+      });
       if (!newUser.error) {
         logger.info(`New user with chat.id "${newUser.chatId}" was successfully registered!`);
       }
