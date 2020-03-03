@@ -10,16 +10,9 @@ const textHandlers = require('./bot/textHandlers');
 const dbConnect = require('./database/connect');
 const config = require('./config');
 
-let TOKEN;
 const {
-  NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
+  TOKEN, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, PORT,
 } = config;
-
-if (NODE_ENV === 'production') {
-  TOKEN = config.TOKEN_PROD;
-} else {
-  TOKEN = config.TOKEN_DEV;
-}
 
 dbConnect();
 const app = express();
@@ -83,6 +76,6 @@ attachBotWebhook(telegraf, WEBHOOK_URL, WEBHOOK_PATH, WEBHOOK_PORT);
 attachBotHandlers(telegraf);
 telegraf.launch();
 
-app.listen(APP_PORT, () => {
-  logger.info(`Bot listening on port ${APP_PORT}`);
+app.listen(PORT, () => {
+  logger.info(`Bot listening on port ${PORT}`);
 });
