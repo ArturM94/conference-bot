@@ -5,7 +5,8 @@ const Stage = require('telegraf/stage');
 const session = require('telegraf/session');
 
 const logger = require('./helpers/logger');
-const handlers = require('./bot/commandHandlers/index');
+const commandsHandlers = require('./bot/commandHandlers');
+const textHandlers = require('./bot/textHandlers');
 const dbConnect = require('./database/connect');
 const config = require('./config');
 
@@ -41,21 +42,21 @@ const attachBotHandlers = (bot) => {
   const stage = new Stage();
 
   stage.register(
-    handlers.scheduledMessages,
-    handlers.speakers,
-    handlers.savememory,
-    handlers.post,
+    commandsHandlers.scheduledMessages,
+    commandsHandlers.speakers,
+    commandsHandlers.savememory,
+    commandsHandlers.post,
   );
   bot.use(session());
   bot.use(stage.middleware());
 
   // Bot Commands Start
-  bot.command(['start', 'help'], handlers.startHelp);
+  bot.command(['start', 'help'], commandsHandlers.startHelp);
   bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
-  bot.command('getmemories', handlers.getmemories);
+  bot.command('getmemories', commandsHandlers.getmemories);
   bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
-  bot.command('agenda', handlers.agenda);
-  bot.command('afterparty', handlers.afterparty);
+  bot.command('agenda', commandsHandlers.agenda);
+  bot.command('afterparty', commandsHandlers.afterparty);
   // Bot Commands End
 
   // Admin Commands Start
@@ -63,12 +64,9 @@ const attachBotHandlers = (bot) => {
   bot.command('post', (ctx) => ctx.scene.enter('post'));
   // Admin Commands End
 
-  bot.command('organizers', (ctx) => ctx.reply('organizers command'));
-  bot.command('lunch', (ctx) => ctx.reply('lunch command'));
-  bot.command('add', (ctx) => ctx.reply('add notification command'));
-  bot.command('delete', (ctx) => ctx.reply('delete notification command'));
+  // Handler text messages with Dialogflow
+  bot.on('text', textHandlers.withDialogflow);
 
-  bot.on('text', (ctx) => ctx.reply(`hello, ${ctx.message.from.first_name}!`));
   bot.on('sticker', (ctx) => ctx.reply('sticker echo'));
   bot.on('message', (ctx) => ctx.reply('message echo'));
 
