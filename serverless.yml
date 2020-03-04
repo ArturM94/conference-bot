@@ -1,6 +1,6 @@
 service: conference-bot
 # app and org for use with dashboard.serverless.com
-app: telegram-conference-bot
+# app: telegram-conference-bot
 org: klischvolodimir
 
 # You can pin your service to only deploy with a specific Serverless version
