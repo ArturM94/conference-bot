@@ -66,6 +66,8 @@ const addSchedule = async ({
   flow,
   speakerId,
   details = '',
+  startTime,
+  endTime,
 }) => {
   try {
     const newSchedule = new Schedule({
@@ -83,9 +85,13 @@ const addSchedule = async ({
   }
 };
 
-exports.addTechnicalSchedule = async (date, speakerId, details = '', startTime, endTime) => {
+const addTechnicalSchedule = async ({
+  date,
+  speakerId,
+  details = '',
+}) => {
   try {
-    return await addSchedule(date, 'technical', speakerId, details, startTime, endTime);
+    return addSchedule(date, TECHNICAL, speakerId, details);
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -98,13 +104,12 @@ const addNONTechnicalSchedule = async ({
   details = '',
 }) => {
   try {
-    return await addSchedule(date, NON_TECHNICAL, speakerId, details, startTime, endTime);
+    return await addSchedule(date, NON_TECHNICAL, speakerId, details);
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
-
 const updateSchedule = async ({
   id,
   date,
