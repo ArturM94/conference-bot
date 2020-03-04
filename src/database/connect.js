@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const config = require('../config');
 const logger = require('../helpers/logger');
 
-const { URL_DB_DEV } = config;
+const { URL_DB } = config;
 
 module.exports = async () => {
   try {
-    await mongoose.connect(URL_DB_DEV, {
+    await mongoose.connect(URL_DB, {
       useUnifiedTopology: true,
       useFindAndModify: false,
       useNewUrlParser: true,
