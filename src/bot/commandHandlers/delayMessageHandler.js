@@ -3,7 +3,7 @@ const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 
 const { isAdmin, getUsers } = require('../../database/wrappers/user');
-const { addNotification } = require('../../database/wrappers/notification');
+// const { addNotification } = require('../../database/wrappers/notification');
 const { addZero } = require('../../helpers/time');
 const upload = require('../../helpers/uploadFile');
 const logger = require('../../helpers/logger');
@@ -52,6 +52,7 @@ delay.on('message', async (ctx) => {
     ]);
 
     const curDate = `${new Date().getHours()}:${addZero(new Date().getMinutes())}`;
+    console.log(curDate);
     if (message.caption) {
       sendingMessage.text = message.caption;
       const photo = message.photo.reverse()[0].file_id;
@@ -60,14 +61,18 @@ delay.on('message', async (ctx) => {
       const extra = Extra.markup(buttons);
       extra.caption = sendingMessage.text;
       if (timeMess.time === curDate) {
+        ctx.telegram.sendPhoto(
+          ctx.chat.id,
+          'http://qnimate.com/wp-content/uploads/2014/03/images2.jpg',
+          extra,
+        );
         // eslint-disable-next-line max-len
-        const notifPhoto = await addNotification(timeMess.time, sendingMessage.text, sendingMessage.photo);
-        console.log(notifPhoto);
+        // return addNotification(timeMess.time, sendingMessage.text, sendingMessage.photo);
       }
     } else {
       sendingMessage.text = message.text;
-      const notifText = addNotification(timeMess.time, sendingMessage.text);
-      console.log(notifText);
+      ctx.reply(sendingMessage.text, buttons.extra());
+      // return addNotification(timeMess.time, sendingMessage.text);
     }
   } catch (error) {
     logger.error(error);
