@@ -32,13 +32,13 @@ const webhook = async (event) => {
   // Regular Commands
   bot.command(['start', 'help'], commandsHandlers.startHelp);
   bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
-  bot.command('lunch', commandsHandlers.lunch);
-  bot.command('now', (ctx) => ctx.scene.enter('now'));
-  bot.command('next', (ctx) => ctx.scene.enter('next'));
   bot.command('getmemories', commandsHandlers.getmemories);
   bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
   bot.command('agenda', commandsHandlers.agenda);
   bot.command('afterparty', commandsHandlers.afterparty);
+  bot.command('lunch', commandsHandlers.lunch);
+  bot.command('now', (ctx) => ctx.scene.enter('now'));
+  bot.command('next', (ctx) => ctx.scene.enter('next'));
 
   // Admin Commands
   bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
