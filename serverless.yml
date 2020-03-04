@@ -1,4 +1,4 @@
-service: conference-bot
+service: conference
 # app and org for use with dashboard.serverless.com
 # app: telegram-conference-bot
 org: klischvolodimir
