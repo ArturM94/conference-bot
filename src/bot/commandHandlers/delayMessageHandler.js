@@ -3,14 +3,13 @@ const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 
 const { isAdmin, getUsers } = require('../../database/wrappers/user');
-// const { addNotification } = require('../../database/wrappers/notification');
-const { addZero } = require('../../helpers/time');
+const { addNotification } = require('../../database/wrappers/notification');
 const upload = require('../../helpers/uploadFile');
 const logger = require('../../helpers/logger');
 
 const delay = new Scene('delay_message');
 const sendingMessage = {};
-const timeMess = [];
+const timeMess = {};
 
 
 // eslint-disable-next-line consistent-return
@@ -22,7 +21,7 @@ delay.enter(async (ctx) => {
       ctx.reply('Access denied!\nNot enough rights!');
       return ctx.scene.leave();
     }
-    ctx.reply('Input time!');
+    ctx.reply('Input time!\n examp: /send at 14:00');
   } catch (error) {
     logger.error(error);
   }
@@ -31,9 +30,8 @@ delay.enter(async (ctx) => {
 
 delay.hears(/\/send at (.+)/, (ctx) => {
   const time = ctx.match[1];
-  timeMess.push({ time });
-  console.log(timeMess);
-  ctx.reply(`Your message will send  ${time}\n Now input your message:`);
+  timeMess.time = time;
+  ctx.reply(`Your message will send at ${time}\n Now input your message:`);
   // ctx.scene.enter('delay');
 });
 
@@ -42,17 +40,13 @@ delay.on('message', async (ctx) => {
   const {
     update: { message },
   } = ctx;
-  // const time = ctx.match[1];
-  // const message = ctx.match[0];
-  // sendingMessage.push({ message, time });
+
   try {
     const buttons = Markup.inlineKeyboard([
       Markup.callbackButton('Send', '@send'),
       Markup.callbackButton('Delete', '@delete'),
     ]);
 
-    const curDate = `${new Date().getHours()}:${addZero(new Date().getMinutes())}`;
-    console.log(curDate);
     if (message.caption) {
       sendingMessage.text = message.caption;
       const photo = message.photo.reverse()[0].file_id;
@@ -60,19 +54,19 @@ delay.on('message', async (ctx) => {
       sendingMessage.photo = imgUrl;
       const extra = Extra.markup(buttons);
       extra.caption = sendingMessage.text;
-      if (timeMess.time === curDate) {
-        ctx.telegram.sendPhoto(
-          ctx.chat.id,
-          'http://qnimate.com/wp-content/uploads/2014/03/images2.jpg',
-          extra,
-        );
-        // eslint-disable-next-line max-len
-        // return addNotification(timeMess.time, sendingMessage.text, sendingMessage.photo);
-      }
+      await addNotification(timeMess.time, sendingMessage.text, sendingMessage.photo);
+      // ctx.telegram.sendPhoto(
+      //   ctx.chat.id,
+      //   sendingMessage.photo,
+      //   extra,
+      // );
     } else {
       sendingMessage.text = message.text;
-      ctx.reply(sendingMessage.text, buttons.extra());
-      // return addNotification(timeMess.time, sendingMessage.text);
+      console.log(timeMess.time);
+      console.log(sendingMessage.text);
+      const res = await addNotification(timeMess.time, sendingMessage.text);
+      console.log(res);
+      // ctx.reply(sendingMessage.text, buttons.extra());
     }
   } catch (error) {
     logger.error(error);
