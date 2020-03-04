@@ -12,12 +12,19 @@ const logger = require('../../helpers/logger');
 const createButtons = (dataArray) => {
   const markupKeyboard = Telegraf.Extra.markdown().markup((m) => {
     const list = [];
-    for (let i = 0; i <= 1; i += 1) {
-      const el = dataArray[i].speakerId;
-      const fullName = `${el.firstName} ${el.lastName} `;
-      // eslint-disable-next-line no-underscore-dangle
-      list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: dataArray._id }))]);
-    }
+    // for (let i = 0; i <= 1; i += 1) {
+    //   const el = dataArray[i].speakerId;
+    //   const fullName = `${el.firstName} ${el.lastName} `;
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: dataArray._id }))]);
+    // }
+    dataArray.forEach((el) => {
+      const fullName = `${el.speakerId.firstName} ${el.speakerId.lastName}`;
+      list.push([
+        // eslint-disable-next-line no-underscore-dangle
+        m.callbackButton(fullName, JSON.stringify({ speakerId: el._id })),
+      ]);
+    });
     return m.inlineKeyboard(list);
   });
   return markupKeyboard;
@@ -33,7 +40,6 @@ nowSpeakersScene.enter(async (ctx) => {
   // const speacker2 = await getSpeaker(schedule[1].speakerId);
   // const speackers = [speacker1, speacker2];
   // format 'startTime' and 'endTime' is '1400' (it is '14:00')
-
   if (speackers) {
     await ctx.reply(
       'Our all speackers:',

@@ -11,12 +11,19 @@ const logger = require('../../helpers/logger');
 const createButtons = (dataArray) => {
   const markupKeyboard = Telegraf.Extra.markdown().markup((m) => {
     const list = [];
-    for (let i = 0; i <= 1; i += 1) {
-      const el = dataArray[i].speakerId;
-      const fullName = `${el.firstName} ${el.lastName} `;
-      // eslint-disable-next-line no-underscore-dangle
-      list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: dataArray._id }))]);
-    }
+    dataArray.forEach((el) => {
+      const fullName = `${el.firstName} ${el.lastName}`;
+      list.push([
+        // eslint-disable-next-line no-underscore-dangle
+        m.callbackButton(fullName, JSON.stringify({ speakerId: el._id })),
+      ]);
+    });
+    // for (let i = 0; i <= 1; i += 1) {
+    //   const el = dataArray[i].speakerId;
+    //   const fullName = `${el.firstName} ${el.lastName} `;
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   list.push([m.callbackButton(fullName, JSON.stringify({ speakerId: dataArray._id }))]);
+    // }
     return m.inlineKeyboard(list);
   });
   return markupKeyboard;
@@ -37,7 +44,7 @@ nextSpeakerScene.enter(async (ctx) => {
     );
   } else {
     ctx.reply(
-      'Something went wrong, maybe there are not speakers at the moment',
+      'Something went wrong, maybe there are not speakers next',
       logger.error('Maybe is problem with database'),
     );
   }
