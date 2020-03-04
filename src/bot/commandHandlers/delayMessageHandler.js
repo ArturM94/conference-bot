@@ -71,22 +71,4 @@ delay.on('message', async (ctx) => {
   }
 });
 
-
-// delay.on('callback_query', async (ctx) => {
-//   try {
-//     if (ctx.update.callback_query.data === '@delete') {
-//       ctx.reply('delete');
-//       ctx.scene.leave();
-//     } else if (ctx.update.callback_query.data === '@send') {
-//       const users = await getUsers();
-//       users.forEach((user) => ctx.telegram.sendingMessage(user.chatId, sendingMessage.message));
-//       ctx.scene.leave();
-//     } else {
-//       ctx.scene.leave();
-//     }
-//   } catch (error) {
-//     logger.error(error);
-//   }
-// });
-
 module.exports = delay;
