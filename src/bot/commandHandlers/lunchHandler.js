@@ -11,6 +11,5 @@ module.exports = async (ctx) => {
     await ctx.replyWithPhoto(`${image[0].imageUrl}`, { caption: `${shedule[0].date}` });
   } catch (e) {
     logger.error(e);
-    console.log(e);
   }
 };
