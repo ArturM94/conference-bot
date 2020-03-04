@@ -4,6 +4,7 @@ const session = require('telegraf/session');
 
 const config = require('./config');
 const logger = require('./helpers/logger');
+const dbConnect = require('./database/connect');
 const commandsHandlers = require('./bot/commandHandlers');
 const textHandlers = require('./bot/textHandlers');
 
@@ -13,6 +14,8 @@ const webhook = async (event) => {
 
   const bot = new Telegraf(TOKEN);
   const stage = new Stage();
+
+  await dbConnect();
 
   stage.register(
     commandsHandlers.scheduledMessages,
