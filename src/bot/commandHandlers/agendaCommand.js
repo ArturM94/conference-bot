@@ -7,7 +7,7 @@ const { DATABASE: { NON_TECHNICAL, TECHNICAL } } = require('../../constants');
 const showSchedule = async (agenda) => {
   try {
     const temp = agenda.map(async (item) => {
-      const date = new Date(item.createdAt);
+      const date = new Date(item.date);
       const time = `${date.getHours()}:${date.getMinutes()}`;
       const speaker = await getSpeaker(item.speakerId);
       const fullName = `${speaker ? speaker.firstName : ''} ${speaker ? speaker.lastName : ''}`;
