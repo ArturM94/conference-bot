@@ -69,6 +69,7 @@ const attachBotHandlers = (bot) => {
 
   bot.on('sticker', (ctx) => ctx.reply('sticker echo'));
   bot.on('message', (ctx) => ctx.reply('message echo'));
+
   bot.catch((error, ctx) => {
     logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);
   });

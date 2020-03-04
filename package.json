@@ -43,7 +43,7 @@
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "2.20.1",
     "esm": "3.2.25",
-    "husky": "^4.2.3",
+    "husky": "4.2.3",
     "lint-staged": "10.0.7"
   }
 }
