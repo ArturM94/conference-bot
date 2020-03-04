@@ -33,12 +33,12 @@ const getNotification = async (id) => {
   }
 };
 
-const addNotification = async ({
+const addNotification = async (
   date,
   text,
   attachments = '',
   sent = false,
-}) => {
+) => {
   try {
     const newNotification = new Notification({
       date,

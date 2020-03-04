@@ -15,7 +15,7 @@ const getImages = async () => {
   }
 };
 
-const getImagesByUserId = async (id) => {
+const getImagesByOwnerId = async (id) => {
   try {
     return Image.find({ owner: id });
   } catch (error) {
@@ -57,7 +57,7 @@ const deleteImage = async (id) => {
 
 module.exports = {
   getImages,
-  getImagesByUserId,
+  getImagesByOwnerId,
   getImage,
   addImage,
   deleteImage,

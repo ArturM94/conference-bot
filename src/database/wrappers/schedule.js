@@ -24,21 +24,50 @@ const getSchedule = async (id) => {
   }
 };
 
+const getScheduleByDetails = async (some) => {
+  try {
+    return await Schedule.find({ details: some });
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
 
 const getScheduleBySpeaker = async (id) => {
   try {
     return Schedule.find({ speakerId: id }).populate('speakerId');
   } catch (error) {
     logger.error(error);
-    return undefined;
+    return errorMessage;
   }
 };
+
+const getScheduleByTime = async (time) => {
+  try {
+    return Schedule.find({ startTime: { $lte: new Date(time) }, endTime: { $gt: new Date(time) } }).populate('speakerId');
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+const getScheduleByNextTime = async (time) => {
+  try {
+    return Schedule.find({ startTime: { $gte: time }, endTime: { $gte: time } }).populate('speakerId');
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 
 const addSchedule = async ({
   date,
   flow,
   speakerId,
   details = '',
+  startTime,
+  endTime,
 }) => {
   try {
     const newSchedule = new Schedule({
@@ -46,6 +75,8 @@ const addSchedule = async ({
       flow,
       speakerId,
       details,
+      startTime,
+      endTime,
     });
     return newSchedule.save();
   } catch (error) {
@@ -79,13 +110,14 @@ const addNONTechnicalSchedule = async ({
     return errorMessage;
   }
 };
-
 const updateSchedule = async ({
   id,
   date,
   flow,
   speakerId,
   details = '',
+  startTime,
+  endTime,
 }) => {
   try {
     const schedule = await Schedule.findById(id);
@@ -94,6 +126,8 @@ const updateSchedule = async ({
       flow: flow || schedule.flow,
       speakerId: speakerId || schedule.speakerId,
       details: details || schedule.details,
+      startTime: startTime || schedule.startTime,
+      endTime: endTime || schedule.endTime,
     });
     return schedule.save();
   } catch (error) {
@@ -114,8 +148,11 @@ const deleteSchedule = async (id) => {
 module.exports = {
   getSchedules,
   getSchedule,
+  getScheduleByDetails,
   getScheduleBySpeaker,
   addSchedule,
+  getScheduleByTime,
+  getScheduleByNextTime,
   addTechnicalSchedule,
   addNONTechnicalSchedule,
   updateSchedule,
