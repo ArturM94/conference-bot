@@ -1,5 +1,3 @@
-// const moment = require('moment');
-
 const getTime = () => {
   const time = new Date();
   time.setHours(time.getHours() + 2);

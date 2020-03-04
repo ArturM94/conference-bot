@@ -1,38 +1,39 @@
 const User = require('../models/user');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
-exports.getUsers = async () => {
+const getUsers = async () => {
   try {
-    return await User.find();
+    return User.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.getUser = async (id) => {
+const getUser = async (id) => {
   try {
-    return await User.findById(id);
+    return User.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.getUserByChatId = async (chatId) => {
+const getUserByChatId = async (chatId) => {
   try {
-    return await User.findOne({ chatId });
+    return User.findOne({ chatId });
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.isAdmin = async (chatId) => {
+const isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
   } catch (error) {
@@ -41,23 +42,33 @@ exports.isAdmin = async (chatId) => {
   }
 };
 
-exports.addUser = async (firstName, lastName, phoneNumber, chatId) => {
+const addUser = async ({
+  firstName,
+  lastName,
+  chatId,
+  phoneNumber,
+}) => {
   try {
     const newUser = new User({
       firstName,
       lastName,
-      phoneNumber,
       chatId,
+      phoneNumber,
       isAdmin: false,
     });
-    return await newUser.save();
+    return newUser.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
+const addAdmin = async ({
+  firstName,
+  lastName,
+  phoneNumber,
+  chatId,
+}) => {
   try {
     const newAdmin = new User({
       firstName,
@@ -66,14 +77,20 @@ exports.addAdmin = async (firstName, lastName, phoneNumber, chatId) => {
       chatId,
       isAdmin: true,
     });
-    return await newAdmin.save();
+    return newAdmin.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
+const updateUser = async ({
+  id,
+  firstName,
+  lastName,
+  phoneNumber,
+  chatId,
+}) => {
   try {
     const user = await User.findById(id);
     await user.update({
@@ -82,18 +99,29 @@ exports.updateUser = async (id, firstName, lastName, phoneNumber, chatId) => {
       phoneNumber: phoneNumber || user.phoneNumber,
       chatId: chatId || user.chatId,
     });
-    return await user.save();
+    return user.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.deleteUser = async (id) => {
+const deleteUser = async (id) => {
   try {
     return (await User.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getUsers,
+  getUser,
+  getUserByChatId,
+  isAdmin,
+  addUser,
+  addAdmin,
+  updateUser,
+  deleteUser,
 };

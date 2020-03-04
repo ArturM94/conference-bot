@@ -5,7 +5,7 @@ const validator = require('validator');
 const { isAdmin } = require('../../database/wrappers/user');
 const {
   updateNotification,
-  getNotifications,
+  getActiveNotifications,
   deleteNotification,
 } = require('../../database/wrappers/notification');
 
@@ -20,7 +20,7 @@ const scheduledMessages = new WizardScene(
       return ctx.scene.leave();
     }
 
-    const allNotifications = await getNotifications();
+    const allNotifications = await getActiveNotifications();
     // reply with Exit button
     await ctx.reply('Select an action on the keyboard or exit.',
       Extra.markdown().markup((m) => m.keyboard(['⬅️ Exit']).resize()));
@@ -49,7 +49,6 @@ const scheduledMessages = new WizardScene(
     return ctx.wizard.next();
   },
   async (ctx) => {
-    ctx.reply('Chose what do you want to change.', Markup.removeKeyboard());
     const callbackQuery = ctx.update.callback_query;
     const { notificationId, action } = JSON.parse(callbackQuery.data);
     const messageId = callbackQuery.message.message_id;
@@ -59,7 +58,7 @@ const scheduledMessages = new WizardScene(
     switch (action) {
       case 'edit':
         await ctx.reply(
-          'You selected Edit Action!',
+          'You selected Edit Action!\nChose what do you want to change.',
           Markup.inlineKeyboard([
             Markup.callbackButton('⌚ Time', JSON.stringify({
               notificationId,
@@ -74,8 +73,7 @@ const scheduledMessages = new WizardScene(
         return ctx.wizard.next();
       case 'delete':
         await deleteNotification(notificationId);
-        await ctx.answerCbQuery('Done! You deleted notification!');
-        await ctx.answerCbQuery(`Done! You deleted notification! id: ${notificationId}`);
+        await ctx.reply('Done! You deleted notification!', Extra.markup(Markup.removeKeyboard()));
         ctx.deleteMessage(messageId);
         return ctx.scene.leave();
 
@@ -109,21 +107,24 @@ const scheduledMessages = new WizardScene(
           ctx.reply('Incorrect dateTime: expected YYYY-MM-DDThh:mm');
           return;
         }
-        updateNotification(
-          wizardState.editNotificationId,
-          message.text,
-        );
+        if (new Date(message.text) < new Date()) {
+          ctx.reply('The date entered is less than today\'s date.\nTry again!');
+          return;
+        }
+        updateNotification({
+          id: wizardState.editNotificationId,
+          date: message.text,
+        });
         break;
       case 'text':
         if (!validator.isLength(message.text, { min: 10 })) {
           ctx.reply('Your message length must be >= 10');
           return;
         }
-        updateNotification(
-          wizardState.editNotificationId,
-          false,
-          message.text,
-        );
+        updateNotification({
+          id: wizardState.editNotificationId,
+          text: message.text,
+        });
         break;
       default:
         break;

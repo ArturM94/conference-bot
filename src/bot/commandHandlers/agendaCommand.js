@@ -1,6 +1,7 @@
 const { getSchedules } = require('../../database/wrappers/schedule');
 const { getSpeaker } = require('../../database/wrappers/speaker');
 const logger = require('../../helpers/logger');
+const { DATABASE: { NON_TECHNICAL, TECHNICAL } } = require('../../constants');
 
 // eslint-disable-next-line consistent-return
 const showSchedule = async (agenda) => {
@@ -20,9 +21,9 @@ const showSchedule = async (agenda) => {
 module.exports = async (ctx) => {
   try {
     const schedule = await getSchedules();
-    const technical = schedule.filter((item) => item.flow === 'technical');
+    const technical = schedule.filter((item) => item.flow === TECHNICAL);
     const nonTechnical = schedule.filter(
-      (item) => item.flow === 'non-technical',
+      (item) => item.flow === NON_TECHNICAL,
     );
 
     ctx.replyWithHTML(

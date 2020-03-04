@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const { DATABASE: { USER } } = require('../../constants');
+
 module.exports = mongoose.model(
-  'user',
+  USER,
   new mongoose.Schema(
     {
       firstName: {
@@ -14,13 +16,13 @@ module.exports = mongoose.model(
       },
       phoneNumber: {
         type: String,
-        unique: true,
-        require: true,
+        require: false,
         maxlength: 13,
         minlength: 9,
       },
       chatId: {
         type: Number,
+        unique: true,
         require: true,
       },
       isAdmin: {

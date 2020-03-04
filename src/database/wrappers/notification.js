@@ -1,34 +1,44 @@
 const Notification = require('../models/notification');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
-exports.getNotifications = async () => {
+const getNotifications = async () => {
   try {
-    return await Notification.find();
+    return Notification.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.getNotification = async (id) => {
+const getActiveNotifications = async () => {
   try {
-    return await Notification.findById(id);
+    return Notification.find({ sent: false });
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.addNotification = async (
+const getNotification = async (id) => {
+  try {
+    return Notification.findById(id);
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+const addNotification = async ({
   date,
   text,
   attachments = '',
   sent = false,
-) => {
+}) => {
   try {
     const newNotification = new Notification({
       date,
@@ -36,29 +46,34 @@ exports.addNotification = async (
       attachments,
       sent,
     });
-    return await newNotification.save();
+    return newNotification.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.updateNotification = async (id, date, text, attachments) => {
+const updateNotification = async ({
+  id,
+  date,
+  text,
+  attachments,
+}) => {
   try {
     const notification = await Notification.findById(id);
-    await notification.update({
+    await notification.updateOne({
       date: date || notification.date,
       text: text || notification.text,
       attachments: attachments || notification.attachments,
     });
-    return await notification.save();
+    return notification.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.sentNotification = async (id) => {
+const sentNotification = async (id) => {
   try {
     const notification = await Notification.findById(id);
     await notification.update({ sent: true });
@@ -69,11 +84,21 @@ exports.sentNotification = async (id) => {
   }
 };
 
-exports.deleteNotification = async (id) => {
+const deleteNotification = async (id) => {
   try {
     return (await Notification.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getNotifications,
+  getActiveNotifications,
+  getNotification,
+  addNotification,
+  updateNotification,
+  sentNotification,
+  deleteNotification,
 };

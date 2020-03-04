@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
+const {
+  DATABASE: {
+    NON_TECHNICAL, TECHNICAL, SPEAKER, SCHEDULE,
+  },
+} = require('../../constants');
 
 module.exports = mongoose.model(
-  'schedule',
+  SCHEDULE,
   new mongoose.Schema(
     {
       date: {
@@ -10,12 +15,12 @@ module.exports = mongoose.model(
       },
       flow: {
         type: String,
-        enum: ['technical', 'non-technical'],
+        enum: [TECHNICAL, NON_TECHNICAL],
         require: true,
       },
       speakerId: {
         type: mongoose.Types.ObjectId,
-        ref: 'speaker',
+        ref: SPEAKER,
         require: true,
       },
       details: {

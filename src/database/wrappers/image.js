@@ -1,13 +1,14 @@
 const Image = require('../models/image');
 const logger = require('../../helpers/logger');
+const { ERROR: { DATABASE_ERROR } } = require('../../constants');
 
 const errorMessage = {
-  error: 'Server error',
+  error: DATABASE_ERROR,
 };
 
-exports.getImages = async () => {
+const getImages = async () => {
   try {
-    return await Image.find();
+    return Image.find();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -16,40 +17,48 @@ exports.getImages = async () => {
 
 exports.getImagesByOwnerId = async (id) => {
   try {
-    return await Image.find({ owner: id });
+    return Image.find({ owner: id });
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.getImage = async (id) => {
+const getImage = async (id) => {
   try {
-    return await Image.findById(id);
+    return Image.findById(id);
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.addImage = async (owner, imageUrl) => {
+const addImage = async (owner, imageUrl) => {
   try {
     const newImage = new Image({
       owner,
       imageUrl,
     });
-    return await newImage.save();
+    return newImage.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
 };
 
-exports.deleteImage = async (id) => {
+const deleteImage = async (id) => {
   try {
     return (await Image.deleteOne({ _id: id })).ok;
   } catch (error) {
     logger.error(error);
     return errorMessage;
   }
+};
+
+module.exports = {
+  getImages,
+  getImagesByUserId,
+  getImage,
+  addImage,
+  deleteImage,
 };

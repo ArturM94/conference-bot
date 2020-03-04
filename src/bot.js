@@ -5,20 +5,14 @@ const Stage = require('telegraf/stage');
 const session = require('telegraf/session');
 
 const logger = require('./helpers/logger');
-const handlers = require('./bot/commandHandlers/index');
+const commandsHandlers = require('./bot/commandHandlers');
+const textHandlers = require('./bot/textHandlers');
 const dbConnect = require('./database/connect');
 const config = require('./config');
 
-let TOKEN;
 const {
-  NODE_ENV, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, APP_PORT,
+  TOKEN, WEBHOOK_PATH, WEBHOOK_URL, WEBHOOK_PORT, PORT,
 } = config;
-
-if (NODE_ENV === 'production') {
-  TOKEN = config.TOKEN_PROD;
-} else {
-  TOKEN = config.TOKEN_DEV;
-}
 
 dbConnect();
 const app = express();
@@ -41,27 +35,27 @@ const attachBotHandlers = (bot) => {
   const stage = new Stage();
 
   stage.register(
-    handlers.scheduledMessages,
-    handlers.speakers,
-    handlers.savememory,
-    handlers.post,
-    handlers.now,
-    handlers.next,
-    handlers.delayMessage,
+    commandsHandlers.scheduledMessages,
+    commandsHandlers.speakers,
+    commandsHandlers.savememory,
+    commandsHandlers.post,
+    commandsHandlers.next,
+    commandsHandlers.now,
+    commandsHandlers.delayMessage,
   );
   bot.use(session());
   bot.use(stage.middleware());
 
   // Bot Commands Start
-  bot.command(['start', 'help'], handlers.startHelp);
+  bot.command(['start', 'help'], commandsHandlers.startHelp);
   bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
-  bot.command('getmemories', handlers.getmemories);
+  bot.command('getmemories', commandsHandlers.getmemories);
   bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
-  bot.command('agenda', handlers.agenda);
-  bot.command('afterparty', handlers.afterparty);
-  bot.command('lunch', handlers.lunch);
+  bot.command('lunch', commandsHandlers.lunch);
   bot.command('now', (ctx) => ctx.scene.enter('now'));
   bot.command('next', (ctx) => ctx.scene.enter('next'));
+  bot.command('agenda', commandsHandlers.agenda);
+  bot.command('afterparty', commandsHandlers.afterparty);
   // Bot Commands End
 
   // Admin Commands Start
@@ -70,11 +64,9 @@ const attachBotHandlers = (bot) => {
   bot.command('delay_message', (ctx) => ctx.scene.enter('delay_message'));
   // Admin Commands End
 
-  bot.command('organizers', (ctx) => ctx.reply('organizers command'));
-  bot.command('add', (ctx) => ctx.reply('add notification command'));
-  bot.command('delete', (ctx) => ctx.reply('delete notification command'));
+  // Handler text messages with Dialogflow
+  bot.on('text', textHandlers.withDialogflow);
 
-  bot.on('text', (ctx) => ctx.reply(`hello, ${ctx.message.from.first_name}!`));
   bot.on('sticker', (ctx) => ctx.reply('sticker echo'));
   bot.on('message', (ctx) => ctx.reply('message echo'));
   bot.catch((error, ctx) => {
@@ -90,6 +82,6 @@ attachBotWebhook(telegraf, WEBHOOK_URL, WEBHOOK_PATH, WEBHOOK_PORT);
 attachBotHandlers(telegraf);
 telegraf.launch();
 
-app.listen(APP_PORT, () => {
-  logger.info(`Bot listening on port ${APP_PORT}`);
+app.listen(PORT, () => {
+  logger.info(`Bot listening on port ${PORT}`);
 });

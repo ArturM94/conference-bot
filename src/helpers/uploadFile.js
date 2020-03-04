@@ -9,8 +9,7 @@ const downloadFile = async (imgId, ctx) => {
   try {
     const file = await ctx.telegram.getFile(imgId);
     const img = await axios.get(
-      `https://api.telegram.org/file/bot${config.TOKEN_DEV
-      || config.TOKEN_PROD}/${file.file_path}`,
+      `https://api.telegram.org/file/bot${config.TOKEN}/${file.file_path}`,
     );
     return img.data;
   } catch (error) {
