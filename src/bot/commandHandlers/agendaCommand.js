@@ -7,10 +7,13 @@ const { DATABASE: { NON_TECHNICAL, TECHNICAL } } = require('../../constants');
 const showSchedule = async (agenda) => {
   try {
     const temp = agenda.map(async (item) => {
+      const date = new Date(item.date);
+      const time = `${date.getHours()}:${date.getMinutes()}`;
       const speaker = await getSpeaker(item.speakerId);
-      return `<i>${item.date}</i>   ${speaker.firstName} ${speaker.lastName}
-              topic:  ${speaker.topic}
-      ${item.details ? item.details : ' '}\n`;
+      const fullName = `${speaker ? speaker.firstName : ''} ${speaker ? speaker.lastName : ''}`;
+      return `<i>${` ${`${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`} ${time}`}</i>   ${fullName}
+              ${speaker ? `topic: ${speaker.topic}` : ''}
+      ${item.details ? item.details : ''}\n`;
     });
     return (await Promise.all(temp)).join('\n');
   } catch (error) {
