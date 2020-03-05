@@ -44,6 +44,7 @@
     "eslint-plugin-import": "2.20.1",
     "esm": "3.2.25",
     "husky": "4.2.3",
-    "lint-staged": "10.0.7"
+    "lint-staged": "10.0.7",
+    "serverless-offline": "5.12.1"
   }
 }
