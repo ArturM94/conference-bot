@@ -6,6 +6,10 @@ const agendaCommand = require('./agendaCommand');
 const afterpartyCommand = require('./afterpatyCommand');
 const postHandler = require('./postHandler');
 const startHelpHandler = require('./startHelpHandler');
+const nowHandler = require('./nowHandler');
+const lunchHandler = require('./lunchHandler');
+const nextHandler = require('./nextHandler');
+const delayMessageHandler = require('./delayMessageHandler');
 
 
 module.exports = {
@@ -17,4 +21,8 @@ module.exports = {
   afterparty: afterpartyCommand,
   post: postHandler,
   startHelp: startHelpHandler,
+  lunch: lunchHandler,
+  now: nowHandler,
+  next: nextHandler,
+  delayMessage: delayMessageHandler,
 };

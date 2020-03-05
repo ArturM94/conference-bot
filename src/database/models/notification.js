@@ -7,7 +7,7 @@ module.exports = mongoose.model(
   new mongoose.Schema(
     {
       date: {
-        type: String,
+        type: Date,
         require: true,
       },
       text: {

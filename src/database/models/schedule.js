@@ -26,6 +26,14 @@ module.exports = mongoose.model(
       details: {
         type: String,
       },
+      startTime: {
+        type: Date,
+        require: true,
+      },
+      endTime: {
+        type: Date,
+        require: true,
+      },
     },
     {
       timestamps: true,
