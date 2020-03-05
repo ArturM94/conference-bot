@@ -4,7 +4,7 @@
   "description": "",
   "main": "s_logger.js",
   "scripts": {
-    "bot": "node src/bot.js",
+    "local": "node src/handler.js",
     "eslint": "eslint --color src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
