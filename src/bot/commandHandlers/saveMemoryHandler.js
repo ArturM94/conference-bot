@@ -4,10 +4,23 @@ const { addImage } = require('../../database/wrappers/image');
 const upload = require('../../helpers/uploadFile');
 const logger = require('../../helpers/logger');
 
-const saveMemory = new Scene('savememory');
+const saveMemory = new Scene('savememories');
+
+const exit = {
+  reply_markup: {
+    inline_keyboard: [
+      [
+        {
+          text: '⬅️ Exit',
+          callback_data: '@exit',
+        },
+      ],
+    ],
+  },
+};
 
 saveMemory.enter((ctx) => {
-  ctx.reply('send your photo!');
+  ctx.reply('Send your photo!', exit);
 });
 
 saveMemory.on('photo', async (ctx) => {
@@ -17,18 +30,7 @@ saveMemory.on('photo', async (ctx) => {
       ctx,
     );
     await addImage(ctx.update.message.from.id, imgUrl);
-    ctx.reply('image saved', {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: 'exit',
-              callback_data: '@exit',
-            },
-          ],
-        ],
-      },
-    });
+    ctx.reply('Image saved', exit);
   } catch (error) {
     logger.error(error);
   }

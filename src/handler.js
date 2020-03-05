@@ -33,7 +33,7 @@ const webhook = async (event) => {
   bot.command(['start', 'help'], commandsHandlers.startHelp);
   bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
   bot.command('getmemories', commandsHandlers.getmemories);
-  bot.command('savememory', (ctx) => ctx.scene.enter('savememory'));
+  bot.command('savememories', (ctx) => ctx.scene.enter('savememories'));
   bot.command('agenda', commandsHandlers.agenda);
   bot.command('afterparty', commandsHandlers.afterparty);
   bot.command('lunch', commandsHandlers.lunch);
