@@ -101,7 +101,8 @@ const delay = new WizardScene(
     const dateField = getTimeFromMsg(sendingMessage.time);
     if (action === 'add') {
       await ctx.reply('Insert your photo');
-      sendingMessage.photo = await upload(ctx.message.photo.reverse()[0].file_id, ctx);
+      sendingMessage.photo = await upload(ctx.update.photo.reverse()[0].file_id, ctx);
+      await ctx.reply(sendingMessage.photo);
       await addNotification(dateField, sendingMessage.text, sendingMessage.photo);
     } else {
       ctx.reply('You have exited from editing mode!');
