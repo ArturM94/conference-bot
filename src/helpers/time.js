@@ -16,7 +16,7 @@ const getTimeFromMsg = (obj) => {
   const a = obj.split(' ');
   let hour = a[2];
   hour = hour.split(':');
-  hour[0] = +hour[0] + 3;
+  hour[0] = +hour[0] + 2;
   hour = hour.join(':');
   return new Date(`${new Date().getFullYear()} ${a[0]} ${a[1]} ${hour}`);
 };
