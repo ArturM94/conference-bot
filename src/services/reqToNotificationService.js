@@ -13,14 +13,16 @@ const reqToAdd = async ({
   id,
   text,
   date,
-  attachments,
+  image,
+  sticker,
 }) => {
   try {
     const responseFromService = await axios.post(`${NOTIFICATION_SERVICE_URL}/jobs`, {
       id,
       text,
       date,
-      attachments,
+      image,
+      sticker,
     }, {
       headers: {
         api_key: NOTIFICATION_SERVICE_API_KEY,
@@ -37,14 +39,15 @@ const reqToUpdate = async ({
   id,
   newText,
   newDate,
-  newAttachments,
+  newImage,
 }) => {
   try {
     const currentNotification = await getNotification(id);
     const responseFromService = await axios.put(`${NOTIFICATION_SERVICE_URL}/jobs/${id}`, {
       text: newText || currentNotification.text,
       date: newDate || currentNotification.date,
-      attachments: newAttachments || currentNotification.attachments,
+      image: newImage || currentNotification.image,
+      sticker: currentNotification.sticker,
     }, {
       headers: {
         api_key: NOTIFICATION_SERVICE_API_KEY,
