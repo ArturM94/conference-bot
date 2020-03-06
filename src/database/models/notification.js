@@ -12,7 +12,7 @@ module.exports = mongoose.model(
       },
       text: {
         type: String,
-        require: true,
+        require: false,
       },
       image: {
         type: String,
