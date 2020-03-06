@@ -5,6 +5,7 @@
   "main": "s_logger.js",
   "scripts": {
     "local": "node src/handler.js",
+    "sls:offline": "sls offline start --useSeparateProcesses",
     "eslint": "eslint --color src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -44,6 +45,7 @@
     "eslint-plugin-import": "2.20.1",
     "husky": "4.2.3",
     "lint-staged": "10.0.7",
+    "serverless-dotenv-plugin": "2.3.2",
     "serverless-offline": "5.12.1"
   }
 }
