@@ -3,7 +3,7 @@ module.exports = {
   NON_TECHNICAL: 'non-technical',
   SPEAKER: 'speaker',
   IMAGE: 'image',
-  NOTIFiCATION: 'notification',
+  NOTIFICATION: 'notification',
   SCHEDULE: 'schedule',
   USER: 'user',
 };
