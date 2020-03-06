@@ -1,13 +1,10 @@
-// const Scene = require('telegraf/scenes/base');
 const Markup = require('telegraf/markup');
-// const Extra = require('telegraf/extra');
 const WizardScene = require('telegraf/scenes/wizard');
 
 const { isAdmin } = require('../../database/wrappers/user');
 const { addNotification } = require('../../database/wrappers/notification');
 const upload = require('../../helpers/uploadFile');
 const { getTimeFromMsg } = require('../../helpers/time');
-// const logger = require('../../helpers/logger');
 
 const sendingMessage = {};
 
@@ -93,7 +90,6 @@ const delay = new WizardScene(
     );
     return ctx.wizard.next();
   },
-  // eslint-disable-next-line consistent-return
   async (ctx) => {
     const callbackQuery = ctx.update.callback_query;
     const { action } = JSON.parse(callbackQuery.data);
