@@ -35,8 +35,9 @@ const getNotification = async (id) => {
 
 const addNotification = async (
   date,
-  text,
+  text = '',
   image = '',
+  sticker = '',
   sent = false,
 ) => {
   try {
@@ -44,6 +45,7 @@ const addNotification = async (
       date,
       text,
       image,
+      sticker,
       sent,
     });
     return newNotification.save();
@@ -58,6 +60,7 @@ const updateNotification = async ({
   date,
   text,
   image,
+  sticker,
 }) => {
   try {
     const notification = await Notification.findById(id);
@@ -65,6 +68,7 @@ const updateNotification = async ({
       date: date || notification.date,
       text: text || notification.text,
       image: image || notification.image,
+      sticker: sticker || notification.sticker,
     });
     return notification.save();
   } catch (error) {
