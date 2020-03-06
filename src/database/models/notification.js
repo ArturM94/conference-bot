@@ -18,6 +18,10 @@ module.exports = mongoose.model(
         type: String,
         require: false,
       },
+      sticker: {
+        type: String,
+        require: false,
+      },
       sent: {
         type: Boolean,
         default: false,
