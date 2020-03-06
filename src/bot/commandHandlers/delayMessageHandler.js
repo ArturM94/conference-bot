@@ -40,7 +40,7 @@ const delay = new WizardScene(
     ctx.wizard.state.action = action;
     switch (action) {
       case 'next':
-        await ctx.reply('Enter your time:');
+        await ctx.reply('Enter your time like this: 2020 20 May 2:00');
         return ctx.wizard.next();
       case 'exit':
         await ctx.reply('You have exited from editing mode!');
