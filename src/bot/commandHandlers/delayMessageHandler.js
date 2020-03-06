@@ -93,34 +93,21 @@ const delay = new WizardScene(
     );
     return ctx.wizard.next();
   },
-  async (ctx) => {
-    const callbackQuery = ctx.update.callback_query;
-    const { action } = JSON.parse(callbackQuery.data);
-    ctx.wizard.state.action = action;
-    if (action === 'add') {
-      await ctx.reply('Insert your photo');
-    } else {
-      await ctx.reply('Input time when message will have to send');
-    }
-    return ctx.wizard.next();
-  },
+  // eslint-disable-next-line consistent-return
   async (ctx) => {
     const callbackQuery = ctx.update.callback_query;
     const { action } = JSON.parse(callbackQuery.data);
     ctx.wizard.state.action = action;
     const dateField = getTimeFromMsg(sendingMessage.time);
-    switch (action) {
-      case 'add':
-        sendingMessage.photo = await upload(ctx.message.photo.reverse()[0].file_id, ctx);
-        await addNotification(dateField, sendingMessage.text, sendingMessage.photo);
-        break;
-      case 'skip':
-        ctx.reply('You have exited from editing mode!');
-        await addNotification(dateField, sendingMessage.text);
-        break;
-      default:
-        break;
+    if (action === 'add') {
+      await ctx.reply('Insert your photo');
+      sendingMessage.photo = await upload(ctx.message.photo.reverse()[0].file_id, ctx);
+      await addNotification(dateField, sendingMessage.text, sendingMessage.photo);
+    } else {
+      ctx.reply('You have exited from editing mode!');
+      await addNotification(dateField, sendingMessage.text);
     }
+
     ctx.scene.leave();
     await ctx.reply('Done! Message will send at!');
   },
