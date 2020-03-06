@@ -14,11 +14,11 @@ const addZero = (el) => {
 
 const getTimeFromMsg = (obj) => {
   const a = obj.split(' ');
-  let hour = a[3];
+  let hour = a[2];
   hour = hour.split(':');
   hour[0] = +hour[0] + 3;
   hour = hour.join(':');
-  return new Date(`${a[0]} ${a[1]} ${a[2]} ${hour}`);
+  return new Date(`${new Date().getFullYear()} ${a[0]} ${a[1]} ${hour}`);
 };
 
 module.exports = { getTime, addZero, getTimeFromMsg };

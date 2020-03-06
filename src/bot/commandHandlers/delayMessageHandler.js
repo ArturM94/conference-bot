@@ -18,7 +18,7 @@ const delay = new WizardScene(
     }
     ctx.wizard.state.data = {};
     ctx.replyWithMarkdown(
-      'You are using /delay-message command\n If you want to continue, please click "➡️ Next"',
+      'You are using /delay-message command\n If you want to continue, please click "➡️ Next"\n and input time like this: 20 May 2:00',
       Markup.inlineKeyboard([
         Markup.callbackButton('➡️ Next', JSON.stringify({
           action: 'next',
@@ -37,10 +37,10 @@ const delay = new WizardScene(
     ctx.wizard.state.action = action;
     switch (action) {
       case 'next':
-        await ctx.reply('Enter your time like this: 2020 20 May 2:00');
+        await ctx.reply('Enter your time:');
         return ctx.wizard.next();
       case 'exit':
-        await ctx.reply('You have exited from editing mode!');
+        await ctx.reply('You have exited from inputing time mode!');
         return ctx.scene.leave();
       default:
         return ctx.wizard.next();
