@@ -101,7 +101,11 @@ const delay = new WizardScene(
       await ctx.reply(sendingMessage.photo);
       await addNotification(dateField, sendingMessage.text, sendingMessage.photo);
     } else {
-      ctx.reply('You have exited from editing mode!');
+      if (dateField < new Date()) {
+        ctx.reply('The date entered is less than today\'s date.\nTry again!');
+        return;
+      }
+      ctx.reply('You have exited from delay mode!');
       await addNotification(dateField, sendingMessage.text);
     }
 
