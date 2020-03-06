@@ -14,7 +14,7 @@ module.exports = mongoose.model(
         type: String,
         require: true,
       },
-      attachments: {
+      image: {
         type: String,
         require: false,
       },

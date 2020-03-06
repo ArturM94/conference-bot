@@ -28,12 +28,12 @@ const scheduledMessages = new WizardScene(
     for (let i = 0; i < allNotifications.length; i += 1) {
       // eslint-disable-next-line no-underscore-dangle
       const id = allNotifications[i]._id;
-      const { text, date, attachments } = allNotifications[i];
+      const { text, date, image } = allNotifications[i];
 
       ctx.replyWithMarkdown(
         `Text: ${text}
         Date: ${date}
-        Attachments: ${attachments}`,
+        Image: ${image}`,
         Markup.inlineKeyboard([
           Markup.callbackButton('📝 Edit', JSON.stringify({
             notificationId: id,

@@ -36,14 +36,14 @@ const getNotification = async (id) => {
 const addNotification = async (
   date,
   text,
-  attachments = '',
+  image = '',
   sent = false,
 ) => {
   try {
     const newNotification = new Notification({
       date,
       text,
-      attachments,
+      image,
       sent,
     });
     return newNotification.save();
@@ -57,14 +57,14 @@ const updateNotification = async ({
   id,
   date,
   text,
-  attachments,
+  image,
 }) => {
   try {
     const notification = await Notification.findById(id);
     await notification.updateOne({
       date: date || notification.date,
       text: text || notification.text,
-      attachments: attachments || notification.attachments,
+      image: image || notification.image,
     });
     return notification.save();
   } catch (error) {
