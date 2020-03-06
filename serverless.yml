@@ -15,6 +15,7 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-dotenv-plugin
 
 # package:
 #   include:
