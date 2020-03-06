@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const { DATABASE: { NOTIFiCATION } } = require('../../constants');
+const { DATABASE: { NOTIFICATION } } = require('../../constants');
 
 module.exports = mongoose.model(
-  NOTIFiCATION,
+  NOTIFICATION,
   new mongoose.Schema(
     {
       date: {
@@ -12,9 +12,13 @@ module.exports = mongoose.model(
       },
       text: {
         type: String,
-        require: true,
+        require: false,
       },
-      attachments: {
+      image: {
+        type: String,
+        require: false,
+      },
+      sticker: {
         type: String,
         require: false,
       },

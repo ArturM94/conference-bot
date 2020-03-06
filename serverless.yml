@@ -13,6 +13,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-central-1
 
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
 
 # package:
 #   include:
