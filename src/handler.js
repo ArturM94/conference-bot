@@ -7,6 +7,7 @@ const logger = require('./helpers/logger');
 const dbConnect = require('./database/connect');
 const commandsHandlers = require('./bot/commandHandlers');
 const textHandlers = require('./bot/textHandlers');
+const { actionHandlers } = require('./bot/actionHandlers/index');
 
 const webhook = async (event) => {
   const body = event.body[0] === '{' ? JSON.parse(event.body) : JSON.parse(Buffer.from(event.body, 'base64'));
@@ -19,7 +20,6 @@ const webhook = async (event) => {
 
   stage.register(
     commandsHandlers.scheduledMessages,
-    commandsHandlers.speakers,
     commandsHandlers.savememory,
     commandsHandlers.post,
     commandsHandlers.next,
@@ -31,7 +31,7 @@ const webhook = async (event) => {
 
   // Regular Commands
   bot.command(['start', 'help'], commandsHandlers.startHelp);
-  bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
+  bot.command('speakers', commandsHandlers.speakers);
   bot.command('getmemories', commandsHandlers.getmemories);
   bot.command('savememories', (ctx) => ctx.scene.enter('savememories'));
   bot.command('agenda', commandsHandlers.agenda);
@@ -47,6 +47,9 @@ const webhook = async (event) => {
 
   // Handler text messages with Dialogflow
   bot.on('text', textHandlers.withDialogflow);
+
+  // Actions Handler
+  actionHandlers(bot);
 
   bot.catch((error, ctx) => {
     logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);
