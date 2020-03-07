@@ -90,14 +90,16 @@ const updateUser = async ({
   lastName,
   phoneNumber,
   chatId,
+  state,
 }) => {
   try {
     const user = await User.findById(id);
     await user.update({
       firstName: firstName || user.firstName,
-      lastName: lastName || user.lastNames,
+      lastName: lastName || user.lastName,
       phoneNumber: phoneNumber || user.phoneNumber,
       chatId: chatId || user.chatId,
+      state: state || user.state,
     });
     return user.save();
   } catch (error) {

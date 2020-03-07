@@ -30,6 +30,11 @@ module.exports = mongoose.model(
         require: true,
         default: false,
       },
+      state: {
+        type: String,
+        require: false,
+        default: null,
+      },
     },
     {
       timestamps: true,
