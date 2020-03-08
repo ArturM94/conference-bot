@@ -6,7 +6,7 @@ const config = require('./config');
 const logger = require('./helpers/logger');
 const dbConnect = require('./database/connect');
 const commandsHandlers = require('./bot/commandHandlers');
-const textHandlers = require('./bot/textHandlers');
+const { textHandlers } = require('./bot/textHandlers');
 const { actionHandlers } = require('./bot/actionHandlers/index');
 
 const webhook = async (event) => {
@@ -19,7 +19,6 @@ const webhook = async (event) => {
   await dbConnect();
 
   stage.register(
-    commandsHandlers.scheduledMessages,
     commandsHandlers.savememory,
     commandsHandlers.post,
     commandsHandlers.next,
@@ -41,12 +40,12 @@ const webhook = async (event) => {
   bot.command('next', (ctx) => ctx.scene.enter('next'));
 
   // Admin Commands
-  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
+  bot.command('scheduled_messages', commandsHandlers.scheduledMessages);
   bot.command('post', (ctx) => ctx.scene.enter('post'));
   bot.command('delay_message', (ctx) => ctx.scene.enter('delay_message'));
 
   // Handler text messages with Dialogflow
-  bot.on('text', textHandlers.withDialogflow);
+  bot.on('text', async (ctx) => { await textHandlers(ctx); });
 
   // Actions Handler
   actionHandlers(bot);

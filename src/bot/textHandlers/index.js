@@ -1,7 +1,7 @@
 const validator = require('validator');
 
 const logger = require('../../helpers/logger');
-const { getUserByChatId } = require('../../database/wrappers/user');
+const { getUserByChatId, updateUser } = require('../../database/wrappers/user');
 const textHandlerWithDialogflow = require('./textHandlerWithDialogflow');
 const {
   updateNotification,
@@ -21,32 +21,36 @@ module.exports.textHandlers = async (ctx) => {
 
 
   switch (userState.title) {
+    /*eslint spaced-comment:0*/
     case 'writeNewTimeScheduledMessages':
-      ctx.reply(`You need to write some new Time and your new Time:\n${ctx.message.text}`);
+      await ctx.reply(`You need to write some new Time and your new Time:\n${ctx.message.text}`);
       newDate = new Date(`${YEAR} ${message.text}`);
 
       if (!validator.toDate(String(newDate))) {
-        ctx.reply('Incorrect dateTime, example: 12 March 18:30');
+        await ctx.reply('Incorrect dateTime, example: 12 March 18:30');
         return;
       }
 
       if (newDate < todayDate) {
-        ctx.reply('The date entered is less than today\'s date.\nTry again!');
+        await ctx.reply('The date entered is less than today\'s date.\nTry again!');
         return;
       }
       await updateNotification({
         id: userState.idNotifForEdit,
         date: newDate,
       });
+
+      /*eslint no-underscore-dangle:0*/
+      await updateUser({ id: currentUser._id, state: {} });
       await ctx.reply('Done! Notification updated!');
       logger.info('Done! Notification "Date" updated!');
 
       break;
     case 'writeNewTextScheduledMessages':
-      ctx.reply(`You need to write some new text and your new text:\n${ctx.message.text}`);
+      await ctx.reply(`You need to write some new text and your new text:\n${ctx.message.text}`);
       try {
         if (!validator.isLength(message.text, { min: 7 })) {
-          ctx.reply('Your message length must be >= 7');
+          await ctx.reply('Your message length must be >= 7');
           return;
         }
 
@@ -54,6 +58,7 @@ module.exports.textHandlers = async (ctx) => {
           id: userState.idNotifForEdit,
           text: message.text,
         });
+        await updateUser({ id: currentUser._id, state: {} });
         await ctx.reply('Done! Notification updated!');
         logger.info('Done! Notification "Text" updated!');
       } catch (e) {

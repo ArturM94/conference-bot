@@ -68,7 +68,7 @@ const selectWhatEdit = async (ctx) => {
 
   if (action === 'time') {
     STATE_NAME = 'writeNewTimeScheduledMessages';
-    await ctx.reply('Please enter new dateTime, expected: YYYY-MM-DDThh:mm');
+    await ctx.reply('Please enter new dateTime, expected: 12 March 18:30');
     updatedUser = await updateUser({
       id: userId,
       state: {

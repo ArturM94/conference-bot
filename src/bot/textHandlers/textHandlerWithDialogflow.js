@@ -6,7 +6,6 @@ module.exports = async (ctx) => {
   try {
     const { message } = ctx;
     const detectedIntent = await detectIntentFunc(message.text);
-    console.log(detectedIntent);
 
     switch (detectedIntent.displayName) {
       case 'startHelp':
