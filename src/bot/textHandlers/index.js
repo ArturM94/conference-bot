@@ -44,6 +44,22 @@ module.exports.textHandlers = async (ctx) => {
       break;
     case 'writeNewTextScheduledMessages':
       ctx.reply(`You need to write some new text and your new text:\n${ctx.message.text}`);
+      try {
+        if (!validator.isLength(message.text, { min: 7 })) {
+          ctx.reply('Your message length must be >= 7');
+          return;
+        }
+
+        await updateNotification({
+          id: userState.idNotifForEdit,
+          text: message.text,
+        });
+        await ctx.reply('Done! Notification updated!');
+        logger.info('Done! Notification "Text" updated!');
+      } catch (e) {
+        logger.error(`Server Error updating "Text" in Notification collection: ${e}`);
+        await ctx.reply('Server Error updating "Text"!');
+      }
       break;
 
     default:
