@@ -6,13 +6,14 @@ module.exports = async (ctx) => {
   try {
     const { message } = ctx;
     const detectedIntent = await detectIntentFunc(message.text);
+    console.log(detectedIntent);
 
     switch (detectedIntent.displayName) {
       case 'startHelp':
         commandsHandlers.startHelp(ctx);
         break;
       case 'speakers':
-        ctx.scene.enter('speakers');
+        commandsHandlers.speakers(ctx);
         break;
       case 'lunch':
         // commandsHandlers.getmemories(ctx);
@@ -42,7 +43,7 @@ module.exports = async (ctx) => {
         // commandsHandlers.savememory(ctx);
         break;
       case 'scheduledMessagesAdmin':
-        ctx.scene.enter('scheduledMessages');
+        commandsHandlers.scheduledMessages(ctx);
         break;
 
       default:

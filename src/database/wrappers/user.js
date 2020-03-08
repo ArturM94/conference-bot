@@ -94,7 +94,7 @@ const updateUser = async ({
 }) => {
   try {
     const user = await User.findById(id);
-    await user.update({
+    await user.updateOne({
       firstName: firstName || user.firstName,
       lastName: lastName || user.lastName,
       phoneNumber: phoneNumber || user.phoneNumber,

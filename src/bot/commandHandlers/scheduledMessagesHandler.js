@@ -1,9 +1,16 @@
 const { Markup, Extra } = require('telegraf');
 
-const { isAdmin } = require('../../database/wrappers/user');
+const logger = require('../../helpers/logger');
+const {
+  isAdmin,
+  updateUser,
+  getUserByChatId,
+} = require('../../database/wrappers/user');
 const { getActiveNotifications } = require('../../database/wrappers/notification');
 
+/*eslint spaced-comment:0*/
 module.exports = async (ctx) => {
+  const STATE_NAME = 'startScheduledMessages';
   const userChatId = ctx.chat.id;
   // Will return true if user is Admin
   const admin = await isAdmin(userChatId);
@@ -36,5 +43,17 @@ module.exports = async (ctx) => {
       ]).extra(),
     );
   }
-  // const updatedUser = await updateUser({ id: userChatId });
+  const currentUser = await getUserByChatId(userChatId);
+  /*eslint no-underscore-dangle:0*/
+  const userId = currentUser._id;
+  const updatedUser = await updateUser({
+    id: userId,
+    state: {
+      title: STATE_NAME,
+    },
+  });
+  if (updatedUser.error) {
+    logger.error(`Error, User can't updated!\n${updatedUser.error}`);
+    ctx.reply('Error, User can\'t updated');
+  }
 };

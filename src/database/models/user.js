@@ -31,9 +31,9 @@ module.exports = mongoose.model(
         default: false,
       },
       state: {
-        type: String,
+        type: Object,
         require: false,
-        default: null,
+        default: { title: null },
       },
     },
     {
