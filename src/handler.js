@@ -10,7 +10,9 @@ const { textHandlers } = require('./bot/textHandlers');
 const { actionHandlers } = require('./bot/actionHandlers/index');
 
 const webhook = async (event) => {
-  const body = event.body[0] === '{' ? JSON.parse(event.body) : JSON.parse(Buffer.from(event.body, 'base64'));
+  const body = event.body[0] === '{' ? JSON.parse(event.body) : JSON.parse(
+    Buffer.from(event.body, 'base64'),
+  );
   const { TOKEN } = config;
 
   const bot = new Telegraf(TOKEN);
@@ -56,7 +58,10 @@ const webhook = async (event) => {
 
   await bot.handleUpdate(body);
 
-  return { statusCode: 200, body: '' };
+  return {
+    statusCode: 200,
+    body: '',
+  };
 };
 
 module.exports.webhook = webhook;

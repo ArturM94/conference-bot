@@ -9,10 +9,10 @@ module.exports = async (ctx) => {
 
     switch (detectedIntent.displayName) {
       case 'startHelp':
-        commandsHandlers.startHelp(ctx);
+        await commandsHandlers.startHelp(ctx);
         break;
       case 'speakers':
-        commandsHandlers.speakers(ctx);
+        await commandsHandlers.speakers(ctx);
         break;
       case 'lunch':
         // commandsHandlers.getmemories(ctx);
@@ -24,16 +24,16 @@ module.exports = async (ctx) => {
         // commandsHandlers.savememory(ctx);
         break;
       case 'agenda':
-        commandsHandlers.agenda(ctx);
+        await commandsHandlers.agenda(ctx);
         break;
       case 'afterparty':
-        commandsHandlers.afterparty(ctx);
+        await commandsHandlers.afterparty(ctx);
         break;
       case 'savememories':
         ctx.scene.enter('savememory');
         break;
       case 'getmemories':
-        commandsHandlers.getmemories(ctx);
+        await commandsHandlers.getmemories(ctx);
         break;
       case 'postAdmin':
         ctx.scene.enter('post');
@@ -42,7 +42,7 @@ module.exports = async (ctx) => {
         // commandsHandlers.savememory(ctx);
         break;
       case 'scheduledMessagesAdmin':
-        commandsHandlers.scheduledMessages(ctx);
+        await commandsHandlers.scheduledMessages(ctx);
         break;
 
       default:

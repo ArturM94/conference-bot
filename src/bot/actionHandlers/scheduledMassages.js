@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const { Markup, Extra } = require('telegraf');
 
 const logger = require('../../helpers/logger');
@@ -7,14 +8,12 @@ const {
   getUserByChatId,
 } = require('../../database/wrappers/user');
 
-/*eslint spaced-comment:0*/
 const selectEditDelete = async (ctx) => {
-  const STATE_NAME = 'editStepScheduledMessages';
+  const STATE_NAME = 'selectedEditActionScheduledMessages';
   const callbackQuery = ctx.update.callback_query;
   const { notificationId, action } = JSON.parse(callbackQuery.data);
   const messageId = callbackQuery.message.message_id;
   const currentUser = await getUserByChatId(ctx.chat.id);
-  /*eslint no-underscore-dangle:0*/
   const userId = currentUser._id;
   const updatedUser = await updateUser({
     id: userId,
@@ -30,6 +29,7 @@ const selectEditDelete = async (ctx) => {
 
   switch (action) {
     case 'edit':
+      await updateUser({ id: userId, state: { title: STATE_NAME } });
       await ctx.reply(
         'You selected Edit Action!\nChose what do you want to change.',
         Markup.inlineKeyboard([
@@ -46,7 +46,7 @@ const selectEditDelete = async (ctx) => {
       break;
     case 'delete':
       await deleteNotification(notificationId);
-      await updateUser({ id: userId, state: { title: null } });
+      await updateUser({ id: userId, state: {} });
       await ctx.reply('Done! You deleted notification!', Extra.markup(Markup.removeKeyboard()));
       ctx.deleteMessage(messageId);
       break;
@@ -62,7 +62,6 @@ const selectWhatEdit = async (ctx) => {
   const { idNotifForEdit, action } = JSON.parse(callbackQuery.data);
 
   const currentUser = await getUserByChatId(ctx.chat.id);
-  /*eslint no-underscore-dangle:0*/
   const userId = currentUser._id;
   let updatedUser;
 
