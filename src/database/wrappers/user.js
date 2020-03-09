@@ -33,6 +33,16 @@ const getUserByChatId = async (chatId) => {
   }
 };
 
+const getUserStateByChatId = async (chatId) => {
+  try {
+    const user = await User.findOne({ chatId });
+    return user.state;
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 const isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
@@ -108,9 +118,38 @@ const updateUser = async ({
   }
 };
 
+const updateUserState = async ({
+  chatId,
+  state,
+}) => {
+  try {
+    const user = await User.findOne({ chatId });
+    await user.updateOne({
+      state,
+    });
+    return user.save();
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 const deleteUser = async (id) => {
   try {
     return (await User.deleteOne({ _id: id })).ok;
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+const deleteUserState = async (chatId) => {
+  try {
+    const user = await User.findOne({ chatId });
+    await user.updateOne({
+      state: { title: null },
+    });
+    return user.save();
   } catch (error) {
     logger.error(error);
     return errorMessage;
@@ -121,9 +160,12 @@ module.exports = {
   getUsers,
   getUser,
   getUserByChatId,
+  getUserStateByChatId,
   isAdmin,
   addUser,
   addAdmin,
   updateUser,
+  updateUserState,
   deleteUser,
+  deleteUserState,
 };

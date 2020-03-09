@@ -1,10 +1,6 @@
 const { getScheduleBySpeaker } = require('../../database/wrappers/schedule');
+const { deleteUserState } = require('../../database/wrappers/user');
 const logger = require('../../helpers/logger');
-
-const {
-  updateUser,
-  getUserByChatId,
-} = require('../../database/wrappers/user');
 
 module.exports = async (ctx) => {
   const userChatId = ctx.chat.id;
@@ -15,6 +11,7 @@ module.exports = async (ctx) => {
 
   const schedule = await getScheduleBySpeaker(speakerId);
   const currentSpeaker = schedule[0].speakerId;
+
   await ctx.deleteMessage(messageId);
 
   if (currentSpeaker) {
@@ -35,13 +32,7 @@ module.exports = async (ctx) => {
       },
     );
 
-    const currentUser = await getUserByChatId(userChatId);
-    // eslint-disable-next-line no-underscore-dangle
-    const userId = currentUser._id;
-    const updatedUser = await updateUser({
-      id: userId,
-      state: {},
-    });
+    const updatedUser = await deleteUserState(userChatId);
     if (updatedUser.error) {
       logger.error(`Error, User can't updated!\n${updatedUser.error}`);
       ctx.reply('Error, User can\'t updated');

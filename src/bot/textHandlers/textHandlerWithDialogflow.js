@@ -15,13 +15,13 @@ module.exports = async (ctx) => {
         await commandsHandlers.speakers(ctx);
         break;
       case 'lunch':
-        // commandsHandlers.getmemories(ctx);
+        await commandsHandlers.lunch(ctx);
         break;
       case 'nowSpeakers':
-        // commandsHandlers.scheduledMessages(ctx);
+        await commandsHandlers.now(ctx);
         break;
       case 'nextSpeakers':
-        // commandsHandlers.savememory(ctx);
+        await commandsHandlers.next(ctx);
         break;
       case 'agenda':
         await commandsHandlers.agenda(ctx);
@@ -39,7 +39,7 @@ module.exports = async (ctx) => {
         ctx.scene.enter('post');
         break;
       case 'delayMessageAdmin':
-        // commandsHandlers.savememory(ctx);
+        await commandsHandlers.delayMessage(ctx);
         break;
       case 'scheduledMessagesAdmin':
         await commandsHandlers.scheduledMessages(ctx);
