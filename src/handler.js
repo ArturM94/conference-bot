@@ -50,7 +50,7 @@ const webhook = async (event) => {
   bot.on('text', async (ctx) => { await textHandlers(ctx); });
 
   // Actions Handler
-  actionHandlers(bot);
+  bot.on('callback_query', async (ctx) => { await actionHandlers(ctx); });
 
   bot.catch((error, ctx) => {
     logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);

@@ -1,9 +1,17 @@
 const { getScheduleBySpeaker } = require('../../database/wrappers/schedule');
 const logger = require('../../helpers/logger');
 
+const {
+  updateUser,
+  getUserByChatId,
+} = require('../../database/wrappers/user');
+
 module.exports = async (ctx) => {
-  const messageId = ctx.update.callback_query.message.message_id;
-  const { speakerId } = JSON.parse(ctx.match.input);
+  const userChatId = ctx.chat.id;
+
+  const callbackQuery = ctx.update.callback_query;
+  const messageId = callbackQuery.message.message_id;
+  const { speakerId } = JSON.parse(callbackQuery.data);
 
   const schedule = await getScheduleBySpeaker(speakerId);
   const currentSpeaker = schedule[0].speakerId;
@@ -26,6 +34,18 @@ module.exports = async (ctx) => {
         parse_mode: 'HTML',
       },
     );
+
+    const currentUser = await getUserByChatId(userChatId);
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = currentUser._id;
+    const updatedUser = await updateUser({
+      id: userId,
+      state: {},
+    });
+    if (updatedUser.error) {
+      logger.error(`Error, User can't updated!\n${updatedUser.error}`);
+      ctx.reply('Error, User can\'t updated');
+    }
   } else {
     ctx.reply('Sorry, something went wrong 🤷‍♂️');
     logger.error('Speaker Object is Empty! SpeakersHandler.js');
