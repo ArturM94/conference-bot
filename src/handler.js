@@ -6,10 +6,13 @@ const config = require('./config');
 const logger = require('./helpers/logger');
 const dbConnect = require('./database/connect');
 const commandsHandlers = require('./bot/commandHandlers');
-const textHandlers = require('./bot/textHandlers');
+const { textHandlers } = require('./bot/textHandlers');
+const { actionHandlers } = require('./bot/actionHandlers/index');
 
 const webhook = async (event) => {
-  const body = event.body[0] === '{' ? JSON.parse(event.body) : JSON.parse(Buffer.from(event.body, 'base64'));
+  const body = event.body[0] === '{' ? JSON.parse(event.body) : JSON.parse(
+    Buffer.from(event.body, 'base64'),
+  );
   const { TOKEN } = config;
 
   const bot = new Telegraf(TOKEN);
@@ -18,8 +21,6 @@ const webhook = async (event) => {
   await dbConnect();
 
   stage.register(
-    commandsHandlers.scheduledMessages,
-    commandsHandlers.speakers,
     commandsHandlers.savememory,
     commandsHandlers.post,
     commandsHandlers.next,
@@ -31,7 +32,7 @@ const webhook = async (event) => {
 
   // Regular Commands
   bot.command(['start', 'help'], commandsHandlers.startHelp);
-  bot.command('speakers', (ctx) => ctx.scene.enter('speakers'));
+  bot.command('speakers', commandsHandlers.speakers);
   bot.command('getmemories', commandsHandlers.getmemories);
   bot.command('savememories', (ctx) => ctx.scene.enter('savememories'));
   bot.command('agenda', commandsHandlers.agenda);
@@ -41,12 +42,15 @@ const webhook = async (event) => {
   bot.command('next', (ctx) => ctx.scene.enter('next'));
 
   // Admin Commands
-  bot.command('scheduled_messages', (ctx) => ctx.scene.enter('scheduledMessages'));
+  bot.command('scheduled_messages', commandsHandlers.scheduledMessages);
   bot.command('post', (ctx) => ctx.scene.enter('post'));
   bot.command('delay_message', (ctx) => ctx.scene.enter('delay_message'));
 
   // Handler text messages with Dialogflow
-  bot.on('text', textHandlers.withDialogflow);
+  bot.on('text', async (ctx) => { await textHandlers(ctx); });
+
+  // Actions Handler
+  bot.on('callback_query', async (ctx) => { await actionHandlers(ctx); });
 
   bot.catch((error, ctx) => {
     logger.error(`Ooops, encountered an error for ${ctx.updateType}`, error);
@@ -54,7 +58,10 @@ const webhook = async (event) => {
 
   await bot.handleUpdate(body);
 
-  return { statusCode: 200, body: '' };
+  return {
+    statusCode: 200,
+    body: '',
+  };
 };
 
 module.exports.webhook = webhook;

@@ -33,6 +33,16 @@ const getUserByChatId = async (chatId) => {
   }
 };
 
+const getUserStateByChatId = async (chatId) => {
+  try {
+    const user = await User.findOne({ chatId });
+    return user.state;
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 const isAdmin = async (chatId) => {
   try {
     return (await User.findOne({ chatId })).isAdmin;
@@ -90,14 +100,32 @@ const updateUser = async ({
   lastName,
   phoneNumber,
   chatId,
+  state,
 }) => {
   try {
     const user = await User.findById(id);
-    await user.update({
+    await user.updateOne({
       firstName: firstName || user.firstName,
-      lastName: lastName || user.lastNames,
+      lastName: lastName || user.lastName,
       phoneNumber: phoneNumber || user.phoneNumber,
       chatId: chatId || user.chatId,
+      state: state || user.state,
+    });
+    return user.save();
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
+const updateUserState = async ({
+  chatId,
+  state,
+}) => {
+  try {
+    const user = await User.findOne({ chatId });
+    await user.updateOne({
+      state,
     });
     return user.save();
   } catch (error) {
@@ -115,13 +143,29 @@ const deleteUser = async (id) => {
   }
 };
 
+const deleteUserState = async (chatId) => {
+  try {
+    const user = await User.findOne({ chatId });
+    await user.updateOne({
+      state: { title: null },
+    });
+    return user.save();
+  } catch (error) {
+    logger.error(error);
+    return errorMessage;
+  }
+};
+
 module.exports = {
   getUsers,
   getUser,
   getUserByChatId,
+  getUserStateByChatId,
   isAdmin,
   addUser,
   addAdmin,
   updateUser,
+  updateUserState,
   deleteUser,
+  deleteUserState,
 };

@@ -9,40 +9,40 @@ module.exports = async (ctx) => {
 
     switch (detectedIntent.displayName) {
       case 'startHelp':
-        commandsHandlers.startHelp(ctx);
+        await commandsHandlers.startHelp(ctx);
         break;
       case 'speakers':
-        ctx.scene.enter('speakers');
+        await commandsHandlers.speakers(ctx);
         break;
       case 'lunch':
-        // commandsHandlers.getmemories(ctx);
+        await commandsHandlers.lunch(ctx);
         break;
       case 'nowSpeakers':
-        // commandsHandlers.scheduledMessages(ctx);
+        await commandsHandlers.now(ctx);
         break;
       case 'nextSpeakers':
-        // commandsHandlers.savememory(ctx);
+        await commandsHandlers.next(ctx);
         break;
       case 'agenda':
-        commandsHandlers.agenda(ctx);
+        await commandsHandlers.agenda(ctx);
         break;
       case 'afterparty':
-        commandsHandlers.afterparty(ctx);
+        await commandsHandlers.afterparty(ctx);
         break;
       case 'savememories':
         ctx.scene.enter('savememory');
         break;
       case 'getmemories':
-        commandsHandlers.getmemories(ctx);
+        await commandsHandlers.getmemories(ctx);
         break;
       case 'postAdmin':
         ctx.scene.enter('post');
         break;
       case 'delayMessageAdmin':
-        // commandsHandlers.savememory(ctx);
+        await commandsHandlers.delayMessage(ctx);
         break;
       case 'scheduledMessagesAdmin':
-        ctx.scene.enter('scheduledMessages');
+        await commandsHandlers.scheduledMessages(ctx);
         break;
 
       default:
