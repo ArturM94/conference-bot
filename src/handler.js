@@ -31,7 +31,8 @@ const webhook = async (event) => {
   bot.use(stage.middleware());
 
   // Regular Commands
-  bot.command(['start', 'help'], commandsHandlers.startHelp);
+  bot.command('start', commandsHandlers.start);
+  bot.command('help', commandsHandlers.help);
   bot.command('speakers', commandsHandlers.speakers);
   bot.command('getmemories', commandsHandlers.getmemories);
   bot.command('savememories', (ctx) => ctx.scene.enter('savememories'));
