@@ -23,10 +23,8 @@ module.exports = async (ctx) => {
     }
     const admin = await isAdmin(ctx.chat.id);
     if (admin && !admin.error) {
-      // reply welcome message for Admins
       await ctx.replyWithHTML(WELCOME_MSG.admin);
     } else {
-      // reply welcome message for Users
       await ctx.replyWithHTML(WELCOME_MSG.user);
     }
   } catch (e) {
