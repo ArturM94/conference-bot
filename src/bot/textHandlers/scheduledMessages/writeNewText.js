@@ -1,3 +1,4 @@
+const { Markup, Extra } = require('telegraf');
 const validator = require('validator');
 
 const logger = require('../../../helpers/logger');
@@ -25,7 +26,8 @@ module.exports = async (ctx) => {
     });
 
     await deleteUserState(userChatId);
-    await ctx.reply(`Done! Notification updated!\nNew notification text: ${message.text}`);
+    await ctx.reply(`Done! Notification updated!\nNew notification text: ${message.text}`,
+      Extra.markup(Markup.removeKeyboard()));
 
     logger.info('Done! Notification "Text" updated!');
   } catch (e) {
