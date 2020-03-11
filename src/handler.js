@@ -8,6 +8,7 @@ const dbConnect = require('./database/connect');
 const commandsHandlers = require('./bot/commandHandlers');
 const { textHandlers } = require('./bot/textHandlers');
 const { actionHandlers } = require('./bot/actionHandlers/index');
+const hearsHandlers = require('./bot/hearsHandlers/index');
 
 const webhook = async (event) => {
   const body = event.body[0] === '{' ? JSON.parse(event.body) : JSON.parse(
@@ -47,7 +48,10 @@ const webhook = async (event) => {
   bot.command('post', (ctx) => ctx.scene.enter('post'));
   bot.command('delay_message', (ctx) => ctx.scene.enter('delay_message'));
 
-  // Handler text messages with Dialogflow
+  // Handler Keyboard
+  bot.hears('⬅️ Exit', hearsHandlers.exit);
+
+  // Text Handler
   bot.on('text', async (ctx) => { await textHandlers(ctx); });
 
   // Actions Handler
